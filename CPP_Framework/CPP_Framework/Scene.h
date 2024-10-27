@@ -6,10 +6,20 @@
 #include <SFML/Graphics.hpp>
 
 #include "Pawn.h"
-#include "GameObject.h"
 
 class Scene
 {
+public:
+	Scene();
+	~Scene();
+
+	void RenderScene(sf::RenderWindow* window);
+	void UpdateScene();
+
+	virtual void InitializeObjectsInScene();
+	void AddObject(Object& object);
+	Object* FindObject(std::string objectId) const;
+
 private:
-	std::vector<GameObject*>
+	std::vector<Object*> objects;
 };

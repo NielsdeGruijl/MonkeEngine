@@ -1,17 +1,31 @@
 #include <SFML/Graphics.hpp>
 
-//#include "Scene.h"
-//#include "GameObject.h"
-//#include "Sprite.h"
-//#include "Player.h"
-//#include "Enemy.h"
+#include "TestScene.h"
+#include "GameObject.h"
+#include "Pawn.h"
+
+#include "Object.h"
+#include "Time.h"
+
+extern const int unitSize = 100;
+Time _time;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
+    Scene* currentScene;
+    TestScene testScene;
 
+
+    currentScene = &testScene;
+
+    Object* obj = testScene.FindObject("rectangle");
+
+    sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
+    //window.setFramerateLimit(60);
     while (window.isOpen())
     {
+        _time.CalculateDeltaTime();
+
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -20,6 +34,10 @@ int main()
         }
 
         window.clear();
+
+        currentScene->RenderScene(&window);
+        currentScene->UpdateScene();
+
         window.display();
     }
 

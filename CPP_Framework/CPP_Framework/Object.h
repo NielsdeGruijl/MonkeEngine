@@ -11,13 +11,9 @@ class Scene;
 
 class Object
 {
-private:
-	const std::string ID;
-
-protected:
-	Scene* scene;
+public:
 	Vector2 position;
-	Vector2 radius;
+	Vector2 size;
 
 public:
 	Object(std::string ID);
@@ -25,11 +21,17 @@ public:
 
 	virtual void Update() = 0;
 	virtual void Render(sf::RenderWindow* widnow) = 0;
+	
 	void SetScene(Scene* scene);
+	
+	std::string GetID() const;
 
-	std::string GetID();
+protected:
+	Scene* scene = 0;
 
-	virtual void SetPosition(const Vector2 pos);
-	Vector2 GetPosition() const;
-	Vector2 GetRadius() const;
+protected:
+	void SetPosition(const Vector2 pos);
+
+private:
+	const std::string objectId;
 };
