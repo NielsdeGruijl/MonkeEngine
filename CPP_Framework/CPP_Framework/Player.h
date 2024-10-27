@@ -10,7 +10,10 @@ public:
 
 	void Update() override;
 
+	void SetActionMap(InputActionMap* map);
+
 private:
+	InputHandler input;
 	Vector2 velocity;
 
 	float moveSpeed = 200;

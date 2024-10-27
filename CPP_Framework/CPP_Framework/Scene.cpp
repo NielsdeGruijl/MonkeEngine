@@ -9,11 +9,11 @@ Scene::~Scene()
 {
 }
 
-void Scene::RenderScene(sf::RenderWindow* window)
+void Scene::RenderScene(sf::RenderWindow* renderWindow)
 {
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-		objects[i]->Render(window);
+		objects[i]->Render(renderWindow);
 	}
 }
 

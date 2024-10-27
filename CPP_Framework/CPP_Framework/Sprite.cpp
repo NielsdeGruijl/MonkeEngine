@@ -36,6 +36,10 @@ void Sprite::SetScale(const float _scale)
 	sprite.setScale((scale * spriteScale).ToSfVector());
 }
 
+void Sprite::SetOrigin(const Vector2 origin)
+{
+	sprite.setOrigin(origin.ToSfVector());
+}
 
 void Sprite::Move(const Vector2 velocity)
 {

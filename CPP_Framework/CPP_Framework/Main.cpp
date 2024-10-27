@@ -1,45 +1,43 @@
-#include <SFML/Graphics.hpp>
-
-#include "TestScene.h"
-#include "GameObject.h"
-#include "Pawn.h"
-
-#include "Object.h"
-#include "Time.h"
-
-extern const int unitSize = 100;
-Time _time;
+#include "Game.h"
 
 int main()
 {
-    Scene* currentScene;
-    TestScene testScene;
+    Game game;
 
+    game.Run();
 
-    currentScene = &testScene;
+    //Scene* currentScene;
+    //TestScene testScene;
 
-    Object* obj = testScene.FindObject("rectangle");
+    //Player player("Player", "Cat.jpg", 236);
 
-    sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
-    //window.setFramerateLimit(60);
-    while (window.isOpen())
-    {
-        _time.CalculateDeltaTime();
+    //player.SetPosition(Vector2(0, 0));
+    //player.SetOrigin(Vector2(0.5f, 0.5f));
+    //testScene.AddObject(player);
 
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+    //currentScene = &testScene;
 
-        window.clear();
+    //Object* obj = testScene.FindObject("rectangle");
 
-        currentScene->RenderScene(&window);
-        currentScene->UpdateScene();
+    //sf::RenderWindow renderWindow(sf::VideoMode(1280, 720), "SFML works!");
+    //while (renderWindow.isOpen())
+    //{
+    //    _time.CalculateDeltaTime();
 
-        window.display();
-    }
+    //    sf::Event event;
+    //    while (renderWindow.pollEvent(event))
+    //    {
+    //        if (event.type == sf::Event::Closed)
+    //            renderWindow.close();
+    //    }
+
+    //    renderWindow.clear();
+
+    //    currentScene->RenderScene(&renderWindow);
+    //    currentScene->UpdateScene();
+
+    //    renderWindow.display();
+    //}
 
     return 0;
 }

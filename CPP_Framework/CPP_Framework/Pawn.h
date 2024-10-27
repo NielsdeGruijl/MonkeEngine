@@ -17,8 +17,6 @@ public:
 
 protected:
 	CharacterController controller;
-	InputHandler input;
-
 
 private:
 	Vector2 pawnPosition;

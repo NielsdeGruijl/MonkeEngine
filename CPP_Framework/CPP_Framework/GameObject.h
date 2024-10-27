@@ -15,9 +15,10 @@ public:
 	GameObject(std::string ID, std::string fileName, int pixelsPerUnit = 100);
 	~GameObject();
 
-	void Render(sf::RenderWindow* window) override;
+	void Render(sf::RenderWindow* renderWindow) override;
 	void Update() override;
 
 	void SetPosition(const Vector2 pos);
 	void SetScale(const Vector2 size);
+	void SetOrigin(const Vector2 origin);
 };

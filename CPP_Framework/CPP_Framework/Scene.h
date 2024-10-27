@@ -13,7 +13,7 @@ public:
 	Scene();
 	~Scene();
 
-	void RenderScene(sf::RenderWindow* window);
+	void RenderScene(sf::RenderWindow* renderWindow);
 	void UpdateScene();
 
 	virtual void InitializeObjectsInScene();

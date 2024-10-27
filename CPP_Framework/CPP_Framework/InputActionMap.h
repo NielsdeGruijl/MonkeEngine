@@ -6,9 +6,14 @@
 struct InputAction
 {
 	sf::Keyboard::Key keybind;
-	bool isPressed;
-
-	InputAction(sf::Keyboard::Key _keybind);
+	bool currentFrameActive;
+	bool previousFrameActive;
+	
+	InputAction()
+		: keybind(sf::Keyboard::Unknown), currentFrameActive(false), previousFrameActive(false) {};
+	InputAction(sf::Keyboard::Key _keybind)
+		: keybind(_keybind), currentFrameActive(false), previousFrameActive(false) {};
+	~InputAction() {};
 };
 
 class InputActionMap
@@ -17,10 +22,15 @@ public:
 	InputActionMap();
 	~InputActionMap();
 
-	void ChangeKey(std::string inputActionName, sf::Keyboard::Key newKey);
-	sf::Keyboard::Key GetKey(std::string inputActionName) const;
+	void ChangeKey(std::string inputActionName, InputAction newInputAction);
+	void UpdateKeyStatus();
+	void InitializeKeybindsMap();
+
+	sf::Keyboard::Key GetKeyBind(std::string inputActionName) const;
+	InputAction* GetInputAction(std::string inputActionName);
 
 
 private:
-	std::unordered_map<std::string, sf::Keyboard::Key> inputActions;
+	std::unordered_map<std::string, InputAction> inputActions;
+	std::vector<InputAction*> keys;
 };

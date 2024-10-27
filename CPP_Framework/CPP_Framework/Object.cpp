@@ -12,7 +12,7 @@ void Object::Update()
 {
 }
 
-void Object::Render(sf::RenderWindow* window)
+void Object::Render(sf::RenderWindow* renderWindow)
 {
 }
 

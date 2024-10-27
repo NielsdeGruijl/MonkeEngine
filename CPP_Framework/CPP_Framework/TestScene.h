@@ -14,5 +14,4 @@ public:
 private:
 	GameObject staticObject;
 	GameObject rectangleObject;
-	Player player;
 };

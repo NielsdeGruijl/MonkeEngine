@@ -15,9 +15,9 @@ void GameObject::Update()
 
 }
 
-void GameObject::Render(sf::RenderWindow* window)
+void GameObject::Render(sf::RenderWindow* renderWindow)
 {
-	window->draw(sprite.sprite);
+	renderWindow->draw(sprite.sprite);
 }
 
 void GameObject::SetPosition(const Vector2 position)
@@ -29,4 +29,9 @@ void GameObject::SetPosition(const Vector2 position)
 void GameObject::SetScale(const Vector2 size)
 {
 	sprite.SetScale(size);
+}
+
+void GameObject::SetOrigin(const Vector2 origin)
+{
+	sprite.SetOrigin(origin);
 }

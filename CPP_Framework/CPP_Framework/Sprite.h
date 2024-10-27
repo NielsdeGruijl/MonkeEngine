@@ -20,6 +20,7 @@ public:
 	void SetPosition(const Vector2 position);
 	void SetScale(const Vector2 scale);
 	void SetScale(const float scale);
+	void SetOrigin(const Vector2 origin);
 	
 	void Move(const Vector2 velocity);
 

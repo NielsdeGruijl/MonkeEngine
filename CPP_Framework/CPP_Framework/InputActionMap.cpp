@@ -2,43 +2,81 @@
 
 #include <iostream>
 
-InputAction::InputAction(sf::Keyboard::Key _keybind)
-	: keybind(_keybind), isPressed(false)
-{
-}
-
 InputActionMap::InputActionMap()
 {
 	using sf::Keyboard;
 
-	inputActions["forward"] = Keyboard::W;
-	inputActions["backward"] = Keyboard::S;
-	inputActions["left"] = Keyboard::A;
-	inputActions["right"] = Keyboard::D;
+	inputActions["forward"] = InputAction(Keyboard::W);
+	inputActions["backward"] = InputAction(Keyboard::S);
+	inputActions["left"] = InputAction(Keyboard::A);
+	inputActions["right"] = InputAction(Keyboard::D);
 
-	inputActions["interact"] = Keyboard::F;
+	inputActions["interact"] = InputAction(Keyboard::F);
+
+	inputActions["test"] = InputAction(Keyboard::T);
+
+	InitializeKeybindsMap();
 }
 
 InputActionMap::~InputActionMap()
 {
 }
 
-void InputActionMap::ChangeKey(std::string inputActionName, sf::Keyboard::Key newKey)
+void InputActionMap::ChangeKey(std::string inputActionName, InputAction newInputAction)
 {
 	if (inputActions.find(inputActionName) != inputActions.end())
-		std::cout << "Input action \"" << inputActionName << "\" has been remapped to " << newKey << "\n";
+		std::cout << "Input action \"" << inputActionName << "\" has been remapped to " << newInputAction.keybind << "\n";
 	else
-		std::cout << "Input action \"" << inputActionName << "\" has been added and mapped to " << newKey << "\n";
+		std::cout << "Input action \"" << inputActionName << "\" has been added and mapped to " << newInputAction.keybind << "\n";
 
-	inputActions[inputActionName] = newKey;
+	inputActions[inputActionName] = newInputAction;
 }
 
-sf::Keyboard::Key InputActionMap::GetKey(std::string inputActionName) const
+void InputActionMap::UpdateKeyStatus()
+{
+	for (int i = 0; i < keys.size(); i++)
+	{
+		if (sf::Keyboard::isKeyPressed(keys[i]->keybind))
+		{
+			keys[i]->previousFrameActive = keys[i]->currentFrameActive;
+			keys[i]->currentFrameActive = true;
+		}
+		else
+		{
+			keys[i]->previousFrameActive = keys[i]->currentFrameActive;
+			keys[i]->currentFrameActive = false;
+		}
+	}
+}
+
+void InputActionMap::InitializeKeybindsMap()
+{
+	for (auto& kv : inputActions)
+	{
+		InputAction* action = &kv.second;
+
+		keys.push_back(action);
+	}
+}
+
+sf::Keyboard::Key InputActionMap::GetKeyBind(std::string inputActionName) const
 {
 	if (inputActions.find(inputActionName) != inputActions.end())
-		return inputActions.at(inputActionName);
+		return inputActions.at(inputActionName).keybind;
 
 	std::cout << "Input action \"" << inputActionName << "\" does not exist.\n";
 
 	return sf::Keyboard::Unknown;
+}
+
+InputAction* InputActionMap::GetInputAction(std::string inputActionName)
+{
+	InputAction* inputAction;
+	if (inputActions.find(inputActionName) != inputActions.end())
+		return &inputActions.at(inputActionName);
+
+	std::cout << "Input action \"" << inputActionName << "\" does not exist.\n";
+
+	// returns default input action with sf::Keyboard::Unknown
+	return nullptr; 
 }

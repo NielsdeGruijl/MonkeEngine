@@ -1,12 +1,12 @@
 #include "InputHandler.h"
 
+#include <iostream>
+
 int InputHandler::GetVerticalAxis()
 {
-	using sf::Keyboard;
-
-	if (Keyboard::isKeyPressed(inputActions.GetKey("forward")))
+	if (GetKey("forward"))
 		return -1;
-	if (Keyboard::isKeyPressed(inputActions.GetKey("backward")))
+	if (GetKey("backward"))
 		return 1;
 
 	return 0;
@@ -14,21 +14,17 @@ int InputHandler::GetVerticalAxis()
 
 int InputHandler::GetHorizontalAxis()
 {
-	using sf::Keyboard;
-
-	if (Keyboard::isKeyPressed(inputActions.GetKey("left")))
+	if (GetKey("left"))
 		return -1;
-	if (Keyboard::isKeyPressed(inputActions.GetKey("right")))
+	if (GetKey("right"))
 		return 1;
 
 	return 0;
 }
 
-bool InputHandler::GetKeyPressed(std::string inputActionName)
+bool InputHandler::GetKey(std::string inputActionName)
 {
-	using sf::Keyboard;
-
-	if(Keyboard::isKeyPressed(inputActions.GetKey(inputActionName)))
+	if (sf::Keyboard::isKeyPressed(inputActions->GetKeyBind(inputActionName)))
 		return true;
 
 	return false;
@@ -36,15 +32,25 @@ bool InputHandler::GetKeyPressed(std::string inputActionName)
 
 bool InputHandler::GetKeyDown(std::string inputActionName)
 {
+	InputAction* inputAction = inputActions->GetInputAction(inputActionName);
 
+	if (!inputAction->previousFrameActive && sf::Keyboard::isKeyPressed(inputAction->keybind))
+		return true;
+
+	return false;
 }
 
 bool InputHandler::GetKeyUp(std::string inputActionName)
 {
+	InputAction* inputAction = inputActions->GetInputAction(inputActionName);
 
+	if (inputAction->previousFrameActive && !sf::Keyboard::isKeyPressed(inputAction->keybind))
+		return true;
+
+	return false;
 }
 
 void InputHandler::ChangeKey(std::string inputActionName, sf::Keyboard::Key newKey)
 {
-	inputActions.ChangeKey(inputActionName, newKey);
+	inputActions->ChangeKey(inputActionName, newKey);
 }
