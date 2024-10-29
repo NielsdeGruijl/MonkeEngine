@@ -19,34 +19,34 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="InputActionMap.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="CharacterController.cpp" />
-    <ClCompile Include="InputHandler.cpp" />
+    <ClCompile Include="Framework\Core\Game.cpp" />
+    <ClCompile Include="Framework\Input\InputActionMap.cpp" />
+    <ClCompile Include="Framework\Objects\GameObject.cpp" />
+    <ClCompile Include="Framework\Components\CharacterController.cpp" />
+    <ClCompile Include="Framework\Input\InputHandler.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Object.cpp" />
-    <ClCompile Include="Pawn.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="TestScene.cpp" />
-    <ClCompile Include="Vector2.cpp" />
+    <ClCompile Include="Framework\Objects\Object.cpp" />
+    <ClCompile Include="Framework\Objects\Pawn.cpp" />
+    <ClCompile Include="Testing\Player.cpp" />
+    <ClCompile Include="Framework\Core\Scene.cpp" />
+    <ClCompile Include="Framework\Components\Sprite.cpp" />
+    <ClCompile Include="Testing\TestScene.cpp" />
+    <ClCompile Include="Framework\Math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="InputActionMap.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="CharacterController.h" />
-    <ClInclude Include="InputHandler.h" />
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="Pawn.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="TestScene.h" />
-    <ClInclude Include="Time.h" />
-    <ClInclude Include="Vector2.h" />
+    <ClInclude Include="Framework\Core\Game.h" />
+    <ClInclude Include="Framework\Input\InputActionMap.h" />
+    <ClInclude Include="Framework\Objects\GameObject.h" />
+    <ClInclude Include="Framework\Components\CharacterController.h" />
+    <ClInclude Include="Framework\Input\InputHandler.h" />
+    <ClInclude Include="Framework\Objects\Object.h" />
+    <ClInclude Include="Framework\Objects\Pawn.h" />
+    <ClInclude Include="Testing\Player.h" />
+    <ClInclude Include="Framework\Core\Scene.h" />
+    <ClInclude Include="Framework\Components\Sprite.h" />
+    <ClInclude Include="Testing\TestScene.h" />
+    <ClInclude Include="Framework\Math\Time.h" />
+    <ClInclude Include="Framework\Math\Vector2.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
