@@ -3,7 +3,7 @@
 Sprite::Sprite(std::string fileName, int pixelsPerUnit)
 	: spriteScale(CalculateSpriteScaleBasedOnPixelsPerUnit(pixelsPerUnit)), scale(1, 1)
 {
-	texture.loadFromFile(fileName);
+	texture.loadFromFile("Assets/" + fileName);
 	sprite.setTexture(texture);
 	SetScale(1);
 }

@@ -13,6 +13,7 @@ public:
 	void SetActionMap(InputActionMap* map);
 
 private:
+	InputActionMap defaultInputActionMap;
 	InputHandler input;
 	Vector2 velocity;
 

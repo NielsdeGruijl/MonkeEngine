@@ -9,17 +9,16 @@
 class InputHandler
 {
 public:
-	int GetVerticalAxis();
-	int GetHorizontalAxis();
-
 	bool GetKey(std::string inputActionName);
 	bool GetKeyDown(std::string inputActionName);
 	bool GetKeyUp(std::string inputActionName);
 
+	int GetVerticalAxis();
+	int GetHorizontalAxis();
+
 	void ChangeKey(std::string inputActionName, sf::Keyboard::Key newKey);
-
-	InputActionMap* inputActions;
-
+	void SetInputActionMap(InputActionMap* inputActonMap);
 
 private:
+	InputActionMap* currentInputActionMap;
 };

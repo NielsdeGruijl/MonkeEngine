@@ -1,6 +1,5 @@
 ﻿  Game.cpp
-  Player.cpp
-D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Player.cpp(17,69): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Player.cpp(17,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Sprite.cpp
+  TestScene.cpp
   Generating Code...
   CPP_Framework.vcxproj -> D:\School\Tools\CPP_Framework_Repo\CPP_Framework\Debug\CPP_Framework.exe

@@ -31,6 +31,6 @@ public:
 
 
 private:
-	std::unordered_map<std::string, InputAction> inputActions;
+	std::unordered_map<std::string, InputAction> currentInputActionMap;
 	std::vector<InputAction*> keys;
 };

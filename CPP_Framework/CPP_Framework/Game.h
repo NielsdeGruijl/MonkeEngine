@@ -20,6 +20,4 @@ public:
 private:
 	sf::RenderWindow renderWindow;
 	Scene* currentScene;
-
-	InputActionMap inputActionMap;
 };

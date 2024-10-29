@@ -3,9 +3,10 @@
 
 extern Time _time;
 
-Player::Player(std::string objectId, std::string fileName, int pixelsPerUnit) 
-	: Pawn(objectId, fileName, pixelsPerUnit)
+Player::Player(std::string objectId, std::string fileName, int pixelsPerUnit)
+	: Pawn(objectId, fileName, pixelsPerUnit), input()
 {
+	SetActionMap(&defaultInputActionMap);
 }
 
 Player::~Player() 
@@ -19,18 +20,20 @@ void Player::Update()
 	if (velocity.GetLength() > 0)
 		controller.Move(velocity.normalized * moveSpeed * _time.deltaTime);
 	
-	//if (input.GetKeyDown("test"))
-	//{
-	//	std::cout << "player GetKeyDown \n";
-	//}
+	if (input.GetKeyDown("test"))
+	{
+		std::cout << "player GetKeyDown \n";
+	}
 
 	if (input.GetKeyUp("test"))
 	{
-		std::cout << "Test getkey up" << "\n";
+		std::cout << "Test getkey up " << "\n";
 	}
+
+	defaultInputActionMap.UpdateKeyStatus();
 }
 
-void Player::SetActionMap(InputActionMap* map)
+void Player::SetActionMap(InputActionMap* playerInputActionMap)
 {
-	input.inputActions = map;
+	input.SetInputActionMap(playerInputActionMap);
 }

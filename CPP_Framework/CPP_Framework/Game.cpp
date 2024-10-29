@@ -22,13 +22,10 @@ void Game::Run()
 	player.SetPosition(Vector2(0, 0));
 	player.SetOrigin(Vector2(0.5f, 0.5f));
 
-	player.SetActionMap(&inputActionMap);
-
 	testScene.AddObject(player);
 
 	currentScene = &testScene;
 
-	renderWindow.setFramerateLimit(60);
 	while (renderWindow.isOpen())
 	{
 		_time.CalculateDeltaTime();
@@ -44,8 +41,6 @@ void Game::Run()
 		currentScene->UpdateScene();
 
 		renderWindow.display();
-
-		inputActionMap.UpdateKeyStatus();
 	}
 }
 

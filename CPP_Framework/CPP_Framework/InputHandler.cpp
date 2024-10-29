@@ -2,6 +2,58 @@
 
 #include <iostream>
 
+bool InputHandler::GetKey(std::string inputActionName)
+{
+	if (currentInputActionMap == nullptr)
+	{
+		std::cout << "InputHandler doesn't have an input action map. \n";
+		return false;
+	}
+
+	if (sf::Keyboard::isKeyPressed(currentInputActionMap->GetKeyBind(inputActionName)))
+		return true;
+
+	return false;
+}
+
+bool InputHandler::GetKeyDown(std::string inputActionName)
+{
+	if (currentInputActionMap == nullptr)
+	{
+		std::cout << "InputHandler doesn't have an input action map. \n";
+		return false;
+	}
+
+	InputAction* inputAction = currentInputActionMap->GetInputAction(inputActionName);
+
+	if (!inputAction->previousFrameActive && sf::Keyboard::isKeyPressed(inputAction->keybind))
+	{
+		inputAction->currentFrameActive = true;
+		return true;
+	}
+
+	return false;
+}
+
+bool InputHandler::GetKeyUp(std::string inputActionName)
+{
+	if (currentInputActionMap == nullptr)
+	{
+		std::cout << "InputHandler doesn't have an input action map. \n";
+		return false;
+	}
+
+	InputAction* inputAction = currentInputActionMap->GetInputAction(inputActionName);
+
+	if (inputAction->previousFrameActive && !sf::Keyboard::isKeyPressed(inputAction->keybind))
+	{
+		inputAction->currentFrameActive = false;
+		return true;
+	}
+
+	return false;
+}
+
 int InputHandler::GetVerticalAxis()
 {
 	if (GetKey("forward"))
@@ -22,35 +74,12 @@ int InputHandler::GetHorizontalAxis()
 	return 0;
 }
 
-bool InputHandler::GetKey(std::string inputActionName)
-{
-	if (sf::Keyboard::isKeyPressed(inputActions->GetKeyBind(inputActionName)))
-		return true;
-
-	return false;
-}
-
-bool InputHandler::GetKeyDown(std::string inputActionName)
-{
-	InputAction* inputAction = inputActions->GetInputAction(inputActionName);
-
-	if (!inputAction->previousFrameActive && sf::Keyboard::isKeyPressed(inputAction->keybind))
-		return true;
-
-	return false;
-}
-
-bool InputHandler::GetKeyUp(std::string inputActionName)
-{
-	InputAction* inputAction = inputActions->GetInputAction(inputActionName);
-
-	if (inputAction->previousFrameActive && !sf::Keyboard::isKeyPressed(inputAction->keybind))
-		return true;
-
-	return false;
-}
-
 void InputHandler::ChangeKey(std::string inputActionName, sf::Keyboard::Key newKey)
 {
-	inputActions->ChangeKey(inputActionName, newKey);
+	currentInputActionMap->ChangeKey(inputActionName, newKey);
+}
+
+void InputHandler::SetInputActionMap(InputActionMap* playerInputActionMap)
+{
+	currentInputActionMap = playerInputActionMap;
 }
