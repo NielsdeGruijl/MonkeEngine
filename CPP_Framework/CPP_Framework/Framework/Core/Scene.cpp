@@ -2,7 +2,6 @@
 
 Scene::Scene() 
 {
-	InitializeObjectsInScene();
 }
 
 Scene::~Scene()
@@ -25,17 +24,12 @@ void Scene::UpdateScene()
 	}
 }
 
-void Scene::InitializeObjectsInScene() 
+void Scene::AddObject(Object* object)
 {
+	objects.push_back(object);
 }
 
-
-void Scene::AddObject(Object& object)
-{
-	objects.push_back(&object);
-}
-
-Object* Scene::FindObject(std::string objectId) const
+Object* Scene::FindObjectByName(std::string objectId) const
 {
 	for (size_t i = objects.size(); i > 0; i--)
 	{

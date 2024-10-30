@@ -3,8 +3,8 @@
 extern const int unitSize = 100;
 Time _time;
 
-Game::Game()
-	: renderWindow(sf::VideoMode(1280, 720), "CPP_Framework"), currentScene(nullptr)
+Game::Game(int horizontalResolution, int verticalResolution)
+	: renderWindow(sf::VideoMode(horizontalResolution, verticalResolution), "CPP_Framework")
 {
 }
 
@@ -16,40 +16,29 @@ void Game::Run()
 {
 	sf::Event event;
 
-	TestScene testScene;
-
-	Player player("Player", "Cat.jpg", 236);
-	player.SetPosition(Vector2(0, 0));
-	player.SetOrigin(Vector2(0.5f, 0.5f));
-
-	testScene.AddObject(player);
-
-	currentScene = &testScene;
-
 	while (renderWindow.isOpen())
 	{
 		_time.CalculateDeltaTime();
 
 		while (renderWindow.pollEvent(event))
 		{
-			HandleEvents(event);
+			if(event.type == sf::Event::Closed)
+				renderWindow.close();
 		}
 
 		renderWindow.clear();
 
-		currentScene->RenderScene(&renderWindow);
-		currentScene->UpdateScene();
+		if (sceneManager.GetCurrentScene() != nullptr)
+		{
+			sceneManager.GetCurrentScene()->UpdateScene();
+			sceneManager.GetCurrentScene()->RenderScene(&renderWindow);
+		}
 
 		renderWindow.display();
 	}
 }
 
-void Game::HandleEvents(sf::Event _event)
+void Game::AddScene(std::string sceneName, Scene* scene)
 {
-	switch (_event.type)
-	{
-		case sf::Event::Closed:
-			renderWindow.close();
-			break;
-	}
+	sceneManager.AddScene(sceneName, scene);
 }

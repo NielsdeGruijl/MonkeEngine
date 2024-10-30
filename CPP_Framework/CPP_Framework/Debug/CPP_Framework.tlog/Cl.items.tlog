@@ -1,9 +1,10 @@
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Core\Game.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\Game.obj
+D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Core\SceneManager.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\SceneManager.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Input\InputActionMap.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\InputActionMap.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Objects\GameObject.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\GameObject.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Components\CharacterController.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\CharacterController.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Input\InputHandler.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\InputHandler.obj
-D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Main.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\Main.obj
+D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Main.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\Main.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Objects\Object.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\Object.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Objects\Pawn.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\Pawn.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\Player.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\Player.obj

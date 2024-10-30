@@ -15,7 +15,7 @@ InputActionMap::InputActionMap()
 
 	currentInputActionMap["test"] = InputAction(Keyboard::T);
 
-	InitializeKeybindsMap();
+	InitializeKeybindsList();
 }
 
 InputActionMap::~InputActionMap()
@@ -25,11 +25,17 @@ InputActionMap::~InputActionMap()
 void InputActionMap::ChangeKey(std::string inputActionName, InputAction newInputAction)
 {
 	if (currentInputActionMap.find(inputActionName) != currentInputActionMap.end())
-		std::cout << "Input action \"" << inputActionName << "\" has been remapped to " << newInputAction.keybind << "\n";
+		currentInputActionMap[inputActionName] = newInputAction;
 	else
-		std::cout << "Input action \"" << inputActionName << "\" has been added and mapped to " << newInputAction.keybind << "\n";
+		std::cout << "Input action with name \"" << inputActionName << "\" doesn't exist, use AddKey() instead. \n";
+}
 
-	currentInputActionMap[inputActionName] = newInputAction;
+void InputActionMap::AddKey(std::string inputActionName, InputAction newInputAction)
+{
+	if (currentInputActionMap.find(inputActionName) == currentInputActionMap.end())
+		currentInputActionMap[inputActionName] = newInputAction;
+	else
+		std::cout << "Input action with name \"" << inputActionName << "\" already exists, use ChangeKey() instead. \n";
 }
 
 void InputActionMap::UpdateKeyStatus()
@@ -46,15 +52,10 @@ void InputActionMap::UpdateKeyStatus()
 			keys[i]->previousFrameActive = keys[i]->currentFrameActive;
 			keys[i]->currentFrameActive = false;
 		}
-
-		if (keys[i]->keybind == sf::Keyboard::T)
-		{
-			//std::cout << keys[i]->previousFrameActive;
-		}
 	}
 }
 
-void InputActionMap::InitializeKeybindsMap()
+void InputActionMap::InitializeKeybindsList()
 {
 	for (auto& kv : currentInputActionMap)
 	{

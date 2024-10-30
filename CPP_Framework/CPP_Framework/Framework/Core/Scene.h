@@ -16,9 +16,8 @@ public:
 	void RenderScene(sf::RenderWindow* renderWindow);
 	void UpdateScene();
 
-	virtual void InitializeObjectsInScene();
-	void AddObject(Object& object);
-	Object* FindObject(std::string objectId) const;
+	void AddObject(Object* object);
+	Object* FindObjectByName(std::string objectId) const;
 
 private:
 	std::vector<Object*> objects;

@@ -20,11 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Core\Game.cpp" />
+    <ClCompile Include="Framework\Core\SceneManager.cpp" />
     <ClCompile Include="Framework\Input\InputActionMap.cpp" />
     <ClCompile Include="Framework\Objects\GameObject.cpp" />
     <ClCompile Include="Framework\Components\CharacterController.cpp" />
     <ClCompile Include="Framework\Input\InputHandler.cpp" />
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Framework\Main.cpp" />
     <ClCompile Include="Framework\Objects\Object.cpp" />
     <ClCompile Include="Framework\Objects\Pawn.cpp" />
     <ClCompile Include="Testing\Player.cpp" />
@@ -35,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Core\Game.h" />
+    <ClInclude Include="Framework\Core\SceneManager.h" />
     <ClInclude Include="Framework\Input\InputActionMap.h" />
     <ClInclude Include="Framework\Objects\GameObject.h" />
     <ClInclude Include="Framework\Components\CharacterController.h" />

@@ -3,19 +3,18 @@
 #include <sstream>
 
 Vector2::Vector2()
+	:x(0), y(0)
 {
-	this->x = 0;
-	this->y = 0;
 }
 
-Vector2::Vector2(float x, float y) : x(x), y(y)
+Vector2::Vector2(float x, float y) 
+	: x(x), y(y)
 {
 }
 
 Vector2::Vector2(const sf::Vector2f* vector)
+	: x(vector->x), y(vector->y)
 {
-	this->x = vector->x;
-	this->y = vector->y;
 }
 
 Vector2::~Vector2()

@@ -20,14 +20,9 @@ public:
 	~Object();
 
 	virtual void Update() = 0;
-	virtual void Render(sf::RenderWindow* widnow) = 0;
-	
-	void SetScene(Scene* scene);
+	virtual void Render(sf::RenderWindow* renderWindow) = 0;
 	
 	std::string GetID() const;
-
-protected:
-	Scene* scene = 0;
 
 protected:
 	void SetPosition(const Vector2 pos);

@@ -23,8 +23,9 @@ public:
 	~InputActionMap();
 
 	void ChangeKey(std::string inputActionName, InputAction newInputAction);
+	void AddKey(std::string inputActionName, InputAction newInputAction);
 	void UpdateKeyStatus();
-	void InitializeKeybindsMap();
+	void InitializeKeybindsList();
 
 	sf::Keyboard::Key GetKeyBind(std::string inputActionName) const;
 	InputAction* GetInputAction(std::string inputActionName);

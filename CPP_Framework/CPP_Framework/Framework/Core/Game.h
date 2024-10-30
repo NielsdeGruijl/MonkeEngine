@@ -5,17 +5,18 @@
 #include "../../Testing/TestScene.h"
 #include "../../Testing/Player.h"
 #include "../Math/Time.h"
+#include "SceneManager.h"
 
 class Game
 {
 public:
-	Game();
+	Game(int horizontalResolution, int verticalResolution);
 	~Game();
 
 	void Run();
-	void HandleEvents(sf::Event event);
+	void AddScene(std::string sceneName, Scene* scene);
 
 private:
 	sf::RenderWindow renderWindow;
-	Scene* currentScene;
+	SceneManager sceneManager;
 };

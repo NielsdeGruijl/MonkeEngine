@@ -1,21 +1,19 @@
 #include "TestScene.h"
 
 TestScene::TestScene()
-	: Scene(), staticObject("staticObject", "CatStare.jpg", 360), rectangleObject("rectangle", "OOcat.jpg", 3042)
+	: Scene(), staticObject("staticObject", "CatStare.jpg", 360), rectangleObject("rectangle", "OOcat.jpg", 3042), player("player", "cat.jpg", 236)
 {
-	InitializeObjectsInScene();
+    staticObject.SetPosition(Vector2(600, 300));
+    AddObject(&staticObject);
+
+    rectangleObject.SetScale(Vector2(2, 5));
+    AddObject(&rectangleObject);
+
+    AddObject(&player);
 }
 
 TestScene::~TestScene()
 {
-}
-
-void TestScene::InitializeObjectsInScene()
-{
-	staticObject.SetPosition(Vector2(800, 400));
-	AddObject(staticObject);
-
-	AddObject(rectangleObject);
 }
 
 

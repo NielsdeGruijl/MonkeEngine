@@ -9,9 +9,8 @@ public:
 	TestScene();
 	~TestScene();
 
-	void InitializeObjectsInScene() override;
-
 private:
 	GameObject staticObject;
 	GameObject rectangleObject;
+	Player player;
 };
