@@ -11,7 +11,7 @@ InputActionMap::InputActionMap()
 	currentInputActionMap["left"] = InputAction(Keyboard::A);
 	currentInputActionMap["right"] = InputAction(Keyboard::D);
 
-	currentInputActionMap["interact"] = InputAction(Keyboard::F);
+	currentInputActionMap["dash"] = InputAction(Keyboard::Space);
 
 	currentInputActionMap["test"] = InputAction(Keyboard::T);
 

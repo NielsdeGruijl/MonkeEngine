@@ -15,4 +15,5 @@ Pawn::~Pawn()
 
 void Pawn::Update()
 {
+	controller.Update();
 }

@@ -8,17 +8,28 @@
 class CharacterController
 {
 public:
-	CharacterController(GameObject* owner);
-	~CharacterController();
+	enum VelocityType
+	{
+		continuous,
+		instant
+	};
 
-	Vector2 velocity;
+	float drag;
 
 public:
-	void Move(Vector2 velocity);
+	CharacterController(GameObject* pOwner);
+	~CharacterController();
+
+	void Update();
+
+	void SetVelocity(Vector2 pVelocity);
+	void AddVelocity(Vector2 pVelocity, VelocityType pVelocityType = continuous);
 
 private:
 	GameObject* gameObject;
+	Vector2 velocity;
 
 private:
-
+	void Move();
+	void ApplyDrag();
 };

@@ -38,7 +38,7 @@ Vector2 Vector2::Normalized()
 {
 	float length = GetLength();
 
-	return Vector2(x /= length, y /= length);
+	return Vector2(x / length, y / length);
 }
 
 sf::Vector2f Vector2::ToSfVector() const

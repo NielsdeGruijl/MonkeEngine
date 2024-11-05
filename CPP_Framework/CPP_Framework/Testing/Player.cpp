@@ -1,12 +1,15 @@
 #include "Player.h"
 #include "../Framework/Math/Time.h"
 
-extern Time _time;
-
 Player::Player(std::string objectId, std::string fileName, int pixelsPerUnit)
 	: Pawn(objectId, fileName, pixelsPerUnit), input()
 {
 	SetActionMap(&defaultInputActionMap);
+
+	moveSpeed = 2;
+	dashSpeed = 1;
+
+	controller.drag = 2;
 }
 
 Player::~Player() 
@@ -15,19 +18,17 @@ Player::~Player()
 
 void Player::Update()
 {
+	Pawn::Update();
 	velocity = Vector2((float)input.GetHorizontalAxis(), (float)input.GetVerticalAxis());
 
 	if (velocity.GetLength() > 0)
-		controller.Move(velocity.normalized * moveSpeed * _time.deltaTime);
+		controller.AddVelocity(velocity.normalized * moveSpeed);
 	
-	if (input.GetKeyDown("test"))
+	if (input.GetKeyDown("dash"))
 	{
-		std::cout << "player GetKeyDown \n";
-	}
-
-	if (input.GetKeyUp("test"))
-	{
-		std::cout << "Test getkey up " << "\n";
+		std::cout << "DASH \n";
+		controller.AddVelocity(velocity.normalized * dashSpeed, CharacterController::instant);
+		std::cout << position.printVector() << "\n";
 	}
 
 	defaultInputActionMap.UpdateKeyStatus();

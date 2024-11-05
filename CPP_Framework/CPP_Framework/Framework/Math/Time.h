@@ -7,17 +7,28 @@ class Time {
 
 public:
 	float deltaTime;
+
 public:
 	void CalculateDeltaTime()
 	{
-		currentFrameTime = clock.getElapsedTime();
+		currentFrameTime = clock.getElapsedTime().asSeconds();
 
-		deltaTime = currentFrameTime.asSeconds() - lastFrameTime;
-		lastFrameTime = currentFrameTime.asSeconds();
+		deltaTime = currentFrameTime - lastFrameTime;
+		lastFrameTime = currentFrameTime;
+
+		std::cout << "deltaTime: " << deltaTime << "\n";
+	}
+
+	void GetDeltaTime()
+	{
+		float time = deltaClock.restart().asSeconds();
+
+		std::cout << "DeltaClock: " << time << "\n";
 	}
 
 private:
 	sf::Clock clock;
-	sf::Time currentFrameTime;
+	sf::Clock deltaClock;
+	float currentFrameTime;
 	float lastFrameTime;
 };

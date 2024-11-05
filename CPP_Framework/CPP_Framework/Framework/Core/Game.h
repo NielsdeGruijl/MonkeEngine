@@ -19,4 +19,10 @@ public:
 private:
 	sf::RenderWindow renderWindow;
 	SceneManager sceneManager;
+
+	int frames;
+
+	float totalTimeElapsed;
+
+	sf::Clock clock;
 };

@@ -3,6 +3,8 @@
 extern const int unitSize = 100;
 Time _time;
 
+float deltaTime;
+
 Game::Game(int horizontalResolution, int verticalResolution)
 	: renderWindow(sf::VideoMode(horizontalResolution, verticalResolution), "CPP_Framework")
 {
@@ -16,15 +18,18 @@ void Game::Run()
 {
 	sf::Event event;
 
+	//renderWindow.setFramerateLimit(540);
 	while (renderWindow.isOpen())
 	{
-		_time.CalculateDeltaTime();
-
 		while (renderWindow.pollEvent(event))
 		{
 			if(event.type == sf::Event::Closed)
 				renderWindow.close();
 		}
+
+		deltaTime = clock.restart().asSeconds();
+
+		std::cout << deltaTime << "\n";
 
 		renderWindow.clear();
 
