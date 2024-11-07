@@ -1,8 +1,6 @@
 #include "Game.h"
 
 extern const int unitSize = 100;
-Time _time;
-
 float deltaTime;
 
 Game::Game(int horizontalResolution, int verticalResolution)
@@ -28,8 +26,6 @@ void Game::Run()
 		}
 
 		deltaTime = clock.restart().asSeconds();
-
-		std::cout << deltaTime << "\n";
 
 		renderWindow.clear();
 

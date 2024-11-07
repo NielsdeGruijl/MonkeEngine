@@ -12,7 +12,9 @@ class Scene;
 class Object
 {
 public:
+	Vector2 origin;
 	Vector2 position;
+	Vector2 scale;
 	Vector2 size;
 
 public:
@@ -24,8 +26,9 @@ public:
 	
 	std::string GetID() const;
 
-protected:
-	void SetPosition(const Vector2 pos);
+	void SetScale(const Vector2 pScale);
+	void SetPosition(const Vector2 pPosition);
+	void SetOrigin(const Vector2 pOrigin);
 
 private:
 	const std::string objectId;

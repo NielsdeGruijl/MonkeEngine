@@ -1,9 +1,9 @@
 #include "GameObject.h"
 
-GameObject::GameObject(std::string ID, std::string fileName, int pixelsPerUnit) 
-	: Object(ID), sprite(fileName, pixelsPerUnit)
+GameObject::GameObject(std::string pID, std::string pFileName, int pPixelsPerUnit) 
+	: Object(pID), sprite(pFileName, pPixelsPerUnit)
 {
-	sprite.SetPosition(position);
+	SetOrigin(Vector2(0.5f, 0.5f));
 }
 
 GameObject::~GameObject()
@@ -15,23 +15,30 @@ void GameObject::Update()
 
 }
 
-void GameObject::Render(sf::RenderWindow* renderWindow)
+void GameObject::Render(sf::RenderWindow* pRenderWindow)
 {
-	renderWindow->draw(sprite.sprite);
+	pRenderWindow->draw(sprite.sprite);
 }
 
-void GameObject::SetPosition(const Vector2 position)
+void GameObject::SetPosition(const Vector2 pPosition)
 {
-	Object::SetPosition(position);
-	sprite.SetPosition(position);
+	Object::SetPosition(pPosition);
+	sprite.SetPosition(pPosition);
 }
 
-void GameObject::SetScale(const Vector2 size)
+void GameObject::SetScale(const Vector2 pScale)
 {
-	sprite.SetScale(size);
+	Object::SetScale(pScale);
+	sprite.SetScale(pScale);
 }
 
-void GameObject::SetOrigin(const Vector2 origin)
+void GameObject::SetScale(const float pScale)
 {
-	sprite.SetOrigin(origin);
+	SetScale(Vector2(pScale, pScale));
+}
+
+void GameObject::SetOrigin(const Vector2 pOrigin)
+{
+	Object::SetOrigin(pOrigin);
+	sprite.SetOrigin(pOrigin);
 }

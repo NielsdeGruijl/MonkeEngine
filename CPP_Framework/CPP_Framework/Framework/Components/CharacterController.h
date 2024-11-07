@@ -15,6 +15,9 @@ public:
 	};
 
 	float drag;
+	float gravity;
+
+	bool useGravity;
 
 public:
 	CharacterController(GameObject* pOwner);
@@ -32,4 +35,5 @@ private:
 private:
 	void Move();
 	void ApplyDrag();
+	void ApplyGravity();
 };

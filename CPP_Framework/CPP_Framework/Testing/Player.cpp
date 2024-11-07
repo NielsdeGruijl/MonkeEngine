@@ -7,9 +7,12 @@ Player::Player(std::string objectId, std::string fileName, int pixelsPerUnit)
 	SetActionMap(&defaultInputActionMap);
 
 	moveSpeed = 2;
-	dashSpeed = 1;
+	dashSpeed = 3;
 
-	controller.drag = 2;
+	controller.drag = 1;
+	controller.useGravity = false;
+
+	//std::cout << sprite.sprite.getGlobalBounds().width << ", " << sprite.sprite.getGlobalBounds().height << "\n";
 }
 
 Player::~Player() 
@@ -26,10 +29,12 @@ void Player::Update()
 	
 	if (input.GetKeyDown("dash"))
 	{
-		std::cout << "DASH \n";
-		controller.AddVelocity(velocity.normalized * dashSpeed, CharacterController::instant);
-		std::cout << position.printVector() << "\n";
+		SetScale(5);
 	}
+
+	if (input.GetKeyDown("test"))
+		SetScale(1);
+		//controller.AddVelocity(velocity.normalized * dashSpeed, CharacterController::instant);
 
 	defaultInputActionMap.UpdateKeyStatus();
 }

@@ -3,8 +3,10 @@
 Sprite::Sprite(std::string fileName, int pixelsPerUnit)
 	: spriteScale(CalculateSpriteScaleBasedOnPixelsPerUnit(pixelsPerUnit)), scale(1, 1)
 {
+	name = fileName;
 	texture.loadFromFile("Assets/" + fileName);
 	sprite.setTexture(texture);
+	originalSize = Vector2(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 	SetScale(1);
 }
 
@@ -38,7 +40,7 @@ void Sprite::SetScale(const float _scale)
 
 void Sprite::SetOrigin(const Vector2 origin)
 {
-	sprite.setOrigin(origin.ToSfVector());
+	sprite.setOrigin(Vector2(origin.x * texture.getSize().x, origin.y * texture.getSize().y).ToSfVector()); // Find a way to add vector operators with const vectors
 }
 
 void Sprite::Move(const Vector2 velocity)

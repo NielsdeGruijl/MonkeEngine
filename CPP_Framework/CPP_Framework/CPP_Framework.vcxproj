@@ -35,6 +35,7 @@
     <ClCompile Include="Framework\Math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Framework\Components\AABBCollider.h" />
     <ClInclude Include="Framework\Core\Game.h" />
     <ClInclude Include="Framework\Core\SceneManager.h" />
     <ClInclude Include="Framework\Input\InputActionMap.h" />

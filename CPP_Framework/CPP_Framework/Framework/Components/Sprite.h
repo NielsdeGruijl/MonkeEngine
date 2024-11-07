@@ -30,4 +30,6 @@ private:
 	sf::Texture texture;
 	const float spriteScale;
 	Vector2 scale;
+	Vector2 originalSize;
+	std::string name;
 };

@@ -7,8 +7,11 @@ extern const int unitSize;
 extern float deltaTime;
 
 CharacterController::CharacterController(GameObject* pOwner)
-	: gameObject(pOwner), drag(1)
+	: gameObject(pOwner)
 {
+	drag = 1;
+	gravity = 1;
+	useGravity = true;
 }
 
 CharacterController::~CharacterController()
@@ -49,8 +52,16 @@ void CharacterController::ApplyDrag()
 		velocity = Vector2(0, 0);
 }
 
+void CharacterController::ApplyGravity()
+{
+	velocity += Vector2(0, gravity);
+}
+
 void CharacterController::Update()
 {
+	if (useGravity && velocity.y != 0)
+		ApplyGravity();
+
 	if (velocity.GetLength() > 0)
 	{
 		ApplyDrag();
