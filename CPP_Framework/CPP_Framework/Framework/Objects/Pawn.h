@@ -1,22 +1,17 @@
 #pragma once
 
-// Pawns are dynamic GameObjects that can move
-
-#include "../Components/CharacterController.h"
 #include "GameObject.h"
+#include "../Components/CharacterController.h"
+#include "../Collisions/AABBCollider.h"
 
 class Pawn : public GameObject
 {
 public:
-	Pawn(std::string objectId, std::string fileName, int pixelsPerUnit);
+	Pawn(std::string objectId, std::string fileName, int pixelsPerUnit = 100);
 	~Pawn();
 
 	void Update() override;
 
-
 protected:
 	CharacterController controller;
-
-private:
-	Vector2 pawnPosition;
 };

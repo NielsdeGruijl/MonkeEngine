@@ -7,12 +7,12 @@
 class Player : public Pawn
 {
 public:
-	Player(std::string objectId, std::string fileName, int pixelsPerUnit);
+	Player(std::string pObjectId, std::string pFileName, int pPixelsPerUnit);
 	~Player();
 
 	void Update() override;
 
-	void SetActionMap(InputActionMap* map);
+	void SetActionMap(InputActionMap* pMap);
 
 private:
 	InputActionMap defaultInputActionMap;

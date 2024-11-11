@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Framework\Collisions\AABBCollider.cpp" />
+    <ClCompile Include="Framework\Collisions\CollisionChecker.cpp" />
+    <ClCompile Include="Framework\Components\Component.cpp" />
     <ClCompile Include="Framework\Core\Game.cpp" />
     <ClCompile Include="Framework\Core\SceneManager.cpp" />
     <ClCompile Include="Framework\Input\InputActionMap.cpp" />
@@ -28,6 +31,9 @@
     <ClCompile Include="Framework\Main.cpp" />
     <ClCompile Include="Framework\Objects\Object.cpp" />
     <ClCompile Include="Framework\Objects\Pawn.cpp" />
+    <ClCompile Include="Testing\CollisionTestScene.cpp" />
+    <ClCompile Include="Testing\Obstacle.cpp" />
+    <ClCompile Include="Testing\PhysicsObject.cpp" />
     <ClCompile Include="Testing\Player.cpp" />
     <ClCompile Include="Framework\Core\Scene.cpp" />
     <ClCompile Include="Framework\Components\Sprite.cpp" />
@@ -35,7 +41,9 @@
     <ClCompile Include="Framework\Math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Framework\Components\AABBCollider.h" />
+    <ClInclude Include="Framework\Collisions\AABBCollider.h" />
+    <ClInclude Include="Framework\Collisions\CollisionChecker.h" />
+    <ClInclude Include="Framework\Components\Component.h" />
     <ClInclude Include="Framework\Core\Game.h" />
     <ClInclude Include="Framework\Core\SceneManager.h" />
     <ClInclude Include="Framework\Input\InputActionMap.h" />
@@ -44,6 +52,9 @@
     <ClInclude Include="Framework\Input\InputHandler.h" />
     <ClInclude Include="Framework\Objects\Object.h" />
     <ClInclude Include="Framework\Objects\Pawn.h" />
+    <ClInclude Include="Testing\CollisionTestScene.h" />
+    <ClInclude Include="Testing\Obstacle.h" />
+    <ClInclude Include="Testing\PhysicsObject.h" />
     <ClInclude Include="Testing\Player.h" />
     <ClInclude Include="Framework\Core\Scene.h" />
     <ClInclude Include="Framework\Components\Sprite.h" />

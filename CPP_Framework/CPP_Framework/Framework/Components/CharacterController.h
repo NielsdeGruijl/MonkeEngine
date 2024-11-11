@@ -4,6 +4,7 @@
 
 #include "../Math/Vector2.h"
 #include "../Objects/GameObject.h"
+#include "../Collisions/AABBCollider.h"	
 
 class CharacterController
 {
@@ -29,7 +30,7 @@ public:
 	void AddVelocity(Vector2 pVelocity, VelocityType pVelocityType = continuous);
 
 private:
-	GameObject* gameObject;
+	GameObject* owner;
 	Vector2 velocity;
 
 private:

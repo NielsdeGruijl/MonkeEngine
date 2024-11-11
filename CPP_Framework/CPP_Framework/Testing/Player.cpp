@@ -29,7 +29,8 @@ void Player::Update()
 	
 	if (input.GetKeyDown("dash"))
 	{
-		SetScale(5);
+		//SetScale(5);
+		SetPosition(Vector2(1280, 720));
 	}
 
 	if (input.GetKeyDown("test"))

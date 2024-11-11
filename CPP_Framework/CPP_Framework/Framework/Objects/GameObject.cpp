@@ -12,7 +12,7 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
-
+	Object::Update();
 }
 
 void GameObject::Render(sf::RenderWindow* pRenderWindow)

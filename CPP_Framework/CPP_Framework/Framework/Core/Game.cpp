@@ -16,7 +16,7 @@ void Game::Run()
 {
 	sf::Event event;
 
-	//renderWindow.setFramerateLimit(540);
+	renderWindow.setFramerateLimit(360);
 	while (renderWindow.isOpen())
 	{
 		while (renderWindow.pollEvent(event))

@@ -7,7 +7,7 @@ extern const int unitSize;
 extern float deltaTime;
 
 CharacterController::CharacterController(GameObject* pOwner)
-	: gameObject(pOwner)
+	: owner(pOwner)
 {
 	drag = 1;
 	gravity = 1;
@@ -20,7 +20,7 @@ CharacterController::~CharacterController()
 
 void CharacterController::Move()
 {
-	gameObject->SetPosition(gameObject->position + velocity * deltaTime);
+	owner->SetPosition(owner->position + velocity * deltaTime);
 }
 
 void CharacterController::SetVelocity(Vector2 pVelocity)

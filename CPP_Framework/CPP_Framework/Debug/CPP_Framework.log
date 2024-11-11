@@ -1,5 +1,15 @@
-﻿  Sprite.cpp
-  GameObject.cpp
+﻿  AABBCollider.cpp
+  CollisionChecker.cpp
+  CharacterController.cpp
+  Game.cpp
+  Scene.cpp
+  SceneManager.cpp
+  Main.cpp
+  Pawn.cpp
+  CollisionTestScene.cpp
+  Obstacle.cpp
+  PhysicsObject.cpp
+  Player.cpp
   TestScene.cpp
   Generating Code...
   CPP_Framework.vcxproj -> D:\School\Tools\CPP_Framework_Repo\CPP_Framework\Debug\CPP_Framework.exe

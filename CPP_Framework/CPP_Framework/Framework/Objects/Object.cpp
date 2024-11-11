@@ -12,6 +12,17 @@ Object::~Object()
 {
 }
 
+void Object::Update()
+{
+	for (std::shared_ptr<Component> component : _components)
+	{
+		if (!component->IsActive())
+			return;
+
+		component->Update();
+	}
+}
+
 std::string Object::GetID() const
 {
 	return objectId;
@@ -19,7 +30,8 @@ std::string Object::GetID() const
 
 void Object::SetScale(const Vector2 pScale)
 {
-	size = Vector2(unitSize * pScale.x, unitSize * pScale.y);
+	scale = pScale;
+	size = Vector2(unitSize * scale.x, unitSize * scale.y);
 }
 
 void Object::SetPosition(const Vector2 pPosition)
@@ -30,4 +42,9 @@ void Object::SetPosition(const Vector2 pPosition)
 void Object::SetOrigin(const Vector2 pOrigin)
 {
 	origin = size * pOrigin;
+}
+
+Vector2 Object::GetSize()
+{
+	return size;
 }

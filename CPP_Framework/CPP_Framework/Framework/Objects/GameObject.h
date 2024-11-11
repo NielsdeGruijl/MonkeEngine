@@ -1,6 +1,3 @@
-
-// GameObjects are static objects that can't move.
-
 #pragma once
 
 #include "../Components/Sprite.h"

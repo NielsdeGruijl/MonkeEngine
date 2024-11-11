@@ -1,12 +1,10 @@
 #include "Sprite.h"
 
-Sprite::Sprite(std::string fileName, int pixelsPerUnit)
-	: spriteScale(CalculateSpriteScaleBasedOnPixelsPerUnit(pixelsPerUnit)), scale(1, 1)
+Sprite::Sprite(std::string pFileName, int pPixelsPerUnit)
+	: spriteScale(CalculateSpriteScaleBasedOnPixelsPerUnit(pPixelsPerUnit))
 {
-	name = fileName;
-	texture.loadFromFile("Assets/" + fileName);
+	texture.loadFromFile("Assets/" + pFileName);
 	sprite.setTexture(texture);
-	originalSize = Vector2(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 	SetScale(1);
 }
 
@@ -14,41 +12,39 @@ Sprite::~Sprite()
 {
 }
 
-void Sprite::SetColor(sf::Color color)
+void Sprite::SetColor(sf::Color pColor)
 {
-	sprite.setColor(color);
+	sprite.setColor(pColor);
 }
 
-void Sprite::SetPosition(const Vector2 position)
+void Sprite::SetPosition(const Vector2 pPosition)
 {
-	sprite.setPosition(position.ToSfVector());
+	sprite.setPosition(pPosition.ToSfVector());
 }
 
-void Sprite::SetScale(const Vector2 _scale)
+void Sprite::SetScale(const Vector2 pScale)
 {
-	scale = _scale;
+	scale = pScale;
 	
 	sprite.setScale((scale * spriteScale).ToSfVector());
 }
 
-void Sprite::SetScale(const float _scale)
+void Sprite::SetScale(const float pScale)
 {
-	scale *= scale;
-
-	sprite.setScale((scale * spriteScale).ToSfVector());
+	SetScale(Vector2(pScale, pScale));
 }
 
-void Sprite::SetOrigin(const Vector2 origin)
+void Sprite::SetOrigin(const Vector2 pOrigin)
 {
-	sprite.setOrigin(Vector2(origin.x * texture.getSize().x, origin.y * texture.getSize().y).ToSfVector()); // Find a way to add vector operators with const vectors
+	sprite.setOrigin(Vector2(pOrigin.x * texture.getSize().x, pOrigin.y * texture.getSize().y).ToSfVector()); // Find a way to add vector operators with const vectors
 }
 
-void Sprite::Move(const Vector2 velocity)
+void Sprite::Move(const Vector2 pVelocity)
 {
-	sprite.move(velocity.ToSfVector());
+	sprite.move(pVelocity.ToSfVector());
 }
 
-float Sprite::CalculateSpriteScaleBasedOnPixelsPerUnit(int pixelsPerUnit)
+float Sprite::CalculateSpriteScaleBasedOnPixelsPerUnit(int pPixelsPerUnit)
 {
-	return (float)unitSize / pixelsPerUnit;
+	return (float)unitSize / pPixelsPerUnit;
 }

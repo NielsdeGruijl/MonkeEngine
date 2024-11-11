@@ -22,11 +22,20 @@ void Scene::UpdateScene()
 	{
 		objects[i]->Update();
 	}
+
+	//collisionChecker.CheckCollisions();
 }
 
 void Scene::AddObject(Object* object)
 {
+	if (Pawn* pawn = dynamic_cast<Pawn*>(object))
+	{
+		pawns.push_back(pawn);
+		//Add pawn collider
+	}
+
 	objects.push_back(object);
+	//Add object collider
 }
 
 Object* Scene::FindObjectByName(std::string objectId) const

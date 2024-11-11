@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "../Objects/Pawn.h"
+#include "../Collisions/CollisionChecker.h"
 
 class Scene
 {
@@ -13,12 +14,14 @@ public:
 	Scene();
 	~Scene();
 
-	void RenderScene(sf::RenderWindow* renderWindow);
-	void UpdateScene();
+	virtual void RenderScene(sf::RenderWindow* renderWindow);
+	virtual void UpdateScene();
 
 	void AddObject(Object* object);
 	Object* FindObjectByName(std::string objectId) const;
 
 private:
 	std::vector<Object*> objects;
+	std::vector<Pawn*> pawns;
+	CollisionChecker collisionChecker;
 };
