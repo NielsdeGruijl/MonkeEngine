@@ -3,10 +3,9 @@
 #include <SFML/Graphics.hpp>
 
 #include "../Math/Vector2.h"
-#include "../Objects/GameObject.h"
 #include "../Collisions/AABBCollider.h"	
 
-class CharacterController
+class CharacterController : public Component
 {
 public:
 	enum VelocityType
@@ -18,19 +17,16 @@ public:
 	float drag;
 	float gravity;
 
-	bool useGravity;
-
 public:
-	CharacterController(GameObject* pOwner);
+	CharacterController(float pDrag, float pGravity);
 	~CharacterController();
 
-	void Update();
+	void Update() override;
 
 	void SetVelocity(Vector2 pVelocity);
 	void AddVelocity(Vector2 pVelocity, VelocityType pVelocityType = continuous);
 
 private:
-	GameObject* owner;
 	Vector2 velocity;
 
 private:

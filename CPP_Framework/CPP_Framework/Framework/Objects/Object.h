@@ -28,25 +28,25 @@ public:
 	void SetPosition(const Vector2 pPosition);
 	void SetOrigin(const Vector2 pOrigin);
 
-	template <typename T, typename... Args>
-	void AddComponent(Args&&... args)
+	template <typename T, typename... ConstructorArgs>
+	void AddComponent(ConstructorArgs&&... constructorArgs)
 	{
-		std::shared_ptr<T> componentPointer = std::make_shared<T>(std::forward<Args>(args)...);
+		std::shared_ptr<T> componentPointer = std::make_shared<T>(std::forward<ConstructorArgs>(constructorArgs)...);
 
-		std::shared_ptr<Component> c = std::dynamic_pointer_cast<Component>(componentPointer);
-		c->SetObject(this);
+		std::shared_ptr<Component> tComponent = std::dynamic_pointer_cast<Component>(componentPointer);
+		tComponent->SetObject(this);
 
-		_components.push_back(componentPointer);
+		components.push_back(componentPointer);
 	}
 
 	template <typename T>
 	std::shared_ptr<T> GetComponent()
 	{
-		for (size_t i = 0; i < _components.size(); i++)
+		for (size_t i = 0; i < components.size(); i++)
 		{
-			if (typeid(*(_components[i])) == typeid(T))
+			if (typeid(*(components[i])) == typeid(T))
 			{
-				return std::static_pointer_cast<T>(_components[i]);
+				return std::static_pointer_cast<T>(components[i]);
 			}
 		}
 
@@ -57,7 +57,7 @@ public:
 	Vector2 GetSize();
 
 private:
-	std::vector<std::shared_ptr<Component>> _components;
+	std::vector<std::shared_ptr<Component>> components;
 
 	const std::string objectId;
 	Vector2 size;

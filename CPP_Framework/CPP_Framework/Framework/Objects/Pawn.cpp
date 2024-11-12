@@ -2,8 +2,11 @@
 #include "../Math/Time.h"
 
 Pawn::Pawn(std::string pID, std::string pFileName, int pPixelsPerUnit) 
-	: GameObject(pID, pFileName, pPixelsPerUnit), controller(this)
+	: GameObject(pID, pFileName, pPixelsPerUnit)
 {
+	AddComponent<CharacterController>(1, 0);
+
+	controller = GetComponent<CharacterController>();
 }
 
 Pawn::~Pawn()
@@ -13,5 +16,4 @@ Pawn::~Pawn()
 void Pawn::Update()
 {
 	GameObject::Update();
-	controller.Update();
 }

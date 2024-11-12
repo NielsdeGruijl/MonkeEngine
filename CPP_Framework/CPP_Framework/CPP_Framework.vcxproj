@@ -36,7 +36,7 @@
     <ClCompile Include="Testing\PhysicsObject.cpp" />
     <ClCompile Include="Testing\Player.cpp" />
     <ClCompile Include="Framework\Core\Scene.cpp" />
-    <ClCompile Include="Framework\Components\Sprite.cpp" />
+    <ClCompile Include="Framework\Components\SpriteRenderer.cpp" />
     <ClCompile Include="Testing\TestScene.cpp" />
     <ClCompile Include="Framework\Math\Vector2.cpp" />
   </ItemGroup>
@@ -57,7 +57,7 @@
     <ClInclude Include="Testing\PhysicsObject.h" />
     <ClInclude Include="Testing\Player.h" />
     <ClInclude Include="Framework\Core\Scene.h" />
-    <ClInclude Include="Framework\Components\Sprite.h" />
+    <ClInclude Include="Framework\Components\SpriteRenderer.h" />
     <ClInclude Include="Testing\TestScene.h" />
     <ClInclude Include="Framework\Math\Time.h" />
     <ClInclude Include="Framework\Math\Vector2.h" />

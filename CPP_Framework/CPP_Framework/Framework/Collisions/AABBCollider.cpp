@@ -1,17 +1,7 @@
-#include "AABBCollider.h"
-
 #include <iostream>
 
-//AABBCollider::AABBCollider()
-//{
-//	radius = Vector2(0, 0);
-//}
-
-//AABBCollider::AABBCollider(GameObject* pGameObject)
-//	: Component(pGameObject)
-//{
-//	isTrigger = false;
-//}
+#include "../Objects/Object.h"
+#include "AABBCollider.h"
 
 AABBCollider::AABBCollider(Vector2 pSize, Vector2 pPosition)
 {
@@ -26,6 +16,7 @@ AABBCollider::~AABBCollider()
 void AABBCollider::Update()
 {
 	Component::Update();
+	SetPosition(object->position);
 }
 
 void AABBCollider::SetPosition(Vector2 pPosition)

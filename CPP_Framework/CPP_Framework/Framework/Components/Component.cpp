@@ -2,10 +2,10 @@
 
 #include "../Objects/Object.h"
 
-Component::Component(bool pIsActive)
+Component::Component()
 {
 	object = nullptr;
-	isActive = pIsActive;
+	isActive = true;
 }
 
 Component::~Component()
@@ -14,7 +14,6 @@ Component::~Component()
 
 void Component::Update()
 {
-	position = object->position;
 }
 
 void Component::SetActive(bool pIsActive)

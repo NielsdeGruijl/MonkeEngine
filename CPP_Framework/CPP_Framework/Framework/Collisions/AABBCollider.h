@@ -7,6 +7,7 @@ class AABBCollider : public Component
 {
 public:
 	Vector2 radius;
+	Vector2 position;
 
 	bool isTrigger;
 

@@ -14,7 +14,7 @@ Object::~Object()
 
 void Object::Update()
 {
-	for (std::shared_ptr<Component> component : _components)
+	for (std::shared_ptr<Component> component : components)
 	{
 		if (!component->IsActive())
 			return;

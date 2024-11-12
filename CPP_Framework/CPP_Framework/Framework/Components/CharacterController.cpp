@@ -1,26 +1,34 @@
-#include "CharacterController.h"
-#include "../Math/Time.h"
-
 #include <iostream>
+
+#include "../Math/Time.h"
+#include "../Objects/Object.h"
+#include "CharacterController.h"
 
 extern const int unitSize;
 extern float deltaTime;
 
-CharacterController::CharacterController(GameObject* pOwner)
-	: owner(pOwner)
+CharacterController::CharacterController(float pDrag, float pGravity)
 {
-	drag = 1;
-	gravity = 1;
-	useGravity = true;
+	drag = pDrag;
+	gravity = pGravity;
 }
 
 CharacterController::~CharacterController()
 {
 }
 
-void CharacterController::Move()
+void CharacterController::Update()
 {
-	owner->SetPosition(owner->position + velocity * deltaTime);
+	Component::Update();
+
+	if (gravity > 0)
+		ApplyGravity();
+
+	if (velocity.GetLength() > 0)
+	{
+		ApplyDrag();
+		Move();
+	}
 }
 
 void CharacterController::SetVelocity(Vector2 pVelocity)
@@ -41,6 +49,11 @@ void CharacterController::AddVelocity(Vector2 pVelocity, VelocityType pVelocityT
 	}
 }
 
+void CharacterController::Move()
+{
+	object->SetPosition(object->position + velocity * deltaTime);
+}
+
 void CharacterController::ApplyDrag()
 {
 	float tDrag = velocity.GetLength() * drag;
@@ -55,20 +68,6 @@ void CharacterController::ApplyDrag()
 void CharacterController::ApplyGravity()
 {
 	velocity += Vector2(0, gravity);
-}
-
-void CharacterController::Update()
-{
-	if (useGravity && velocity.y != 0)
-		ApplyGravity();
-
-	if (velocity.GetLength() > 0)
-	{
-		ApplyDrag();
-		Move();
-
-		//std::cout << velocity.GetLength() << "\n";
-	}
 }
 
 // Figure out a way to pass the pawn class to the character controller rather than the GameObject class.

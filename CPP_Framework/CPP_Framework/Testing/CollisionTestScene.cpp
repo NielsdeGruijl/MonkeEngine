@@ -23,8 +23,6 @@ void CollisionTestScene::UpdateScene()
 
 	if (physicsObject.GetComponent<AABBCollider>()->CheckCollision(obstacle.GetComponent<AABBCollider>()))
 	{
-		//std::cout << "collision \n";
+		std::cout << "collision \n";
 	}
-
-	//std::cout << physicsObject.GetComponent<AABBCollider>()->position.printVector();
 }

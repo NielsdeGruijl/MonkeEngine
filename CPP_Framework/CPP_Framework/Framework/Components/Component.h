@@ -7,17 +7,14 @@ class Object;
 class Component
 {
 public:
-	Vector2 position;
-
-public:
-	Component(bool pIsActive = true);
+	Component();
 	~Component();
 
 	virtual void Update();
 
-	void SetActive(bool pIsActive);
 	void SetObject(Object* pObject);
 	
+	void SetActive(bool pIsActive);
 	bool IsActive();
 
 protected:

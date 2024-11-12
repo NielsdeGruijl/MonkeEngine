@@ -9,8 +9,8 @@ Player::Player(std::string objectId, std::string fileName, int pixelsPerUnit)
 	moveSpeed = 2;
 	dashSpeed = 3;
 
-	controller.drag = 1;
-	controller.useGravity = false;
+	controller->drag = 1;
+	controller->gravity = 0;
 
 	//std::cout << sprite.sprite.getGlobalBounds().width << ", " << sprite.sprite.getGlobalBounds().height << "\n";
 }
@@ -25,7 +25,7 @@ void Player::Update()
 	velocity = Vector2((float)input.GetHorizontalAxis(), (float)input.GetVerticalAxis());
 
 	if (velocity.GetLength() > 0)
-		controller.AddVelocity(velocity.normalized * moveSpeed);
+		controller->AddVelocity(velocity.normalized * moveSpeed);
 	
 	if (input.GetKeyDown("dash"))
 	{

@@ -1,8 +1,12 @@
 #include "GameObject.h"
 
 GameObject::GameObject(std::string pID, std::string pFileName, int pPixelsPerUnit) 
-	: Object(pID), sprite(pFileName, pPixelsPerUnit)
+	: Object(pID)
 {
+	AddComponent<SpriteRenderer>(pFileName, pPixelsPerUnit);
+
+	spriteRenderer = GetComponent<SpriteRenderer>();
+
 	SetOrigin(Vector2(0.5f, 0.5f));
 }
 
@@ -17,19 +21,19 @@ void GameObject::Update()
 
 void GameObject::Render(sf::RenderWindow* pRenderWindow)
 {
-	pRenderWindow->draw(sprite.sprite);
+	pRenderWindow->draw(spriteRenderer->sprite);
 }
 
 void GameObject::SetPosition(const Vector2 pPosition)
 {
 	Object::SetPosition(pPosition);
-	sprite.SetPosition(pPosition);
+	spriteRenderer->SetPosition(pPosition);
 }
 
 void GameObject::SetScale(const Vector2 pScale)
 {
 	Object::SetScale(pScale);
-	sprite.SetScale(pScale);
+	spriteRenderer->SetScale(pScale);
 }
 
 void GameObject::SetScale(const float pScale)
@@ -40,5 +44,5 @@ void GameObject::SetScale(const float pScale)
 void GameObject::SetOrigin(const Vector2 pOrigin)
 {
 	Object::SetOrigin(pOrigin);
-	sprite.SetOrigin(pOrigin);
+	spriteRenderer->SetOrigin(pOrigin);
 }

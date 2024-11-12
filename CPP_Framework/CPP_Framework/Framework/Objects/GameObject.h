@@ -1,12 +1,13 @@
 #pragma once
 
-#include "../Components/Sprite.h"
+#include "../Components/SpriteRenderer.h"
 #include "Object.h"
 
 class GameObject : public Object
 {
 public:
-	Sprite sprite;
+	//SpriteRenderer sprite;
+	std::shared_ptr<SpriteRenderer> spriteRenderer;
 
 public:
 	GameObject(std::string pID, std::string pFileName, int pPixelsPerUnit = 100);

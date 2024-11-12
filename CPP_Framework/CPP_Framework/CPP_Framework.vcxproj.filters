@@ -24,7 +24,7 @@
     <ClCompile Include="Framework\Objects\Object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Components\Sprite.cpp">
+    <ClCompile Include="Framework\Components\SpriteRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Objects\GameObject.cpp">
@@ -80,7 +80,7 @@
     <ClInclude Include="Framework\Objects\Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Components\Sprite.h">
+    <ClInclude Include="Framework\Components\SpriteRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Objects\GameObject.h">
