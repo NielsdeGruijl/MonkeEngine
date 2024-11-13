@@ -13,7 +13,8 @@ public:
 	virtual void Update();
 
 	void SetObject(Object* pObject);
-	
+	Object* GetObject() const;
+
 	void SetActive(bool pIsActive);
 	bool IsActive();
 

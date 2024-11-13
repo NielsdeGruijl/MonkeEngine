@@ -115,3 +115,19 @@ Vector2 Vector2::operator=(const Vector2 v2)
 
 	return Vector2(x, y);
 }
+
+bool Vector2::operator==(const Vector2 v2)
+{
+	if (x == v2.x && y == v2.y)
+		return true;
+
+	return false;
+}
+
+bool Vector2::operator!=(const Vector2 v2)
+{
+	if (x == v2.x && y == v2.y)
+		return false;
+
+	return true;
+}

@@ -14,11 +14,13 @@ public:
 		instant
 	};
 
+	Vector2 velocity;
 	float drag;
 	float gravity;
+	float friction;
 
 public:
-	CharacterController(float pDrag, float pGravity);
+	CharacterController(float pDrag, float pGravity, float pFriction);
 	~CharacterController();
 
 	void Update() override;
@@ -27,7 +29,6 @@ public:
 	void AddVelocity(Vector2 pVelocity, VelocityType pVelocityType = continuous);
 
 private:
-	Vector2 velocity;
 
 private:
 	void Move();

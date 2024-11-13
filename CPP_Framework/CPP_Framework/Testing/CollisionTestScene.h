@@ -1,8 +1,9 @@
 #pragma once
 
 #include "../Framework/Core/Scene.h"
+#include "../Framework/Objects/GameObject.h"
 #include "PhysicsObject.h"
-#include "Obstacle.h"
+#include "Player.h"
 
 class CollisionTestScene : public Scene
 {
@@ -14,5 +15,7 @@ public:
 
 private:
 	PhysicsObject physicsObject;
-	Obstacle obstacle;
+	PhysicsObject physicsObject2;
+	GameObject obstacle;
+	Player player;
 };

@@ -28,14 +28,18 @@ void Scene::UpdateScene()
 
 void Scene::AddObject(Object* object)
 {
+	objects.push_back(object);
+
 	if (Pawn* pawn = dynamic_cast<Pawn*>(object))
 	{
-		pawns.push_back(pawn);
-		//Add pawn collider
+		if (std::shared_ptr<AABBCollider> collider = pawn->GetComponent<AABBCollider>())
+			collisionChecker.AddCollider(collider, true);
 	}
-
-	objects.push_back(object);
-	//Add object collider
+	else
+	{
+		if (std::shared_ptr<AABBCollider> collider = object->GetComponent<AABBCollider>())
+			collisionChecker.AddCollider(collider);
+	}
 }
 
 Object* Scene::FindObjectByName(std::string objectId) const

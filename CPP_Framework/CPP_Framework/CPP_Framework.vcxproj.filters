@@ -72,9 +72,6 @@
     <ClCompile Include="Testing\PhysicsObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Testing\Obstacle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Objects\Object.h">
@@ -132,9 +129,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Testing\PhysicsObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Testing\Obstacle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

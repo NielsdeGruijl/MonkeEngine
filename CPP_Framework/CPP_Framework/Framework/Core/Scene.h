@@ -13,14 +13,14 @@ class Scene
 public:
 	Scene();
 	~Scene();
-
+	 
 	virtual void RenderScene(sf::RenderWindow* renderWindow);
 	virtual void UpdateScene();
 
 	void AddObject(Object* object);
 	Object* FindObjectByName(std::string objectId) const;
 
-private:
+protected:
 	std::vector<Object*> objects;
 	std::vector<Pawn*> pawns;
 	CollisionChecker collisionChecker;

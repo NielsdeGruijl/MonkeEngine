@@ -12,7 +12,6 @@ public:
 
 	void Update() override;
 
-protected:
-	//CharacterController controller;
 	std::shared_ptr<CharacterController> controller;
+protected:
 };

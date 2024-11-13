@@ -5,6 +5,7 @@
 
 AABBCollider::AABBCollider(Vector2 pSize, Vector2 pPosition)
 {
+	size = pSize;
 	radius = pSize * 0.5f;
 	position = pPosition;
 }
@@ -22,6 +23,11 @@ void AABBCollider::Update()
 void AABBCollider::SetPosition(Vector2 pPosition)
 {
 	position = pPosition;
+
+	left = position.x - radius.x;
+	right = position.x + radius.x;
+	top = position.y - radius.y;
+	bottom = position.y + radius.y;
 }
 
 void AABBCollider::Move(Vector2 pVelocity)
@@ -31,26 +37,26 @@ void AABBCollider::Move(Vector2 pVelocity)
 
 bool AABBCollider::CheckCollision(AABBCollider* pCollider)
 {
-	if (abs(position.x - pCollider->position.x) > radius.x + pCollider->radius.x)
+	if (left < pCollider->right &&
+		right > pCollider->left &&
+		top < pCollider->bottom &&
+		bottom > pCollider->top)
 	{
-		//std::cout << abs(position.x - pCollider->position.x) << "\n";
-		return false;
+		return true;
 	}
-	if (abs(position.y - pCollider->position.y) > radius.y + pCollider->radius.y)
-		return false;
-	
-	return true;
+
+	return false;
 }
 
 bool AABBCollider::CheckCollision(std::shared_ptr<AABBCollider> pCollider)
 {
-	if (abs(position.x - pCollider->position.x) > radius.x + pCollider->radius.x)
+	if (left < pCollider->right &&
+		right > pCollider->left &&
+		top < pCollider->bottom &&
+		bottom > pCollider->top)
 	{
-		//std::cout << abs(position.x - pCollider->position.x) << "\n";
-		return false;
+		return true;
 	}
-	if (abs(position.y - pCollider->position.y) > radius.y + pCollider->radius.y)
-		return false;
-
-	return true;
+	
+	return false;
 }

@@ -7,10 +7,11 @@
 extern const int unitSize;
 extern float deltaTime;
 
-CharacterController::CharacterController(float pDrag, float pGravity)
+CharacterController::CharacterController(float pDrag, float pGravity, float pFriction)
 {
 	drag = pDrag;
 	gravity = pGravity;
+	friction = pFriction;
 }
 
 CharacterController::~CharacterController()

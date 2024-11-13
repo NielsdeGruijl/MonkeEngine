@@ -6,6 +6,16 @@ float deltaTime;
 Game::Game(int horizontalResolution, int verticalResolution)
 	: renderWindow(sf::VideoMode(horizontalResolution, verticalResolution), "CPP_Framework")
 {
+	fps = 0;
+
+	if (!font.loadFromFile("Assets/Arial.ttf"))
+	{
+		std::cout << "Couldn't load font!";
+	}
+
+	text.setFont(font);
+	text.setFillColor(sf::Color::White);
+	text.setPosition(1190, 10);
 }
 
 Game::~Game()
@@ -27,6 +37,10 @@ void Game::Run()
 
 		deltaTime = clock.restart().asSeconds();
 
+		fps++;
+		std::string str = std::to_string((int)(fps / fpsClock.getElapsedTime().asSeconds()));
+		text.setString(sf::String(str.c_str()));
+
 		renderWindow.clear();
 
 		if (sceneManager.GetCurrentScene() != nullptr)
@@ -34,6 +48,8 @@ void Game::Run()
 			sceneManager.GetCurrentScene()->UpdateScene();
 			sceneManager.GetCurrentScene()->RenderScene(&renderWindow);
 		}
+
+		renderWindow.draw(text);
 
 		renderWindow.display();
 	}

@@ -26,6 +26,11 @@ void Component::SetObject(Object* pObject)
 	object = pObject;
 }
 
+Object* Component::GetObject() const
+{
+	return object;
+}
+
 bool Component::IsActive()
 {
 	return isActive;

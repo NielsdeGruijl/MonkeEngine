@@ -7,6 +7,9 @@
 #include "../Math/Time.h"
 #include "SceneManager.h"
 
+#include <sstream>
+#include <string>
+
 class Game
 {
 public:
@@ -21,4 +24,10 @@ private:
 	SceneManager sceneManager;
 
 	sf::Clock clock;
+
+	// fps counter
+	sf::Clock fpsClock;
+	float fps;
+	sf::Text text;
+	sf::Font font;
 };

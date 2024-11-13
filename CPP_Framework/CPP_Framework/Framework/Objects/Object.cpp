@@ -23,11 +23,6 @@ void Object::Update()
 	}
 }
 
-std::string Object::GetID() const
-{
-	return objectId;
-}
-
 void Object::SetScale(const Vector2 pScale)
 {
 	scale = pScale;
@@ -42,6 +37,11 @@ void Object::SetPosition(const Vector2 pPosition)
 void Object::SetOrigin(const Vector2 pOrigin)
 {
 	origin = size * pOrigin;
+}
+
+std::string Object::GetID() const
+{
+	return objectId;
 }
 
 Vector2 Object::GetSize()

@@ -7,9 +7,12 @@ class AABBCollider : public Component
 {
 public:
 	Vector2 radius;
+	Vector2 size;
 	Vector2 position;
 
 	bool isTrigger;
+
+	float left, right, top, bottom;
 
 public:
 	AABBCollider(Vector2 pSize, Vector2 pPosition);
