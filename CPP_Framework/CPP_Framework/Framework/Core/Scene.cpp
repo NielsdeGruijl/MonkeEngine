@@ -32,6 +32,8 @@ void Scene::AddObject(Object* object)
 
 	if (Pawn* pawn = dynamic_cast<Pawn*>(object))
 	{
+		//if (std::shared_ptr<CharacterController> cotroller = pawn->GetComponent<CharacterController>())
+		//	collisionChecker.AddCharacterController(cotroller);
 		if (std::shared_ptr<AABBCollider> collider = pawn->GetComponent<AABBCollider>())
 			collisionChecker.AddCollider(collider, true);
 	}

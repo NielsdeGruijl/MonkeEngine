@@ -53,6 +53,22 @@ public:
 		return nullptr;
 	}
 
+	template <typename T>
+	std::vector<std::shared_ptr<T>> GetComponents()
+	{
+		std::vector<std::shared_ptr<T>> tComponents;
+
+		for (size_t i = 0; i < components.size(); i++)
+		{
+			if (typeid(*(components[i])) == typeid(T))
+			{
+				tComponents.push_back(std::static_pointer_cast<T>(components[i]));
+			}
+		}
+
+		return tComponents;
+	}
+
 	std::string GetID() const;
 	Vector2 GetSize();
 

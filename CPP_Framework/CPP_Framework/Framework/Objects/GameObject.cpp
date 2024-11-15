@@ -27,7 +27,6 @@ void GameObject::Render(sf::RenderWindow* pRenderWindow)
 void GameObject::SetPosition(const Vector2 pPosition)
 {
 	Object::SetPosition(pPosition);
-	spriteRenderer->SetPosition(pPosition);
 }
 
 void GameObject::SetScale(const Vector2 pScale)

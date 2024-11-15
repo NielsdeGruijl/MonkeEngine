@@ -41,6 +41,11 @@ Vector2 Vector2::Normalized()
 	return Vector2(x / length, y / length);
 }
 
+float Vector2::Dot(Vector2 v2)
+{
+	return x * v2.x + y * v2.y;
+}
+
 sf::Vector2f Vector2::ToSfVector() const
 {
 	return sf::Vector2f(x, y);

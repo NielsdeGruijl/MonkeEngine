@@ -6,7 +6,7 @@ int main()
 {
     Game game(1280, 720);
 
-    TestScene testScene;
+    //TestScene testScene;
     //game.AddScene("testScene", &testScene);
 
     CollisionTestScene collisionTestScene;

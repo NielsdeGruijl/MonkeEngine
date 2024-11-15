@@ -8,6 +8,8 @@ AABBCollider::AABBCollider(Vector2 pSize, Vector2 pPosition)
 	size = pSize;
 	radius = pSize * 0.5f;
 	position = pPosition;
+
+	isTrigger = false;
 }
 
 AABBCollider::~AABBCollider()

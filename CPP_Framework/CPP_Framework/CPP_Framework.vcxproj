@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Collisions\AABBCollider.h" />
+    <ClInclude Include="Framework\Collisions\Collision.h" />
     <ClInclude Include="Framework\Collisions\CollisionChecker.h" />
     <ClInclude Include="Framework\Components\Component.h" />
     <ClInclude Include="Framework\Core\Game.h" />

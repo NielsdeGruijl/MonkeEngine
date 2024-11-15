@@ -19,6 +19,8 @@ struct Vector2
 
 	std::string printVector();
 
+	float Dot(Vector2 v2);
+
 	// Multiplication operators
 	Vector2 operator*(const float f1);
 	Vector2 operator*=(const float f1);
