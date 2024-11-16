@@ -1,5 +1,4 @@
 #include "Player.h"
-#include "../Framework/Math/Time.h"
 
 Player::Player(std::string objectId, std::string fileName, int pixelsPerUnit)
 	: Pawn(objectId, fileName, pixelsPerUnit), input()

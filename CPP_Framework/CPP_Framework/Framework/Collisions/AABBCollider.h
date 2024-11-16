@@ -11,6 +11,7 @@ public:
 	Vector2 position;
 
 	bool isTrigger;
+	bool isColliding;
 
 	float left, right, top, bottom;
 

@@ -52,10 +52,10 @@ bool AABBCollider::CheckCollision(AABBCollider* pCollider)
 
 bool AABBCollider::CheckCollision(std::shared_ptr<AABBCollider> pCollider)
 {
-	if (left < pCollider->right &&
-		right > pCollider->left &&
-		top < pCollider->bottom &&
-		bottom > pCollider->top)
+	if (this->left < pCollider->right && 
+		this->right > pCollider->left && 
+		this->top < pCollider->bottom && 
+		this->bottom > pCollider->top)
 	{
 		return true;
 	}

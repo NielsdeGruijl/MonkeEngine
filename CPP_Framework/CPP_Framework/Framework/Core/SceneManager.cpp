@@ -5,10 +5,10 @@ SceneManager::SceneManager()
 {
 }
 
-SceneManager::SceneManager(std::string sceneName, Scene* defaultScene)
-	: currentScene(defaultScene)
+SceneManager::SceneManager(std::string pSceneName, Scene* pDefaultScene)
+	: currentScene(pDefaultScene)
 {
-	AddScene(sceneName, defaultScene);
+	AddScene(pSceneName, pDefaultScene);
 }
 
 SceneManager::~SceneManager()
@@ -23,34 +23,40 @@ Scene* SceneManager::GetCurrentScene()
 	return currentScene;
 }
 
-Scene* SceneManager::GetScene(std::string sceneName)
+Scene* SceneManager::GetScene(std::string pSceneName)
 {
-	if (scenes.find(sceneName) != scenes.end())
-		return scenes.at(sceneName);
+	if (scenes.find(pSceneName) != scenes.end())
+		return scenes.at(pSceneName);
 	else
 	{
-		std::cout << "Scene with name \"" << sceneName << "\" doesn't exist.\n";
+		std::cout << "Scene with name \"" << pSceneName << "\" doesn't exist.\n";
 		return nullptr;
 	}
 }
 
-void SceneManager::AddScene(std::string sceneName, Scene* scene)
+void SceneManager::AddScene(std::string pSceneName, Scene* pScene)
 {
-	if (scenes.find(sceneName) != scenes.end())
+	if (scenes.find(pSceneName) != scenes.end())
 	{
-		std::cout << "Scene with name \"" << sceneName << "\" already exists.\n";
+		std::cout << "Scene with name \"" << pSceneName << "\" already exists.\n";
 		return;
 	}
 
-	std::cout << "Scene with name \"" << sceneName << "\" has been added!\n";
+	std::cout << "Scene with name \"" << pSceneName << "\" has been added!\n";
 
 	if (scenes.size() < 1)
-		currentScene = scene;
+		LoadScene(pScene);
 	
-	scenes[sceneName] = scene;
+	scenes[pSceneName] = pScene;
 }
 
-void SceneManager::SwitchScene(std::string sceneName)
+void SceneManager::LoadScene(Scene* pScene)
 {
-	currentScene = GetScene(sceneName);
+	currentScene = pScene;
+	pScene->OnLoad();
+}
+
+void SceneManager::LoadScene(std::string pSceneName)
+{
+	LoadScene(GetScene(pSceneName));
 }

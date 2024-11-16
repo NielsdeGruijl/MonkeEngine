@@ -31,6 +31,10 @@ Object* Component::GetObject() const
 	return object;
 }
 
+void Component::OnLoad()
+{
+}
+
 bool Component::IsActive()
 {
 	return isActive;

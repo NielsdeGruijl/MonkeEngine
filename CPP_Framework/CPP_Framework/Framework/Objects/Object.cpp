@@ -23,6 +23,14 @@ void Object::Update()
 	}
 }
 
+void Object::OnLoad()
+{
+	for (std::shared_ptr<Component> component : components)
+	{
+		component->OnLoad();
+	}
+}
+
 void Object::SetScale(const Vector2 pScale)
 {
 	scale = pScale;

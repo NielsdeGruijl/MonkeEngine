@@ -6,8 +6,6 @@
 #include "../Collisions/AABBCollider.h"	
 #include "../Collisions/Collision.h"
 
-class Pawn;
-
 class CharacterController : public Component
 {
 public:
@@ -23,10 +21,13 @@ public:
 	float drag;
 	float gravity;
 	float friction;
+	float bounciness;
 
 public:
-	CharacterController(Pawn* pawn, float pDrag = 1, float pGravity = 1, float pFriction = 1);
+	CharacterController(float pDrag = 1, float pGravity = 1, float pFriction = 1, float pBounciness = 0);
 	~CharacterController();
+
+	void OnLoad() override;
 
 	void Update() override;
 

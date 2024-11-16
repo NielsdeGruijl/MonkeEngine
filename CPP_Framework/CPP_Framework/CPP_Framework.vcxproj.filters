@@ -69,9 +69,6 @@
     <ClCompile Include="Testing\CollisionTestScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Testing\PhysicsObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Objects\Object.h">
@@ -95,7 +92,7 @@
     <ClInclude Include="Framework\Components\CharacterController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Math\Time.h">
+    <ClInclude Include="Framework\Math\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Input\InputHandler.h">
@@ -126,9 +123,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Testing\CollisionTestScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Testing\PhysicsObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Collisions\Collision.h">

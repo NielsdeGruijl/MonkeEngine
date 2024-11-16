@@ -5,6 +5,8 @@
 #include "../Components/SpriteRenderer.h"
 #include "../Components/CharacterController.h"
 
+#include "../Math/Timer.h";
+
 #include "Collision.h"
 
 extern float deltaTime;
@@ -41,7 +43,17 @@ void CollisionChecker::CheckSweptCollisions()
 		for (std::shared_ptr<AABBCollider> objectCollider : objectColliders)
 		{
 			if (controller->collider->CheckCollision(objectCollider))
+			{
 				ControllerCollision(controller, objectCollider);
+
+				if (!controller->collider->isColliding)
+					controller->collider->isColliding = true;
+			}
+			else
+			{
+				if(controller->collider->isColliding)
+					controller->collider->isColliding = false;
+			}
 		}
 	}
 }
@@ -92,20 +104,9 @@ void CollisionChecker::DiscreteCollision(std::shared_ptr<AABBCollider> pCollider
 
 	float entryTime = std::max<float>(xEntryTime, yEntryTime);
 
-	//std::cout << entryTime << "\n";
-
 	// This if statement ensures that the collision gets resolved on the correct side of the object.
 	if (entryTime >= -1)
 	{
-		//pawn->SetPosition(pawn->position + pawn->controller->velocity * entryTime);
-
-		//std::cout << pCollider1->position.printVector();
-
-		//float remainingTime = 1 + entryTime;
-		//Vector2 tVelocity = Vector2(pawnVelocity.x * normal.y, pawnVelocity.y * normal.x);
-
-		//pawn->controller->SetVelocity(tVelocity * remainingTime);
-
 		object = pCollider2->GetObject();
 		pawn->controller->HandleCollision(Collision(object, normal, entryTime));
 	}
@@ -113,7 +114,6 @@ void CollisionChecker::DiscreteCollision(std::shared_ptr<AABBCollider> pCollider
 
 void CollisionChecker::ControllerCollision(std::shared_ptr<CharacterController> controller, std::shared_ptr<AABBCollider> pCollider2)
 {
-	Pawn* pawn = static_cast<Pawn*>(controller->GetObject());
 	std::shared_ptr<AABBCollider> pCollider1 = controller->collider;
 	Vector2 pawnVelocity = controller->velocity;
 
@@ -171,23 +171,12 @@ void CollisionChecker::ControllerCollision(std::shared_ptr<CharacterController> 
 	// This if statement ensures that the collision gets resolved on the correct side of the object.
 	if (entryTime >= -1)
 	{
-		pawn->SetPosition(pawn->position + pawnVelocity * entryTime);
-		//std::cout << pawn->controller->velocity.printVector();
-
-		float remainingTime = 1 + entryTime;
-		Vector2 tVelocity = Vector2(pawnVelocity.x * normal.y, pawnVelocity.y * normal.x);
-
-		pawn->controller->SetVelocity(tVelocity * remainingTime);
-
-
 		object = pCollider2->GetObject();
-		//controller->HandleCollision(Collision(object, normal, entryTime));
+		controller->HandleCollision(Collision(object, normal, entryTime));
 	}
 }
 
 // Clean up DiscreteCollision function and make it pretty :)
-// 
-// Figure out how the collision detection should be called (automatically for all colliders from collisionchecker or character controllers request collision checks from collisionchecker)
 // 
 // Implement continuous collision detection
 //

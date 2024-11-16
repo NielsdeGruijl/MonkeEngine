@@ -1,38 +1,30 @@
 #include "CollisionTestScene.h"
 
 CollisionTestScene::CollisionTestScene()
-	: physicsObject("PhysicsObject", "BlueSlime.png", 160), obstacle("obstacle", "TransparentSquare.png", 160), physicsObject2("physicsObject2", "TestSquare.png", 160), 
-	  player("Player", "BlueSlime.png", 160)
+	: obstacle("obstacle", "TransparentSquare.png", 160), obstacle2("obstacle2", "TransparentSquare.png", 160),
+	   player("Player", "BlueSlime.png", 160), pawn("Pawn", "BlueSlime.png", 160)
 {
-	physicsObject.SetPosition(Vector2(50, 360));
-	physicsObject.AddComponent<AABBCollider>(physicsObject.GetSize(), physicsObject.position);
-	physicsObject.controller->SetVelocity(Vector2(250, 0));
-	physicsObject.controller->drag = 0;
-	physicsObject.controller->gravity = 0;
+	pawn.SetPosition(Vector2(640, 360));
+	pawn.controller->SetVelocity(Vector2(500, 0));
+	pawn.controller->gravity = 0;
+	pawn.controller->bounciness = 1;
 
-	physicsObject2.SetPosition(Vector2(1230, 360));
-	physicsObject2.AddComponent<AABBCollider>(physicsObject.GetSize(), physicsObject2.position);
-	physicsObject2.controller->SetVelocity(Vector2(-250, 0));
-	physicsObject2.controller->drag = 0;
-	physicsObject2.controller->gravity = 0;
-
-	obstacle.SetPosition(Vector2(680, 360));
+	obstacle.SetPosition(Vector2(1280, 360));
 	obstacle.SetScale(2);
-	obstacle.AddComponent<AABBCollider>(obstacle.GetSize(), physicsObject.position);
+	obstacle.AddComponent<AABBCollider>(obstacle.GetSize(), obstacle.position);
+
+	obstacle2.SetPosition(Vector2(0, 360));
+	obstacle2.SetScale(2);
+	obstacle2.AddComponent<AABBCollider>(obstacle2.GetSize(), obstacle2.position);
 
 	player.SetPosition(Vector2(50, 360));
-	player.controller->friction = 0.5f;
-	player.AddComponent<AABBCollider>(player.GetSize(), player.position);
-	player.controller->collider = player.GetComponent<AABBCollider>();
+	player.controller->friction = 0;
+	player.controller->bounciness = 1;
 
-	//std::vector<std::shared_ptr<CharacterController>> controllers = player.GetComponents<CharacterController>();
-
-	//std::cout << controllers.size() << "\n";
-	
-	//AddObject(&physicsObject);
-	//AddObject(&physicsObject2);
-	AddObject(&player);
+	//AddObject(&player);
 	AddObject(&obstacle);
+	AddObject(&obstacle2);
+	AddObject(&pawn);
 }
 
 CollisionTestScene::~CollisionTestScene()
@@ -42,15 +34,5 @@ CollisionTestScene::~CollisionTestScene()
 void CollisionTestScene::UpdateScene()
 {
 	Scene::UpdateScene();
-	collisionChecker.CheckCollisions();
-
-	//std::cout << player.GetComponent<AABBCollider>()->position.printVector();
-
-	//collisionChecker.CheckSweptCollisions();
-
-	//if (physicsObject.GetComponent<AABBCollider>()->CheckCollision(obstacle.GetComponent<AABBCollider>()))
-	//{
-	//	std::cout << "collision \n";
-	//}
-	
+	collisionChecker.CheckSweptCollisions();
 }

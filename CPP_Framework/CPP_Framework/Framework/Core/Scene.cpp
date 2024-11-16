@@ -2,6 +2,7 @@
 
 Scene::Scene() 
 {
+	isLoaded = false;
 }
 
 Scene::~Scene()
@@ -10,6 +11,9 @@ Scene::~Scene()
 
 void Scene::RenderScene(sf::RenderWindow* renderWindow)
 {
+	if (!isLoaded)
+		return;
+
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		objects[i]->Render(renderWindow);
@@ -18,6 +22,9 @@ void Scene::RenderScene(sf::RenderWindow* renderWindow)
 
 void Scene::UpdateScene()
 {
+	if (!isLoaded)
+		return;
+
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		objects[i]->Update();
@@ -26,16 +33,26 @@ void Scene::UpdateScene()
 	//collisionChecker.CheckCollisions();
 }
 
+void Scene::OnLoad()
+{
+	for (Object* object : objects)
+	{
+		object->OnLoad();
+	}
+
+	isLoaded = true;
+}
+
 void Scene::AddObject(Object* object)
 {
 	objects.push_back(object);
 
 	if (Pawn* pawn = dynamic_cast<Pawn*>(object))
 	{
-		//if (std::shared_ptr<CharacterController> cotroller = pawn->GetComponent<CharacterController>())
-		//	collisionChecker.AddCharacterController(cotroller);
-		if (std::shared_ptr<AABBCollider> collider = pawn->GetComponent<AABBCollider>())
-			collisionChecker.AddCollider(collider, true);
+		if (std::shared_ptr<CharacterController> cotroller = pawn->GetComponent<CharacterController>())
+			collisionChecker.AddCharacterController(cotroller);
+		//if (std::shared_ptr<AABBCollider> collider = pawn->GetComponent<AABBCollider>())
+		//	collisionChecker.AddCollider(collider, true);
 	}
 	else
 	{

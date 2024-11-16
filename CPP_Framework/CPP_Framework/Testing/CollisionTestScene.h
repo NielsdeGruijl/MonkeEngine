@@ -2,7 +2,6 @@
 
 #include "../Framework/Core/Scene.h"
 #include "../Framework/Objects/GameObject.h"
-#include "PhysicsObject.h"
 #include "Player.h"
 
 class CollisionTestScene : public Scene
@@ -14,8 +13,9 @@ public:
 	void UpdateScene() override;
 
 private:
-	PhysicsObject physicsObject;
-	PhysicsObject physicsObject2;
 	GameObject obstacle;
+	GameObject obstacle2;
 	Player player;
+
+	Pawn pawn;
 };

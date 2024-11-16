@@ -24,19 +24,37 @@ public:
 	virtual void Update();
 	virtual void Render(sf::RenderWindow* renderWindow) = 0;
 
+	virtual void OnLoad();
+
 	void SetScale(const Vector2 pScale);
 	void SetPosition(const Vector2 pPosition);
 	void SetOrigin(const Vector2 pOrigin);
 
 	template <typename T, typename... ConstructorArgs>
-	void AddComponent(ConstructorArgs&&... constructorArgs)
+	std::shared_ptr<T> AddComponent(ConstructorArgs&&... pConstructorArgs)
 	{
-		std::shared_ptr<T> componentPointer = std::make_shared<T>(std::forward<ConstructorArgs>(constructorArgs)...);
+		std::shared_ptr<T> componentPointer = std::make_shared<T>(std::forward<ConstructorArgs>(pConstructorArgs)...);
 
 		std::shared_ptr<Component> tComponent = std::dynamic_pointer_cast<Component>(componentPointer);
 		tComponent->SetObject(this);
 
 		components.push_back(componentPointer);
+
+		return componentPointer;
+	}
+
+	template <typename T>
+	bool TryGetComponent(std::shared_ptr<T>& pOut)
+	{
+		for (std::shared_ptr<Component>& component : components)
+		{
+			if (typeid(*(component)) == typeid(T))
+			{
+				pOut = std::static_pointer_cast<T>(component);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	template <typename T>
@@ -49,7 +67,6 @@ public:
 				return std::static_pointer_cast<T>(components[i]);
 			}
 		}
-
 		return nullptr;
 	}
 

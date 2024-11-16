@@ -12,8 +12,10 @@ public:
 
 	virtual void Update();
 
-	virtual void SetObject(Object* pObject);
+	void SetObject(Object* pObject);
 	Object* GetObject() const;
+
+	virtual void OnLoad();
 
 	void SetActive(bool pIsActive);
 	bool IsActive();

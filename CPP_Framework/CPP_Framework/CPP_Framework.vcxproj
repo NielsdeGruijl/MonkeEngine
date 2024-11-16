@@ -32,7 +32,6 @@
     <ClCompile Include="Framework\Objects\Object.cpp" />
     <ClCompile Include="Framework\Objects\Pawn.cpp" />
     <ClCompile Include="Testing\CollisionTestScene.cpp" />
-    <ClCompile Include="Testing\PhysicsObject.cpp" />
     <ClCompile Include="Testing\Player.cpp" />
     <ClCompile Include="Framework\Core\Scene.cpp" />
     <ClCompile Include="Framework\Components\SpriteRenderer.cpp" />
@@ -53,12 +52,11 @@
     <ClInclude Include="Framework\Objects\Object.h" />
     <ClInclude Include="Framework\Objects\Pawn.h" />
     <ClInclude Include="Testing\CollisionTestScene.h" />
-    <ClInclude Include="Testing\PhysicsObject.h" />
     <ClInclude Include="Testing\Player.h" />
     <ClInclude Include="Framework\Core\Scene.h" />
     <ClInclude Include="Framework\Components\SpriteRenderer.h" />
     <ClInclude Include="Testing\TestScene.h" />
-    <ClInclude Include="Framework\Math\Time.h" />
+    <ClInclude Include="Framework\Math\Timer.h" />
     <ClInclude Include="Framework\Math\Vector2.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

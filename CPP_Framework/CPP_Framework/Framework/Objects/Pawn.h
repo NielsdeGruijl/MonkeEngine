@@ -13,5 +13,4 @@ public:
 	void Update() override;
 
 	std::shared_ptr<CharacterController> controller;
-protected:
 };
