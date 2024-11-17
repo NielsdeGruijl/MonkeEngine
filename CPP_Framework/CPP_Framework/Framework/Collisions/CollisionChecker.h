@@ -7,17 +7,18 @@
 class CollisionChecker
 {
 public:
-	void AddCollider(std::shared_ptr<AABBCollider> pCollider, bool pIsPawn = false);
+	void AddCollider(std::shared_ptr<AABBCollider> pCollider);
 	void AddCharacterController(std::shared_ptr<CharacterController> controller);
+
 	void CheckCollisions();
-	void CheckSweptCollisions();
-	void DiscreteCollision(std::shared_ptr<AABBCollider> pCollider1, std::shared_ptr<AABBCollider> pCollider2);
-	void ControllerCollision(std::shared_ptr<CharacterController> controller, std::shared_ptr<AABBCollider> pCollider2);
+	void PawnToObjectCollision(std::shared_ptr<CharacterController> pController, std::shared_ptr<AABBCollider> pCollider);
+
+	Vector2 CalculateEntryTime(std::shared_ptr<CharacterController> pController, std::shared_ptr<AABBCollider> pCollider);
 
 private:
 	std::vector<std::shared_ptr<CharacterController>> characterControllers;
-	std::vector<std::shared_ptr<AABBCollider>> pawnColliders;
 	std::vector<std::shared_ptr<AABBCollider>> objectColliders;
 
 	Object* object;
+	Object* object1;
 };

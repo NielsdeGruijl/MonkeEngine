@@ -10,6 +10,7 @@ AABBCollider::AABBCollider(Vector2 pSize, Vector2 pPosition)
 	position = pPosition;
 
 	isTrigger = false;
+	isColliding = false;
 }
 
 AABBCollider::~AABBCollider()
@@ -37,19 +38,6 @@ void AABBCollider::Move(Vector2 pVelocity)
 	position += pVelocity;
 }
 
-bool AABBCollider::CheckCollision(AABBCollider* pCollider)
-{
-	if (left < pCollider->right &&
-		right > pCollider->left &&
-		top < pCollider->bottom &&
-		bottom > pCollider->top)
-	{
-		return true;
-	}
-
-	return false;
-}
-
 bool AABBCollider::CheckCollision(std::shared_ptr<AABBCollider> pCollider)
 {
 	if (this->left < pCollider->right && 
@@ -57,8 +45,12 @@ bool AABBCollider::CheckCollision(std::shared_ptr<AABBCollider> pCollider)
 		this->top < pCollider->bottom && 
 		this->bottom > pCollider->top)
 	{
+		isColliding = true;
 		return true;
 	}
 	
+	if (isColliding)
+		isColliding = false;
+
 	return false;
 }

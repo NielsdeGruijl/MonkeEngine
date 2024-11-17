@@ -35,7 +35,10 @@ void CharacterController::Update()
 		ApplyGravity();
 
 	if (velocity.GetLength() > 0)
+	{
+		ApplyDrag();
 		Move();
+	}
 }
 
 void CharacterController::SetVelocity(Vector2 pVelocity)
@@ -54,8 +57,6 @@ void CharacterController::AddVelocity(Vector2 pVelocity, VelocityType pVelocityT
 		velocity += pVelocity * (float)unitSize;
 		break;
 	}
-
-	ApplyDrag();
 }
 
 void CharacterController::HandleCollision(Collision collision)
@@ -81,7 +82,7 @@ void CharacterController::HandleCollision(Collision collision)
 		float dotProduct = (velocity.x * collision.normal.y + velocity.y * collision.normal.x) * collision.remainingTime;
 		velocity = Vector2(dotProduct * collision.normal.y, dotProduct * collision.normal.x);
 		
-		if (friction > 0)
+		if (friction > 0 && velocity.GetLength() > 0)
 		{
 			float tFriction = (velocity.GetLength() * velocity.GetLength()) * friction;
 			Vector2 frictionVector = velocity.normalized * tFriction * deltaTime;

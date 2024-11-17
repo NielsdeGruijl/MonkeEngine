@@ -11,12 +11,9 @@
 
 extern float deltaTime;
 
-void CollisionChecker::AddCollider(std::shared_ptr<AABBCollider> pCollider, bool pIsPawn)
+void CollisionChecker::AddCollider(std::shared_ptr<AABBCollider> pCollider)
 {
-	if (pIsPawn)
-		pawnColliders.push_back(pCollider);
-	else
-		objectColliders.push_back(pCollider);
+	objectColliders.push_back(pCollider);
 }
 
 void CollisionChecker::AddCharacterController(std::shared_ptr<CharacterController> controller)
@@ -26,154 +23,88 @@ void CollisionChecker::AddCharacterController(std::shared_ptr<CharacterControlle
 
 void CollisionChecker::CheckCollisions()
 {
-	for (std::shared_ptr<AABBCollider> pawnCollider : pawnColliders)
+	Timer timer;
+
+	for (size_t i = 0; i < characterControllers.size(); i++)
 	{
-		for (std::shared_ptr<AABBCollider> objectCollider : objectColliders)
+		for (size_t j = 0; j < objectColliders.size(); j++)
 		{
-			if (pawnCollider->CheckCollision(objectCollider))
-				DiscreteCollision(pawnCollider, objectCollider);
+			if (characterControllers[i]->collider == objectColliders[j])
+				continue;
+
+			if (characterControllers[i]->collider->CheckCollision(objectColliders[j]))
+				PawnToObjectCollision(characterControllers[i], objectColliders[j]);
 		}
 	}
 }
 
-void CollisionChecker::CheckSweptCollisions()
+void CollisionChecker::PawnToObjectCollision(std::shared_ptr<CharacterController> pController, std::shared_ptr<AABBCollider> pCollider)
 {
-	for (std::shared_ptr<CharacterController> controller : characterControllers)
-	{
-		for (std::shared_ptr<AABBCollider> objectCollider : objectColliders)
-		{
-			if (controller->collider->CheckCollision(objectCollider))
-			{
-				ControllerCollision(controller, objectCollider);
-
-				if (!controller->collider->isColliding)
-					controller->collider->isColliding = true;
-			}
-			else
-			{
-				if(controller->collider->isColliding)
-					controller->collider->isColliding = false;
-			}
-		}
-	}
-}
-
-void CollisionChecker::DiscreteCollision(std::shared_ptr<AABBCollider> pCollider1, std::shared_ptr<AABBCollider> pCollider2)
-{
-	Pawn* pawn = static_cast<Pawn*>(pCollider1->GetObject());                  
-	Vector2 pawnVelocity = pawn->controller->velocity;
-
-	float xCollisionEntry, yCollisionEntry;
-	float xEntryTime, yEntryTime;
+	Vector2 tEntryTime = CalculateEntryTime(pController, pCollider);
 	Vector2 normal(0, 0);
 
-	if (pawnVelocity.x != 0)
+	if (tEntryTime.x > tEntryTime.y)
 	{
-		if (pawnVelocity.x > 0)
-			xCollisionEntry = pCollider2->left - pCollider1->right;
-		else
-			xCollisionEntry = pCollider2->right - pCollider1->left;
-
-		xEntryTime = xCollisionEntry / pawnVelocity.x;
-	}
-	else
-	{
-		xCollisionEntry = -std::numeric_limits<float>::infinity();
-		xEntryTime = -std::numeric_limits<float>::infinity();
-	}
-
-	if (pawnVelocity.y != 0)
-	{
-		if (pawnVelocity.y > 0)
-			yCollisionEntry = pCollider2->top - pCollider1->bottom;
-		else
-			yCollisionEntry = pCollider2->bottom - pCollider1->top;
-
-		yEntryTime = yCollisionEntry / pawnVelocity.y;
-	}
-	else
-	{
-		yCollisionEntry = -std::numeric_limits<float>::infinity();
-		yEntryTime = -std::numeric_limits<float>::infinity();
-	}
-
-	if (xEntryTime > yEntryTime)
-		normal = Vector2(1, 0);
-	else
-		normal = Vector2(0, 1);
-
-	float entryTime = std::max<float>(xEntryTime, yEntryTime);
-
-	// This if statement ensures that the collision gets resolved on the correct side of the object.
-	if (entryTime >= -1)
-	{
-		object = pCollider2->GetObject();
-		pawn->controller->HandleCollision(Collision(object, normal, entryTime));
-	}
-}
-
-void CollisionChecker::ControllerCollision(std::shared_ptr<CharacterController> controller, std::shared_ptr<AABBCollider> pCollider2)
-{
-	std::shared_ptr<AABBCollider> pCollider1 = controller->collider;
-	Vector2 pawnVelocity = controller->velocity;
-
-	float xCollisionEntry, yCollisionEntry;
-	float xEntryTime, yEntryTime;
-	Vector2 normal(0, 0);
-
-	if (pawnVelocity.x != 0)
-	{
-		if (pawnVelocity.x > 0)
-			xCollisionEntry = pCollider2->left - pCollider1->right;
-		else
-			xCollisionEntry = pCollider2->right - pCollider1->left;
-
-		xEntryTime = xCollisionEntry / pawnVelocity.x;
-	}
-	else
-	{
-		xCollisionEntry = -std::numeric_limits<float>::infinity();
-		xEntryTime = -std::numeric_limits<float>::infinity();
-	}
-
-	if (pawnVelocity.y != 0)
-	{
-		if (pawnVelocity.y > 0)
-			yCollisionEntry = pCollider2->top - pCollider1->bottom;
-		else
-			yCollisionEntry = pCollider2->bottom - pCollider1->top;
-
-		yEntryTime = yCollisionEntry / pawnVelocity.y;
-	}
-	else
-	{
-		yCollisionEntry = -std::numeric_limits<float>::infinity();
-		yEntryTime = -std::numeric_limits<float>::infinity();
-	}
-
-	if (xEntryTime > yEntryTime)
-	{
-		if (pawnVelocity.x > 0)
+		if (pController->velocity.x > 0)
 			normal = Vector2(-1, 0);
 		else
 			normal = Vector2(1, 0);
 	}
 	else
 	{
-		if(pawnVelocity.y > 0)
+		if(pController->velocity.y > 0)
 			normal = Vector2(0, -1);
 		else
 			normal = Vector2(0, 1);
 	}
 
-	float entryTime = std::max<float>(xEntryTime, yEntryTime);
+	float entryTime = std::max<float>(tEntryTime.x, tEntryTime.y);
 
-	// This if statement ensures that the collision gets resolved on the correct side of the object.
 	if (entryTime >= -1)
 	{
-		object = pCollider2->GetObject();
-		controller->HandleCollision(Collision(object, normal, entryTime));
+		object = pCollider->GetObject();
+		pController->HandleCollision(Collision(object, normal, entryTime));
 	}
+}
+
+Vector2 CollisionChecker::CalculateEntryTime(std::shared_ptr<CharacterController> pController, std::shared_ptr<AABBCollider> pObjectCollider)
+{
+	std::shared_ptr<AABBCollider> controllerCollider = pController->collider;
+	Vector2 pawnVelocity = pController->velocity;
+	float xCollisionEntry, yCollisionEntry;
+	float xEntryTime, yEntryTime;
+
+	if (pawnVelocity.x != 0)
+	{
+		if (pawnVelocity.x > 0)
+			xCollisionEntry = pObjectCollider->left - controllerCollider->right;
+		else
+			xCollisionEntry = pObjectCollider->right - controllerCollider->left;
+
+		xEntryTime = xCollisionEntry / pawnVelocity.x;
+	}
+	else
+	{
+		xCollisionEntry = -std::numeric_limits<float>::infinity();
+		xEntryTime = -std::numeric_limits<float>::infinity();
+	}
+
+	if (pawnVelocity.y != 0)
+	{
+		if (pawnVelocity.y > 0)
+			yCollisionEntry = pObjectCollider->top - controllerCollider->bottom;
+		else
+			yCollisionEntry = pObjectCollider->bottom - controllerCollider->top;
+
+		yEntryTime = yCollisionEntry / pawnVelocity.y;
+	}
+	else
+	{
+		yCollisionEntry = -std::numeric_limits<float>::infinity();
+		yEntryTime = -std::numeric_limits<float>::infinity();
+	}
+
+	return Vector2(xEntryTime, yEntryTime);
 }
 
 // Clean up DiscreteCollision function and make it pretty :)

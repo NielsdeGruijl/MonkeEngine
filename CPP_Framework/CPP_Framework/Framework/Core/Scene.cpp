@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "../Math/Timer.h"
 
 Scene::Scene() 
 {
@@ -35,30 +36,31 @@ void Scene::UpdateScene()
 
 void Scene::OnLoad()
 {
+	Timer timer;
 	for (Object* object : objects)
 	{
 		object->OnLoad();
+
+		RegisterCollider(object);
 	}
 
 	isLoaded = true;
 }
 
+void Scene::RegisterCollider(Object* object)
+{
+	std::shared_ptr<CharacterController> controller;
+	std::shared_ptr <AABBCollider> collider;
+
+	if(object->TryGetComponent(controller))
+		collisionChecker.AddCharacterController(controller);
+	if (object->TryGetComponent(collider))
+		collisionChecker.AddCollider(collider);
+}
+
 void Scene::AddObject(Object* object)
 {
 	objects.push_back(object);
-
-	if (Pawn* pawn = dynamic_cast<Pawn*>(object))
-	{
-		if (std::shared_ptr<CharacterController> cotroller = pawn->GetComponent<CharacterController>())
-			collisionChecker.AddCharacterController(cotroller);
-		//if (std::shared_ptr<AABBCollider> collider = pawn->GetComponent<AABBCollider>())
-		//	collisionChecker.AddCollider(collider, true);
-	}
-	else
-	{
-		if (std::shared_ptr<AABBCollider> collider = object->GetComponent<AABBCollider>())
-			collisionChecker.AddCollider(collider);
-	}
 }
 
 Object* Scene::FindObjectByName(std::string objectId) const

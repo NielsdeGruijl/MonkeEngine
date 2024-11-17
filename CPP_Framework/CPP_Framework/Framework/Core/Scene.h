@@ -19,6 +19,8 @@ public:
 
 	virtual void OnLoad();
 
+	void RegisterCollider(Object* object);
+
 	void AddObject(Object* object);
 	Object* FindObjectByName(std::string objectId) const;
 

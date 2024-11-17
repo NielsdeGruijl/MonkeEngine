@@ -24,6 +24,5 @@ public:
 	void SetPosition(Vector2 pPosition);
 	void Move(Vector2 pVelocity);
 
-	bool CheckCollision(AABBCollider* pCollider);
 	bool CheckCollision(std::shared_ptr<AABBCollider> pCollider);
 };

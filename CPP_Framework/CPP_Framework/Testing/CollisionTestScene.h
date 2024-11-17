@@ -18,4 +18,5 @@ private:
 	Player player;
 
 	Pawn pawn;
+	Pawn pawn1;
 };
