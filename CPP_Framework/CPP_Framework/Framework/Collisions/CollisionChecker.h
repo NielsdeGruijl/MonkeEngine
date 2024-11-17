@@ -2,23 +2,21 @@
 
 #include <iostream>
 #include "AABBCollider.h"
-#include "../Components/CharacterController.h"
+#include "../Components/RigidBody.h"
 
 class CollisionChecker
 {
 public:
 	void AddCollider(std::shared_ptr<AABBCollider> pCollider);
-	void AddCharacterController(std::shared_ptr<CharacterController> controller);
+	void AddRigidBody(std::shared_ptr<RigidBody> pRigidBody);
 
 	void CheckCollisions();
-	void PawnToObjectCollision(std::shared_ptr<CharacterController> pController, std::shared_ptr<AABBCollider> pCollider);
+	void PawnToObjectCollision(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<AABBCollider> pOtherCollider);
+	void PawnToPawnCollision(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<RigidBody> pOtherRigidBody);
 
-	Vector2 CalculateEntryTime(std::shared_ptr<CharacterController> pController, std::shared_ptr<AABBCollider> pCollider);
+	Vector2 CalculateCollisionTime(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<AABBCollider> pObjectCollider);
 
 private:
-	std::vector<std::shared_ptr<CharacterController>> characterControllers;
+	std::vector<std::shared_ptr<RigidBody>> rigidBodies;
 	std::vector<std::shared_ptr<AABBCollider>> objectColliders;
-
-	Object* object;
-	Object* object1;
 };

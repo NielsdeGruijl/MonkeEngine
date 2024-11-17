@@ -1,26 +1,29 @@
 #pragma once
 
-#include <iostream>
-#include "../Math//Vector2.h"
 #include "../Objects/Object.h"
+#include "../Components/RigidBody.h"
 
 struct Collision
 {
-	Collision(Object* pOther, Vector2 pNormal, float pEntryTime)
+	Collision(Object* pObject, Vector2 pNormal, float pCollisionTime)
 	{
-		other = pOther;
-		normal = pNormal;
-		entryTime = pEntryTime;
-		remainingTime = 1 + entryTime;
-	}
+		object = pObject;
+		object->TryGetComponent(rigidBody);
 
+		normal = pNormal;
+
+		collisionTime = pCollisionTime;
+		remainingTime = 1 + pCollisionTime;
+	}
 	~Collision()
 	{
 	}
 
-	Object* other;
+	Object* object;
+	std::shared_ptr<RigidBody> rigidBody;
+
 	Vector2 normal;
 
-	float entryTime;
+	float collisionTime;
 	float remainingTime;
 };

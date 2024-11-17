@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../Framework/Core/Scene.h"
-#include "../Framework/Objects/GameObject.h"
 #include "Player.h"
 
 class CollisionTestScene : public Scene

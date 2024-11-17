@@ -5,16 +5,16 @@ CollisionTestScene::CollisionTestScene()
 	   player("Player", "BlueSlime.png", 160), pawn("Pawn", "BlueSlime.png", 160), pawn1("Pawn1", "BlueSlime.png", 160)
 {
 	pawn.SetPosition(Vector2(400, 360));
-	pawn.controller->SetVelocity(Vector2(250, 0));
-	pawn.controller->gravity = 0;
-	pawn.controller->bounciness = 1;
+	pawn.rigidBody->SetVelocity(Vector2(250, 0));
+	pawn.rigidBody->gravity = 0;
+	pawn.rigidBody->bounciness = 1;
 
 	pawn1.SetPosition(Vector2(1230, 360));
-	pawn1.controller->SetVelocity(Vector2(-250, 0));
-	pawn1.controller->gravity = 0;
-	pawn1.controller->drag = 0;
-	pawn1.controller->friction = 0;
-	//pawn1.controller->bounciness = 1;
+	pawn1.rigidBody->SetVelocity(Vector2(-250, 0));
+	pawn1.rigidBody->gravity = 0;
+	pawn1.rigidBody->drag = 0;
+	pawn1.rigidBody->friction = 0;
+	//pawn1.rigidBody->bounciness = 1;
 
 	obstacle.SetPosition(Vector2(1280, 360));
 	obstacle.SetScale(2);
@@ -25,8 +25,8 @@ CollisionTestScene::CollisionTestScene()
 	obstacle2.AddComponent<AABBCollider>(obstacle2.GetSize(), obstacle2.position);
 
 	player.SetPosition(Vector2(50, 360));
-	player.controller->friction = 0;
-	//player.controller->bounciness = 1;
+	player.rigidBody->friction = 0;
+	//player.rigidBody->bounciness = 1;
 
 	//AddObject(&pawn);
 	AddObject(&pawn1);

@@ -49,11 +49,11 @@ void Scene::OnLoad()
 
 void Scene::RegisterCollider(Object* object)
 {
-	std::shared_ptr<CharacterController> controller;
+	std::shared_ptr<RigidBody> rigidBody;
 	std::shared_ptr <AABBCollider> collider;
 
-	if(object->TryGetComponent(controller))
-		collisionChecker.AddCharacterController(controller);
+	if(object->TryGetComponent(rigidBody))
+		collisionChecker.AddRigidBody(rigidBody);
 	if (object->TryGetComponent(collider))
 		collisionChecker.AddCollider(collider);
 }

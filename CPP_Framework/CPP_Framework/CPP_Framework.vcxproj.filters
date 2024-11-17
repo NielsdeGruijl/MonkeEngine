@@ -36,7 +36,7 @@
     <ClCompile Include="Testing\TestScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Components\CharacterController.cpp">
+    <ClCompile Include="Framework\Components\RigidBody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Input\InputHandler.cpp">
@@ -89,7 +89,7 @@
     <ClInclude Include="Testing\TestScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Components\CharacterController.h">
+    <ClInclude Include="Framework\Components\RigidBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Math\Timer.h">

@@ -3,7 +3,7 @@
 Pawn::Pawn(std::string pID, std::string pFileName, int pPixelsPerUnit) 
 	: GameObject(pID, pFileName, pPixelsPerUnit)
 {
-	controller = AddComponent<CharacterController>(1, 1, 1);
+	rigidBody = AddComponent<RigidBody>(1, 1, 1);
 }
 
 Pawn::~Pawn()

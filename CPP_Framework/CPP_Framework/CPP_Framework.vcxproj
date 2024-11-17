@@ -26,7 +26,7 @@
     <ClCompile Include="Framework\Core\SceneManager.cpp" />
     <ClCompile Include="Framework\Input\InputActionMap.cpp" />
     <ClCompile Include="Framework\Objects\GameObject.cpp" />
-    <ClCompile Include="Framework\Components\CharacterController.cpp" />
+    <ClCompile Include="Framework\Components\RigidBody.cpp" />
     <ClCompile Include="Framework\Input\InputHandler.cpp" />
     <ClCompile Include="Framework\Main.cpp" />
     <ClCompile Include="Framework\Objects\Object.cpp" />
@@ -47,7 +47,7 @@
     <ClInclude Include="Framework\Core\SceneManager.h" />
     <ClInclude Include="Framework\Input\InputActionMap.h" />
     <ClInclude Include="Framework\Objects\GameObject.h" />
-    <ClInclude Include="Framework\Components\CharacterController.h" />
+    <ClInclude Include="Framework\Components\RigidBody.h" />
     <ClInclude Include="Framework\Input\InputHandler.h" />
     <ClInclude Include="Framework\Objects\Object.h" />
     <ClInclude Include="Framework\Objects\Pawn.h" />

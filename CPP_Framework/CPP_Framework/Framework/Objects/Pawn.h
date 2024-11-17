@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
-#include "../Components/CharacterController.h"
+#include "../Components/RigidBody.h"
 #include "../Collisions/AABBCollider.h"
 
 class Pawn : public GameObject
@@ -12,5 +12,5 @@ public:
 
 	void Update() override;
 
-	std::shared_ptr<CharacterController> controller;
+	std::shared_ptr<RigidBody> rigidBody;
 };
