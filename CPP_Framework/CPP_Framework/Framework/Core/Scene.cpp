@@ -10,17 +10,6 @@ Scene::~Scene()
 {
 }
 
-void Scene::RenderScene(sf::RenderWindow* renderWindow)
-{
-	if (!isLoaded)
-		return;
-
-	for (size_t i = 0; i < objects.size(); i++)
-	{
-		objects[i]->Render(renderWindow);
-	}
-}
-
 void Scene::UpdateScene()
 {
 	if (!isLoaded)
@@ -33,6 +22,26 @@ void Scene::UpdateScene()
 
 	//collisionChecker.CheckCollisions();
 }
+
+void Scene::CollsionUpdate()
+{
+	if (!isLoaded)
+		return;
+
+	collisionChecker.CheckCollisions();
+}
+
+void Scene::RenderScene(sf::RenderWindow* renderWindow)
+{
+	if (!isLoaded)
+		return;
+
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		objects[i]->Render(renderWindow);
+	}
+}
+
 
 void Scene::OnLoad()
 {

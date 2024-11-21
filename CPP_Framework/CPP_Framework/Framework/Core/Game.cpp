@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "../Math/Timer.h"
 
 extern const int unitSize = 100;
 float deltaTime;
@@ -45,6 +46,7 @@ void Game::Run()
 
 		if (sceneManager.GetCurrentScene() != nullptr)
 		{
+			sceneManager.GetCurrentScene()->CollsionUpdate();
 			sceneManager.GetCurrentScene()->UpdateScene();
 			sceneManager.GetCurrentScene()->RenderScene(&renderWindow);
 		}

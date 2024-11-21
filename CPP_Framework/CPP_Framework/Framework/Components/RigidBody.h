@@ -15,14 +15,19 @@ public:
 	enum VelocityType
 	{
 		continuous,
-		instant
+		instant,
+		velocityChange
 	};
 
 	Vector2 velocity;
-	float drag;
-	float gravity;
+
+	float mass = 1;
+	float drag = 1;
+	float gravity = 1;
 	float friction;
 	float bounciness;
+
+	bool isGrounded;
 
 public:
 	RigidBody(float pDrag = 1, float pGravity = 1, float pFriction = 1, float pBounciness = 0);
@@ -33,12 +38,16 @@ public:
 	void Update() override;
 
 	void SetVelocity(Vector2 pVelocity);
-	void AddVelocity(Vector2 pVelocity, VelocityType pVelocityType = continuous);
+	void AddForce(Vector2 pVelocity, VelocityType pVelocityType = continuous);
 
 	void HandleCollision(Collision collision);
 
 private:
+	Vector2 dragForce;
+	Vector2 gravityForce;
+
+private:
 	void Move();
-	void ApplyDrag();
+	void CalculateDrag();
 	void ApplyGravity();
 };

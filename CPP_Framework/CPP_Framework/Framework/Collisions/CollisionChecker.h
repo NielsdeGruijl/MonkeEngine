@@ -16,6 +16,10 @@ public:
 
 	Vector2 CalculateCollisionTime(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<AABBCollider> pObjectCollider);
 
+	Vector2 ElasticCollision(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<RigidBody> pOtherRigidBody);
+
+	void CollisionVelocityHandling(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<RigidBody> pOtherRigidBody, Vector2 pNormal);
+
 private:
 	std::vector<std::shared_ptr<RigidBody>> rigidBodies;
 	std::vector<std::shared_ptr<AABBCollider>> objectColliders;

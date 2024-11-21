@@ -9,10 +9,11 @@ CollisionTestScene::CollisionTestScene()
 	pawn.rigidBody->gravity = 0;
 	pawn.rigidBody->bounciness = 1;
 
-	pawn1.SetPosition(Vector2(1230, 360));
-	pawn1.rigidBody->SetVelocity(Vector2(-250, 0));
+	pawn1.SetPosition(Vector2(640, 360));
+	//pawn1.rigidBody->SetVelocity(Vector2(-2, 0));
 	pawn1.rigidBody->gravity = 0;
-	pawn1.rigidBody->drag = 0;
+	pawn1.rigidBody->mass = 1;
+	pawn1.rigidBody->drag = 1;
 	pawn1.rigidBody->friction = 0;
 	//pawn1.rigidBody->bounciness = 1;
 
@@ -24,7 +25,10 @@ CollisionTestScene::CollisionTestScene()
 	obstacle2.SetScale(2);
 	obstacle2.AddComponent<AABBCollider>(obstacle2.GetSize(), obstacle2.position);
 
-	player.SetPosition(Vector2(50, 360));
+	player.SetPosition(Vector2(250, 360));
+	player.rigidBody->gravity = 0;
+	player.rigidBody->mass = 1;
+	player.rigidBody->drag = 1;
 	player.rigidBody->friction = 0;
 	//player.rigidBody->bounciness = 1;
 
@@ -42,6 +46,6 @@ CollisionTestScene::~CollisionTestScene()
 void CollisionTestScene::UpdateScene()
 {
 	Scene::UpdateScene();
-	collisionChecker.CheckCollisions();
-	//collisionChecker.CheckPawnToPawn();
+
+	pawn1.rigidBody->AddForce(Vector2(-2, -0.5f));
 }

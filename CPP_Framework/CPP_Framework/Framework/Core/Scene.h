@@ -14,8 +14,9 @@ public:
 	Scene();
 	~Scene();
 	 
-	virtual void RenderScene(sf::RenderWindow* renderWindow);
 	virtual void UpdateScene();
+	virtual void CollsionUpdate();
+	virtual void RenderScene(sf::RenderWindow* renderWindow);
 
 	virtual void OnLoad();
 

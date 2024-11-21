@@ -11,7 +11,15 @@ public:
 	Vector2 position;
 
 	bool isTrigger;
-	bool isColliding;
+
+	enum collisionState
+	{
+		enter,
+		stay,
+		exit
+	};
+
+	collisionState currentCollisionState;
 
 	float left, right, top, bottom;
 

@@ -15,6 +15,8 @@ RigidBody::RigidBody(float pDrag, float pGravity, float pFriction, float pBounci
 	gravity = pGravity;
 	friction = pFriction;
 	bounciness = pBounciness;
+
+	isGrounded = false;
 }
 
 RigidBody::~RigidBody()
@@ -38,7 +40,7 @@ void RigidBody::Update()
 
 	if (velocity.GetLength() > 0)
 	{
-		ApplyDrag();
+		CalculateDrag();
 		Move();
 	}
 }
@@ -48,15 +50,20 @@ void RigidBody::SetVelocity(Vector2 pVelocity)
 	velocity = pVelocity;
 }
 
-void RigidBody::AddVelocity(Vector2 pVelocity, VelocityType pVelocityType)
+void RigidBody::AddForce(Vector2 pForce, VelocityType pVelocityType)
 {
+	Vector2 tForce = Vector2(pForce.x / mass, pForce.y / mass);
+
 	switch (pVelocityType)
 	{
 	case RigidBody::continuous:
-		velocity += ((pVelocity) * (float)unitSize) * deltaTime;
+		velocity += tForce * deltaTime;
 		break;
 	case RigidBody::instant:
-		velocity += pVelocity * (float)unitSize;
+		velocity += tForce;
+		break;
+	case RigidBody::velocityChange:
+		velocity = tForce;
 		break;
 	}
 }
@@ -86,8 +93,11 @@ void RigidBody::HandleCollision(Collision collision)
 
 	//std::cout << object->GetID() << ": " << newPos.printVector();
 
-	float dotProduct = (velocity.x * collision.normal.y + velocity.y * collision.normal.x) * collision.remainingTime;
-	velocity = Vector2(dotProduct * collision.normal.y, dotProduct * collision.normal.x);
+	if (collision.rigidBody == nullptr)
+	{
+		float dotProduct = (velocity.x * collision.normal.y + velocity.y * collision.normal.x) * collision.remainingTime;
+		velocity = Vector2(dotProduct * collision.normal.y, dotProduct * collision.normal.x);
+	}
 
 	if (friction > 0 && velocity.GetLength() > 0)
 	{
@@ -99,15 +109,14 @@ void RigidBody::HandleCollision(Collision collision)
 
 void RigidBody::Move()
 {
-	object->SetPosition(object->position + velocity * deltaTime);
+	velocity -= dragForce + gravityForce;
+	object->SetPosition(object->position + velocity * deltaTime * (float)unitSize);
 }
 
-void RigidBody::ApplyDrag()
+void RigidBody::CalculateDrag()
 {
 	float tDrag = velocity.GetLength() * drag;
-	Vector2 dragVector = (velocity.normalized) * tDrag * deltaTime;
-
-	velocity -= dragVector;
+	dragForce = velocity.normalized * tDrag * deltaTime;
 
 	if (velocity.GetLength() <= 0.001f)
 		velocity = Vector2(0, 0);
@@ -115,5 +124,8 @@ void RigidBody::ApplyDrag()
 
 void RigidBody::ApplyGravity()
 {
-	velocity += Vector2(0, gravity);
+	if (isGrounded)
+		gravityForce = Vector2(0, 0);
+	else
+		gravityForce = Vector2(0, gravity);
 }

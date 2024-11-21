@@ -18,7 +18,7 @@ private:
 	InputActionMap defaultInputActionMap;
 	InputHandler input;
 
-	Vector2 velocity;
+	Vector2 inputMoveDirection;
 
 	float moveSpeed;
 	float dashSpeed;
