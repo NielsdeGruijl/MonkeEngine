@@ -47,5 +47,5 @@ void CollisionTestScene::UpdateScene()
 {
 	Scene::UpdateScene();
 
-	pawn1.rigidBody->AddForce(Vector2(-2, -0.5f));
+	//pawn1.rigidBody->AddForce(Vector2(-2, -0.5f));
 }

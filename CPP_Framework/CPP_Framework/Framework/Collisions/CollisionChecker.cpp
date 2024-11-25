@@ -151,56 +151,47 @@ void CollisionChecker::PawnToPawnCollision(std::shared_ptr<RigidBody> pRigidBody
 
 void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<RigidBody> pOtherRigidBody, Vector2 pNormal)
 {
-	//std::cout << pRigidBody->GetObject()->GetID() << "\n";
-
 	float totalMass = pRigidBody->mass + pOtherRigidBody->mass;
-	totalMass = 1 / totalMass;
-
-	Vector2 normal = pOtherRigidBody->collider->position - pRigidBody->collider->position;
-	normal.Normalize();
-
-	//Vector2 velo = pRigidBody->velocity - pOtherRigidBody->velocity;
-	Vector2 relativeVelocity = pNormal * (pRigidBody->velocity.GetLength() - pOtherRigidBody->velocity.GetLength());
-	Vector2 impulseVelocity = relativeVelocity * -(1) * totalMass;
-
-	std::cout << relativeVelocity.printVector();
+	totalMass = 1 / totalMass; 
 
 	Vector2 aImpulse, bImpulse;
-
 	float aMass = 1 / pRigidBody->mass;
 	float bMass = 1 / pOtherRigidBody->mass;
 
-	//if (pNormal.x == 0)
-	//{
-	//	aImpulse = impulseVelocity * Vector2(aMass * 0.6f, aMass * pNormal.y);
-	//	bImpulse = impulseVelocity * Vector2(bMass * 0.4f, bMass * -pNormal.y);
-	//}
-	//if(pNormal.y == 0)
-	//{
-	//	aImpulse = impulseVelocity * Vector2(aMass * -pNormal.x, aMass * 0.6f);
-	//	bImpulse = impulseVelocity * Vector2(bMass * -pNormal.x, bMass * 0.4f);
-	//}
+	if (pNormal.x == 0)
+	{
+		Vector2 relativeVelocity = Vector2(pRigidBody->velocity.x * 0.2f, pRigidBody->velocity.y) - pOtherRigidBody->velocity;
+		relativeVelocity *= totalMass;
 
-	aImpulse = impulseVelocity * Vector2(aMass * pNormal.x, aMass * 0.6f);
-	bImpulse = impulseVelocity * Vector2(bMass * -pNormal.x, bMass * -0.4f);
+		bImpulse = relativeVelocity * bMass;
 
-	pRigidBody->AddForce(aImpulse, RigidBody::instant);
+		relativeVelocity = Vector2(relativeVelocity.x, abs(relativeVelocity.y));
+		aImpulse = relativeVelocity * Vector2(-1, pNormal.y) * aMass; 
+	}
+	if(pNormal.y == 0)
+	{
+		float xVelocity = (pRigidBody->velocity.x - pOtherRigidBody->velocity.x) * totalMass;
+		float yVelocity = (pRigidBody->velocity.y * 0.4f - pOtherRigidBody->velocity.y) * totalMass;
+
+		//Vector2 relativeVelocity = Vector2(pRigidBody->velocity.x, yVelocity) - (pOtherRigidBody->velocity);
+		//relativeVelocity *= totalMass;
+
+		Vector2 relativeVelocity = Vector2(xVelocity, yVelocity);
+
+		bImpulse = relativeVelocity;
+		aImpulse = Vector2(abs(xVelocity), yVelocity) * Vector2(pNormal.x, -1);
+	}
+
+	//std::cout << "============\n";
+	//std::cout << "aImpulse: " << aImpulse.printVector();
+	//std::cout << "bImpulse: " << bImpulse.printVector();
+	//std::cout << "Relative: " << relativeVelocity.printVector();
+
 	pOtherRigidBody->AddForce(bImpulse, RigidBody::instant);
-
-	//Vector2 tVelocity = (totalVelocity * totalMass * absNormal) + pRigidBody->velocity * Vector2(absNormal.y, absNormal.x);
-	//pRigidBody->SetVelocity(tVelocity);
-	//
-	//float tMass = totalMass * 0.4f;
-	//if (absNormal.x == 0)
-	//	totalVelocity *= Vector2(tMass, totalMass);
-	//if (absNormal.y == 0)
-	//	totalVelocity *= Vector2(totalMass, tMass);
-	//
-	//pOtherRigidBody->SetVelocity(totalVelocity);
-	//
-	//std::cout << "==================\n";
-	//std::cout << pRigidBody->velocity.printVector();
-	//std::cout << pOtherRigidBody->velocity.printVector();
+	pRigidBody->AddForce(aImpulse, RigidBody::instant);
+	
+	//std::cout << pRigidBody->GetObject()->GetID() << ", " << pRigidBody->velocity.printVector();
+	//std::cout << pOtherRigidBody->GetObject()->GetID() << ", " << pOtherRigidBody->velocity.printVector();
 }
 
 Vector2 CollisionChecker::CalculateCollisionTime(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<AABBCollider> pObjectCollider)

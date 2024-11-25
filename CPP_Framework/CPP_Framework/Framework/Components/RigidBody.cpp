@@ -52,7 +52,7 @@ void RigidBody::SetVelocity(Vector2 pVelocity)
 
 void RigidBody::AddForce(Vector2 pForce, VelocityType pVelocityType)
 {
-	Vector2 tForce = Vector2(pForce.x / mass, pForce.y / mass);
+	Vector2 tForce = pForce * (1 / mass);
 
 	switch (pVelocityType)
 	{
