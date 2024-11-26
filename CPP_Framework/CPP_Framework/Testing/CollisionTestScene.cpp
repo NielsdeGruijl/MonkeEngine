@@ -12,7 +12,7 @@ CollisionTestScene::CollisionTestScene()
 	pawn1.SetPosition(Vector2(640, 360));
 	//pawn1.rigidBody->SetVelocity(Vector2(-2, 0));
 	pawn1.rigidBody->gravity = 0;
-	pawn1.rigidBody->mass = 1;
+	pawn1.rigidBody->mass = 1000;
 	pawn1.rigidBody->drag = 1;
 	pawn1.rigidBody->friction = 0;
 	//pawn1.rigidBody->bounciness = 1;
@@ -48,4 +48,8 @@ void CollisionTestScene::UpdateScene()
 	Scene::UpdateScene();
 
 	//pawn1.rigidBody->AddForce(Vector2(-2, -0.5f));
+
+	//std::cout << "============\n";
+	//std::cout << "player: " << player.rigidBody->velocity.printVector();
+	//std::cout << "pawn: " << pawn1.rigidBody->velocity.printVector();
 }
