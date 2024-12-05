@@ -7,6 +7,8 @@
 class CollisionChecker
 {
 public:
+	float collisionCount = 0;
+public:
 	void AddCollider(std::shared_ptr<AABBCollider> pCollider);
 	void AddRigidBody(std::shared_ptr<RigidBody> pRigidBody);
 

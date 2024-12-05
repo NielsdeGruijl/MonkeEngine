@@ -16,6 +16,7 @@ Player::~Player()
 void Player::Update()
 {
 	Pawn::Update();
+
 	inputMoveDirection = Vector2((float)input.GetHorizontalAxis(), (float)input.GetVerticalAxis());
 
 	if (inputMoveDirection.GetLength() > 0)
@@ -35,4 +36,19 @@ void Player::Update()
 void Player::SetActionMap(InputActionMap* playerInputActionMap)
 {
 	input.SetInputActionMap(playerInputActionMap);
+}
+
+void Player::OnCollisionEnter()
+{
+	std::cout << "enter\n";
+}
+
+void Player::OnCollisionStay()
+{
+	std::cout << "stay\n";
+}
+
+void Player::OnCollisionExit()
+{
+	std::cout << "exit\n";
 }

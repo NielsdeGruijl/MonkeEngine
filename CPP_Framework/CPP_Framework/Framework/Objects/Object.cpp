@@ -31,6 +31,18 @@ void Object::OnLoad()
 	}
 }
 
+void Object::OnCollisionEnter()
+{
+}
+
+void Object::OnCollisionStay()
+{
+}
+
+void Object::OnCollisionExit()
+{
+}
+
 void Object::SetScale(const Vector2 pScale)
 {
 	scale = pScale;
@@ -45,6 +57,10 @@ void Object::SetPosition(const Vector2 pPosition)
 void Object::SetOrigin(const Vector2 pOrigin)
 {
 	origin = size * pOrigin;
+}
+
+void Object::SetCollisionEvents()
+{
 }
 
 std::string Object::GetID() const

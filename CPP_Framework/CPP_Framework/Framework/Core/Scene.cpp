@@ -63,7 +63,7 @@ void Scene::RegisterCollider(Object* object)
 
 	if(object->TryGetComponent(rigidBody))
 		collisionChecker.AddRigidBody(rigidBody);
-	if (object->TryGetComponent(collider))
+	else if (object->TryGetComponent(collider))
 		collisionChecker.AddCollider(collider);
 }
 

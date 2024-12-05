@@ -37,10 +37,10 @@ public:
 
 	void Update() override;
 
-	void SetVelocity(Vector2 pVelocity);
 	void AddForce(Vector2 pVelocity, VelocityType pVelocityType = continuous);
 
 	void HandleCollision(Collision collision);
+	void HandleBounce(std::shared_ptr<RigidBody> pRigidBody);
 
 private:
 	Vector2 dragForce;

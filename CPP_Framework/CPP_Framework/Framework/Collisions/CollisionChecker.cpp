@@ -25,24 +25,26 @@ void CollisionChecker::CheckCollisions()
 {
 	for (size_t i = 0; i < rigidBodies.size(); i++)
 	{
-		//for (size_t j = 0; j < objectColliders.size(); j++)
-		//{
-		//	if (rigidBodies[i]->collider == objectColliders[j])
-		//		continue;
-
-		//	if (rigidBodies[i]->collider->CheckCollision(objectColliders[j]))
-		//		PawnToObjectCollision(rigidBodies[i], objectColliders[j]);
-		//}
+		for (size_t j = 0; j < objectColliders.size(); j++)
+		{
+			if (rigidBodies[i]->collider->CheckCollision(objectColliders[j]))
+			{
+				PawnToObjectCollision(rigidBodies[i], objectColliders[j]);
+				collisionCount++;
+				//std::cout << collisionCount << " object \n";
+			}
+		}
 
 		for (size_t j = i + 1; j < rigidBodies.size(); j++)
 		{
 			if (rigidBodies[i] == rigidBodies[j])
 				continue;
 
-
 			if (rigidBodies[i]->collider->CheckCollision(rigidBodies[j]->collider))
 			{
 				PawnToPawnCollision(rigidBodies[i], rigidBodies[j]);
+				collisionCount++;
+				//std::cout << collisionCount << " pawn \n";
 			}
 		}
 	}
@@ -51,7 +53,7 @@ void CollisionChecker::CheckCollisions()
 void CollisionChecker::PawnToObjectCollision(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<AABBCollider> pObjectCollider)
 {
 	Vector2 collisionTime = CalculateCollisionTime(pRigidBody, pObjectCollider);
-	Vector2 normal(0, 0);
+	Vector2 normal;
 
 	if (collisionTime.x > collisionTime.y)
 	{
@@ -79,15 +81,12 @@ void CollisionChecker::PawnToObjectCollision(std::shared_ptr<RigidBody> pRigidBo
 
 void CollisionChecker::PawnToPawnCollision(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<RigidBody> pOtherRigidBody)
 {
-	Vector2 normal;
-	Vector2 otherNormal;
+	Vector2 normal, otherNormal;
 	Vector2 collisionTime = CalculateCollisionTime(pRigidBody, pOtherRigidBody->collider);
 	Vector2 otherCollisionTime = CalculateCollisionTime(pOtherRigidBody, pRigidBody->collider);
-	
+
 	float shortestCollisionTime = std::max<float>(collisionTime.x, collisionTime.y);
 	float otherShortestCollisionTime = std::max<float>(otherCollisionTime.x, otherCollisionTime.y);
-
-	//ElasticCollision(pRigidBody, pOtherRigidBody);
 
 	if (collisionTime.x > collisionTime.y)
 	{
@@ -104,26 +103,7 @@ void CollisionChecker::PawnToPawnCollision(std::shared_ptr<RigidBody> pRigidBody
 			normal = Vector2(0, 1);
 	}
 
-	if (otherCollisionTime.x > otherCollisionTime.y)
-	{
-		if (pOtherRigidBody->velocity.x > 0)
-			otherNormal = Vector2(-1, 0);
-		else
-			otherNormal = Vector2(1, 0);
-	}
-	else
-	{
-		if (pOtherRigidBody->velocity.y > 0)
-			otherNormal = Vector2(0, -1);
-		else
-			otherNormal = Vector2(0, 1);
-	}
-
-	//std::cout << "player : " << pOtherRigidBody->velocity.printVector();
-	//std::cout << "pawn: " << pRigidBody->velocity.printVector();
-
-	//std::cout << shortestCollisionTime << ", ";
-	//std::cout << otherShortestCollisionTime << "\n";
+	otherNormal = normal * -1;
 
 	if (shortestCollisionTime > otherShortestCollisionTime)
 	{
@@ -131,8 +111,7 @@ void CollisionChecker::PawnToPawnCollision(std::shared_ptr<RigidBody> pRigidBody
 			return;
 
 		Object* object = pOtherRigidBody->GetObject();
-		//if (pRigidBody->collider->currentCollisionState == pRigidBody->collider->enter)
-			pRigidBody->HandleCollision(Collision(object, normal, shortestCollisionTime));
+		pRigidBody->HandleCollision(Collision(object, normal, shortestCollisionTime));
 
 		CollisionVelocityHandling(pRigidBody, pOtherRigidBody, normal);
 	}
@@ -142,8 +121,7 @@ void CollisionChecker::PawnToPawnCollision(std::shared_ptr<RigidBody> pRigidBody
 			return;
 
 		Object* object = pRigidBody->GetObject();
-		//if (pRigidBody->collider->currentCollisionState == pRigidBody->collider->enter)
-			pOtherRigidBody->HandleCollision(Collision(object, otherNormal, otherShortestCollisionTime));
+		pOtherRigidBody->HandleCollision(Collision(object, otherNormal, otherShortestCollisionTime));
 
 		CollisionVelocityHandling(pOtherRigidBody, pRigidBody, otherNormal);
 	}
@@ -152,7 +130,7 @@ void CollisionChecker::PawnToPawnCollision(std::shared_ptr<RigidBody> pRigidBody
 void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<RigidBody> pOtherRigidBody, Vector2 pNormal)
 {
 	float totalMass = pRigidBody->mass + pOtherRigidBody->mass;
-	totalMass = 1 / totalMass; 
+	totalMass = 1 / totalMass;
 
 	Vector2 aImpulse, bImpulse;
 
@@ -162,7 +140,7 @@ void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRig
 		float yVelocity = (pRigidBody->velocity.y - pOtherRigidBody->velocity.y) * totalMass;
 
 		bImpulse = Vector2(xVelocity, yVelocity);
-		aImpulse = Vector2(xVelocity, abs(yVelocity) * pOtherRigidBody->mass) * Vector2(-1, pNormal.y);
+		aImpulse = Vector2(xVelocity, yVelocity * pOtherRigidBody->mass) * -1;
 	}
 	if(pNormal.y == 0)
 	{
@@ -170,7 +148,7 @@ void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRig
 		float yVelocity = (pRigidBody->velocity.y * (0.4f / pOtherRigidBody->mass) - pOtherRigidBody->velocity.y) * totalMass;
 
 		bImpulse = Vector2(xVelocity, yVelocity);
-		aImpulse = Vector2(abs(xVelocity) * pOtherRigidBody->mass, yVelocity) * Vector2(pNormal.x, -1);
+		aImpulse = Vector2(xVelocity * pOtherRigidBody->mass, yVelocity) * -1;
 	}
 
 	pRigidBody->AddForce(aImpulse, RigidBody::instant);
@@ -239,14 +217,14 @@ Vector2 CollisionChecker::ElasticCollision(std::shared_ptr<RigidBody> pRigidBody
 	v2n = v2.Dot(normal);
 	v2t = v2.Dot(tangent);
 
-	v1n = (((mass1 - mass2) * v1n) + (2 * mass2 * v2n)) / (mass1 + mass2);
-	v2n = (((mass2 - mass1) * v2n) + (2 * mass1 * v1n)) / (mass1 + mass2);
+	float v1np = ((v1n * (mass1 - mass2)) + (2 * mass2 * v2n)) / (mass1 + mass2);
+	float v2np = ((v2n * (mass2 - mass1)) + (2 * mass1 * v1n)) / (mass1 + mass2);
 
-	Vector2 v1p = (normal * v1n) + (tangent * v1t);
-	Vector2 v2p = (normal * v2n) + (tangent * v2t);
+	Vector2 v1p = (normal * v1np) + (tangent * v1t);
+	Vector2 v2p = (normal * v2np) + (tangent * v2t);
 
-	pRigidBody->SetVelocity(v1p);
-	pOtherRigidBody->SetVelocity(v2p);
+	pRigidBody->AddForce(v1p, RigidBody::velocityChange);
+	pOtherRigidBody->AddForce(v2p, RigidBody::velocityChange);
 
 	return Vector2();
 }

@@ -14,6 +14,11 @@ public:
 
 	void SetActionMap(InputActionMap* pMap);
 
+protected:
+	void OnCollisionEnter() override;
+	void OnCollisionStay() override;
+	void OnCollisionExit() override;
+
 private:
 	InputActionMap defaultInputActionMap;
 	InputHandler input;
@@ -22,4 +27,6 @@ private:
 
 	float moveSpeed;
 	float dashSpeed;
+
+	bool balls = false;
 };

@@ -83,6 +83,6 @@ InputAction* InputActionMap::GetInputAction(std::string inputActionName)
 
 	std::cout << "Input action \"" << inputActionName << "\" does not exist.\n";
 
-	// returns default input action with sf::Keyboard::Unknown
+	// returns default input function with sf::Keyboard::Unknown
 	return nullptr; 
 }

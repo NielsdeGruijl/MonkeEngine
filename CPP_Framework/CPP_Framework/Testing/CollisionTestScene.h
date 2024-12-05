@@ -14,6 +14,8 @@ public:
 private:
 	GameObject obstacle;
 	GameObject obstacle2;
+
+	GameObject a;
 	Player player;
 
 	Pawn pawn;

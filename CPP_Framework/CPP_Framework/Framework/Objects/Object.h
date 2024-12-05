@@ -30,6 +30,12 @@ public:
 	void SetPosition(const Vector2 pPosition);
 	void SetOrigin(const Vector2 pOrigin);
 
+	void SetCollisionEvents();
+
+	std::string GetID() const;
+	Vector2 GetSize();
+
+public:
 	template <typename T, typename... ConstructorArgs>
 	std::shared_ptr<T> AddComponent(ConstructorArgs&&... pConstructorArgs)
 	{
@@ -86,8 +92,10 @@ public:
 		return tComponents;
 	}
 
-	std::string GetID() const;
-	Vector2 GetSize();
+protected:
+	virtual void OnCollisionEnter();
+	virtual void OnCollisionStay();
+	virtual void OnCollisionExit();
 
 private:
 	std::vector<std::shared_ptr<Component>> components;
