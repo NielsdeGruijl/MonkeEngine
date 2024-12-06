@@ -21,10 +21,12 @@ public:
 	Object(std::string ID);
 	~Object();
 
+	virtual void OnLoad();
+	virtual void Start();
+
 	virtual void Update();
 	virtual void Render(sf::RenderWindow* renderWindow) = 0;
 
-	virtual void OnLoad();
 
 	void SetScale(const Vector2 pScale);
 	void SetPosition(const Vector2 pPosition);
@@ -42,7 +44,7 @@ public:
 		std::shared_ptr<T> componentPointer = std::make_shared<T>(std::forward<ConstructorArgs>(pConstructorArgs)...);
 
 		std::shared_ptr<Component> tComponent = std::dynamic_pointer_cast<Component>(componentPointer);
-		tComponent->SetObject(this);
+		tComponent->object = this;
 
 		components.push_back(componentPointer);
 

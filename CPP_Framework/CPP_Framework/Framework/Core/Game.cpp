@@ -14,9 +14,9 @@ Game::Game(int horizontalResolution, int verticalResolution)
 		std::cout << "Couldn't load font!";
 	}
 
-	text.setFont(font);
-	text.setFillColor(sf::Color::White);
-	text.setPosition(1190, 10);
+	fpsCounterText.setFont(font);
+	fpsCounterText.setFillColor(sf::Color::White);
+	fpsCounterText.setPosition(1190, 10);
 }
 
 Game::~Game()
@@ -39,8 +39,9 @@ void Game::Run()
 		deltaTime = clock.restart().asSeconds();
 
 		fps++;
-		std::string str = std::to_string((int)(fps / fpsClock.getElapsedTime().asSeconds()));
-		text.setString(sf::String(str.c_str()));
+		std::string fpsCount = std::to_string((int)(fps / fpsClock.getElapsedTime().asSeconds()));
+		//std::string fpsCount = std::to_string((int)(1 / deltaTime));
+		fpsCounterText.setString(sf::String(fpsCount.c_str()));
 
 		renderWindow.clear();
 
@@ -51,7 +52,7 @@ void Game::Run()
 			sceneManager.GetCurrentScene()->RenderScene(&renderWindow);
 		}
 
-		renderWindow.draw(text);
+		renderWindow.draw(fpsCounterText);
 
 		renderWindow.display();
 	}

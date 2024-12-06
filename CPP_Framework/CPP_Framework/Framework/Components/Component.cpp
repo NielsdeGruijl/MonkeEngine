@@ -21,16 +21,6 @@ void Component::SetActive(bool pIsActive)
 	isActive = pIsActive;
 }
 
-void Component::SetObject(Object* pObject)
-{
-	object = pObject;
-}
-
-Object* Component::GetObject() const
-{
-	return object;
-}
-
 void Component::OnLoad()
 {
 }

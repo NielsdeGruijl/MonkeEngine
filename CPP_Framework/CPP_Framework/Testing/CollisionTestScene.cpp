@@ -36,8 +36,8 @@ CollisionTestScene::CollisionTestScene()
 	//AddObject(&obstacle);
 	//AddObject(&obstacle2);
 
-	a.AddComponent<RigidBody>(1, 1, 1);
-	AddObject(&a);
+	//a.AddComponent<RigidBody>(1, 1, 1);
+	//AddObject(&a);
 }
 
 CollisionTestScene::~CollisionTestScene()

@@ -43,14 +43,15 @@ void Scene::RenderScene(sf::RenderWindow* renderWindow)
 }
 
 
-void Scene::OnLoad()
+void Scene::Load()
 {
-	Timer timer;
 	for (Object* object : objects)
 	{
 		object->OnLoad();
-
+		
 		RegisterCollider(object);
+
+		object->Start();
 	}
 
 	isLoaded = true;

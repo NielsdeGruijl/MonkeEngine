@@ -27,6 +27,6 @@ private:
 	// fps counter
 	sf::Clock fpsClock;
 	float fps;
-	sf::Text text;
+	sf::Text fpsCounterText;
 	sf::Font font;
 };

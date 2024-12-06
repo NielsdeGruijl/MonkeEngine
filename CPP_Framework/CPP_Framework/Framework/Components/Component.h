@@ -7,13 +7,13 @@ class Object;
 class Component
 {
 public:
+	Object* object;
+
+public:
 	Component();
 	~Component();
 
 	virtual void Update();
-
-	void SetObject(Object* pObject);
-	Object* GetObject() const;
 
 	virtual void OnLoad();
 
@@ -21,6 +21,5 @@ public:
 	bool IsActive();
 
 protected:
-	Object* object;
 	bool isActive;
 };

@@ -74,8 +74,8 @@ void CollisionChecker::PawnToObjectCollision(std::shared_ptr<RigidBody> pRigidBo
 
 	if (shortestCollisionTime >= -1)
 	{
-		Object* object = pObjectCollider->GetObject();
-		pRigidBody->HandleCollision(Collision(object, normal, shortestCollisionTime));
+		Object* object = pObjectCollider->object;
+		pRigidBody->HandleCollision(Collision(object, normal, shortestCollisionTime), pRigidBody->collider->currentCollisionState);
 	}
 }
 
@@ -110,8 +110,8 @@ void CollisionChecker::PawnToPawnCollision(std::shared_ptr<RigidBody> pRigidBody
 		if (shortestCollisionTime < -10)
 			return;
 
-		Object* object = pOtherRigidBody->GetObject();
-		pRigidBody->HandleCollision(Collision(object, normal, shortestCollisionTime));
+		Object* object = pOtherRigidBody->object;
+		pRigidBody->HandleCollision(Collision(object, normal, shortestCollisionTime), pRigidBody->collider->currentCollisionState);
 
 		CollisionVelocityHandling(pRigidBody, pOtherRigidBody, normal);
 	}
@@ -120,8 +120,8 @@ void CollisionChecker::PawnToPawnCollision(std::shared_ptr<RigidBody> pRigidBody
 		if (otherShortestCollisionTime < -10)
 			return;
 
-		Object* object = pRigidBody->GetObject();
-		pOtherRigidBody->HandleCollision(Collision(object, otherNormal, otherShortestCollisionTime));
+		Object* object = pRigidBody->object;
+		pOtherRigidBody->HandleCollision(Collision(object, otherNormal, otherShortestCollisionTime), pRigidBody->collider->currentCollisionState);
 
 		CollisionVelocityHandling(pOtherRigidBody, pRigidBody, otherNormal);
 	}

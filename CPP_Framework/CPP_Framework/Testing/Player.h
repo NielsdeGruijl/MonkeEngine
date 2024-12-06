@@ -10,6 +10,8 @@ public:
 	Player(std::string pObjectId, std::string pFileName, int pPixelsPerUnit);
 	~Player();
 
+	void OnLoad() override;
+	void Start() override;
 	void Update() override;
 
 	void SetActionMap(InputActionMap* pMap);

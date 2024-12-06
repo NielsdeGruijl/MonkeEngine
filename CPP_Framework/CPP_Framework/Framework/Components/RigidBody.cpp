@@ -17,9 +17,6 @@ RigidBody::RigidBody(float pDrag, float pGravity, float pFriction, float pBounci
 	bounciness = pBounciness;
 
 	isGrounded = false;
-
-	if (collider == nullptr)
-		collider = object->AddComponent<AABBCollider>(object->GetSize(), object->position);
 }
 
 RigidBody::~RigidBody()
@@ -30,8 +27,8 @@ void RigidBody::OnLoad()
 {
 	Component::OnLoad();
 
-	//if (collider == nullptr)
-	//	collider = object->AddComponent<AABBCollider>(object->GetSize(), object->position);
+	if (collider == nullptr)
+		collider = object->AddComponent<AABBCollider>(object->GetSize(), object->position);
 }
 	
 void RigidBody::Update()
@@ -66,7 +63,7 @@ void RigidBody::AddForce(Vector2 pForce, VelocityType pVelocityType)
 	}
 }
 
-void RigidBody::HandleCollision(Collision collision)
+void RigidBody::HandleCollision(Collision collision, AABBCollider::collisionState pCollisionState)
 {
 	if (collider->isTrigger)
 		return;

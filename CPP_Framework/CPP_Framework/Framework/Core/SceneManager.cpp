@@ -44,7 +44,8 @@ void SceneManager::AddScene(std::string pSceneName, Scene* pScene)
 
 	std::cout << "Scene with name \"" << pSceneName << "\" has been added!\n";
 
-	if (scenes.size() < 1)
+	// If there are no scenes yet, load this scene.
+	if (scenes.size() <= 0)
 		LoadScene(pScene);
 	
 	scenes[pSceneName] = pScene;
@@ -52,8 +53,8 @@ void SceneManager::AddScene(std::string pSceneName, Scene* pScene)
 
 void SceneManager::LoadScene(Scene* pScene)
 {
+	pScene->Load();
 	currentScene = pScene;
-	pScene->OnLoad();
 }
 
 void SceneManager::LoadScene(std::string pSceneName)

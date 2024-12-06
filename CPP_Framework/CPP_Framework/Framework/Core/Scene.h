@@ -18,7 +18,7 @@ public:
 	virtual void CollsionUpdate();
 	virtual void RenderScene(sf::RenderWindow* renderWindow);
 
-	virtual void OnLoad();
+	virtual void Load();
 
 	void RegisterCollider(Object* object);
 

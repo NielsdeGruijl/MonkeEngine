@@ -1,5 +1,7 @@
 #include "Object.h"
 
+#include "../Collisions/AABBCollider.h"
+
 extern const int unitSize;
 
 Object::Object(std::string ID) 
@@ -12,6 +14,23 @@ Object::~Object()
 {
 }
 
+void Object::OnLoad()
+{
+	for (std::shared_ptr<Component> component : components)
+	{
+		component->OnLoad();
+
+		if (std::shared_ptr<AABBCollider> tCollider = std::dynamic_pointer_cast<AABBCollider>(component))
+		{
+			tCollider->collisionEnterEvent.Subscribe([this]() {this->OnCollisionEnter(); });
+		}
+	}
+}
+
+void Object::Start()
+{
+}
+
 void Object::Update()
 {
 	for (std::shared_ptr<Component> component : components)
@@ -20,14 +39,6 @@ void Object::Update()
 			return;
 
 		component->Update();
-	}
-}
-
-void Object::OnLoad()
-{
-	for (std::shared_ptr<Component> component : components)
-	{
-		component->OnLoad();
 	}
 }
 
