@@ -20,9 +20,13 @@ void Object::OnLoad()
 	{
 		component->OnLoad();
 
-		if (std::shared_ptr<AABBCollider> tCollider = std::dynamic_pointer_cast<AABBCollider>(component))
+		if (typeid(*(component)) == typeid(AABBCollider))
 		{
-			tCollider->collisionEnterEvent.Subscribe([this]() {this->OnCollisionEnter(); });
+			std::shared_ptr<AABBCollider> tCol = std::static_pointer_cast<AABBCollider>(component);
+
+			tCol->collisionEnterEvent.Subscribe([this]() {this->OnCollisionEnter(); });
+			tCol->collisionStayEvent.Subscribe([this]() {this->OnCollisionStay(); });
+			tCol->collisionExitEvent.Subscribe([this]() {this->OnCollisionExit(); });
 		}
 	}
 }

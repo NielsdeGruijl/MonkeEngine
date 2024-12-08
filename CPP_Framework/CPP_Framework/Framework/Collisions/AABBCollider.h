@@ -31,7 +31,7 @@ public:
 	float left, right, top, bottom;
 
 public:
-	AABBCollider(Vector2 pSize, Vector2 pPosition);
+	AABBCollider(Object* pObject, Vector2 pSize, Vector2 pPosition);
 	~AABBCollider();
 
 	void Update() override;

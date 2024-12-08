@@ -3,7 +3,7 @@
 GameObject::GameObject(std::string pID, std::string pFileName, int pPixelsPerUnit) 
 	: Object(pID)
 {
-	AddComponent<SpriteRenderer>(pFileName, pPixelsPerUnit);
+	AddComponent<SpriteRenderer>(this, pFileName, pPixelsPerUnit);
 
 	spriteRenderer = GetComponent<SpriteRenderer>();
 

@@ -10,7 +10,7 @@ public:
 	Object* object;
 
 public:
-	Component();
+	Component(Object* pObject);
 	~Component();
 
 	virtual void Update();

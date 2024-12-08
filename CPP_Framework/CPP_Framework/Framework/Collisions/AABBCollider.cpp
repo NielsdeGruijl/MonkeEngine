@@ -3,7 +3,8 @@
 #include "../Objects/Object.h"
 #include "AABBCollider.h"
 
-AABBCollider::AABBCollider(Vector2 pSize, Vector2 pPosition)
+AABBCollider::AABBCollider(Object* pObject, Vector2 pSize, Vector2 pPosition)
+	: Component(pObject)
 {
 	size = pSize;
 	radius = pSize * 0.5f;
@@ -101,25 +102,23 @@ void AABBCollider::SetCollisionState(std::shared_ptr<AABBCollider> pOtherCollide
 	currentCollisionState = pCollisionState;
 	pOtherCollider->currentCollisionState = pCollisionState;
 
-	//switch (pCollisionState)
-	//{
-	//case enter:
-	//	object->OnCollisionEnter();
-	//	pOtherCollider->GetObject()->OnCollisionEnter();
-	//	break;
-	//case stay:
-	//	object->OnCollisionStay();
-	//	pOtherCollider->GetObject()->OnCollisionStay();
-	//	break;
-	//case exit:
-	//	object->OnCollisionExit();
-	//	pOtherCollider->GetObject()->OnCollisionExit();
-	//	break;
-	//default:
-	//	object->OnCollisionExit();
-	//	pOtherCollider->GetObject()->OnCollisionExit();
-	//	break;
-	//}
-
-
+	switch (pCollisionState)
+	{
+	case enter:
+		collisionEnterEvent.Invoke();
+		pOtherCollider->collisionEnterEvent.Invoke();
+		break;
+	case stay:
+		collisionStayEvent.Invoke();
+		pOtherCollider->collisionStayEvent.Invoke();
+		break;
+	case exit:
+		collisionExitEvent.Invoke();
+		pOtherCollider->collisionExitEvent.Invoke();
+		break;
+	default:
+		collisionExitEvent.Invoke();
+		pOtherCollider->collisionExitEvent.Invoke();
+		break;
+	}
 }

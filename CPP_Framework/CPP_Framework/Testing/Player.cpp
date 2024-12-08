@@ -16,20 +16,16 @@ Player::~Player()
 void Player::OnLoad()
 {
 	Pawn::OnLoad();
-	std::cout << "Awake\n";
 }
 
 void Player::Start()
 {
 	Pawn::Start();
-	std::cout << "Start\n";
 }
 
 void Player::Update()
 {
 	Pawn::Update();
-
-	std::cout << "Update\n";
 
 	inputMoveDirection = Vector2((float)input.GetHorizontalAxis(), (float)input.GetVerticalAxis());
 

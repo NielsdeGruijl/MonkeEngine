@@ -8,15 +8,19 @@
 extern const int unitSize;
 extern float deltaTime;
 
-RigidBody::RigidBody(float pDrag, float pGravity, float pFriction, float pBounciness)
-	: Component()
+RigidBody::RigidBody(Object* pObject)
+	: Component(pObject)
 {
-	drag = pDrag;
-	gravity = pGravity;
-	friction = pFriction;
-	bounciness = pBounciness;
+	mass = 1;
+	drag = 1;
+	gravity = 1;
+	friction = 0;
+	bounciness = 0;
 
 	isGrounded = false;
+
+	if (collider == nullptr)
+		collider = object->AddComponent<AABBCollider>(object, object->GetSize(), object->position);
 }
 
 RigidBody::~RigidBody()
@@ -26,9 +30,6 @@ RigidBody::~RigidBody()
 void RigidBody::OnLoad()
 {
 	Component::OnLoad();
-
-	if (collider == nullptr)
-		collider = object->AddComponent<AABBCollider>(object->GetSize(), object->position);
 }
 	
 void RigidBody::Update()

@@ -10,8 +10,6 @@ struct Collision;
 class RigidBody : public Component
 {
 public:
-	std::shared_ptr<AABBCollider> collider;
-
 	enum VelocityType
 	{
 		continuous,
@@ -19,18 +17,20 @@ public:
 		velocityChange
 	};
 
+	std::shared_ptr<AABBCollider> collider;
+
 	Vector2 velocity;
 
-	float mass = 1;
-	float drag = 1;
-	float gravity = 1;
+	float mass;
+	float drag;
+	float gravity;
 	float friction;
 	float bounciness;
 
 	bool isGrounded;
 
 public:
-	RigidBody(float pDrag = 1, float pGravity = 1, float pFriction = 1, float pBounciness = 0);
+	RigidBody(Object* pObject);
 	~RigidBody();
 
 	void OnLoad() override;

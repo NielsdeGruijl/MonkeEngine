@@ -43,9 +43,6 @@ public:
 	{
 		std::shared_ptr<T> componentPointer = std::make_shared<T>(std::forward<ConstructorArgs>(pConstructorArgs)...);
 
-		std::shared_ptr<Component> tComponent = std::dynamic_pointer_cast<Component>(componentPointer);
-		tComponent->object = this;
-
 		components.push_back(componentPointer);
 
 		return componentPointer;
@@ -95,13 +92,14 @@ public:
 	}
 
 protected:
+	std::vector<std::shared_ptr<Component>> components;
+
+protected:
 	virtual void OnCollisionEnter();
 	virtual void OnCollisionStay();
 	virtual void OnCollisionExit();
 
 private:
-	std::vector<std::shared_ptr<Component>> components;
-
 	const std::string objectId;
 	Vector2 size;
 };

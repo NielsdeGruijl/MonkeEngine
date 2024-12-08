@@ -2,9 +2,9 @@
 
 #include "../Objects/Object.h"
 
-Component::Component()
+Component::Component(Object* pObject)
 {
-	object = nullptr;
+	object = pObject;
 	isActive = true;
 }
 

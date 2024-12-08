@@ -14,7 +14,7 @@ public:
 	sf::Sprite sprite;
 
 public:
-	SpriteRenderer(std::string pFileName, int pPixelsPerUnit = 100);
+	SpriteRenderer(Object* pObject, std::string pFileName, int pPixelsPerUnit = 100);
 	~SpriteRenderer();
 
 	void Update() override;

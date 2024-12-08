@@ -2,8 +2,8 @@
 
 #include "../Objects/Object.h"
 
-SpriteRenderer::SpriteRenderer(std::string pFileName, int pPixelsPerUnit)
-	: spriteScale(CalculateSpriteScaleBasedOnPixelsPerUnit(pPixelsPerUnit))
+SpriteRenderer::SpriteRenderer(Object* pObject, std::string pFileName, int pPixelsPerUnit)
+	: Component(pObject), spriteScale(CalculateSpriteScaleBasedOnPixelsPerUnit(pPixelsPerUnit))
 {
 	texture.loadFromFile("Assets/" + pFileName);
 	sprite.setTexture(texture);

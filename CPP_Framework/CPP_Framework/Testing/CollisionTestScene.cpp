@@ -11,11 +11,11 @@ CollisionTestScene::CollisionTestScene()
 	//pawn.rigidBody->drag = 0;
 	//pawn.rigidBody->friction = 0;
 	//
-	//pawn1.SetPosition(Vector2(640, 360));
-	//pawn1.rigidBody->gravity = 0;
-	//pawn1.rigidBody->mass = 1;
-	//pawn1.rigidBody->drag = 1;
-	//pawn1.rigidBody->friction = 0;
+	pawn1.SetPosition(Vector2(640, 360));
+	pawn1.rigidBody->gravity = 0;
+	pawn1.rigidBody->mass = 1;
+	pawn1.rigidBody->drag = 1;
+	pawn1.rigidBody->friction = 0;
 	//
 	//obstacle.SetPosition(Vector2(1230, 360));
 	//obstacle.AddComponent<AABBCollider>(obstacle.GetSize(), obstacle.position);
@@ -24,15 +24,15 @@ CollisionTestScene::CollisionTestScene()
 	//obstacle2.SetScale(1);
 	//obstacle2.AddComponent<AABBCollider>(obstacle2.GetSize(), obstacle2.position);
 	//
-	//player.SetPosition(Vector2(50, 360));
-	//player.rigidBody->gravity = 0;
-	//player.rigidBody->mass = 1;
-	//player.rigidBody->drag = 1;
-	//player.rigidBody->friction = 0;
+	player.SetPosition(Vector2(50, 360));
+	player.rigidBody->gravity = 0;
+	player.rigidBody->mass = 1;
+	player.rigidBody->drag = 1;
+	player.rigidBody->friction = 0;
 
 	//AddObject(&pawn);
-	//AddObject(&pawn1);
-	//AddObject(&player);
+	AddObject(&pawn1);
+	AddObject(&player);
 	//AddObject(&obstacle);
 	//AddObject(&obstacle2);
 

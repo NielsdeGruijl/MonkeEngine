@@ -30,7 +30,7 @@ void CollisionChecker::CheckCollisions()
 			if (rigidBodies[i]->collider->CheckCollision(objectColliders[j]))
 			{
 				PawnToObjectCollision(rigidBodies[i], objectColliders[j]);
-				collisionCount++;
+				//collisionCount++;
 				//std::cout << collisionCount << " object \n";
 			}
 		}
@@ -43,7 +43,7 @@ void CollisionChecker::CheckCollisions()
 			if (rigidBodies[i]->collider->CheckCollision(rigidBodies[j]->collider))
 			{
 				PawnToPawnCollision(rigidBodies[i], rigidBodies[j]);
-				collisionCount++;
+				//collisionCount++;
 				//std::cout << collisionCount << " pawn \n";
 			}
 		}
