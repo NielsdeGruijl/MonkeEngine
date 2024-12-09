@@ -30,8 +30,6 @@ void CollisionChecker::CheckCollisions()
 			if (rigidBodies[i]->collider->CheckCollision(objectColliders[j]))
 			{
 				PawnToObjectCollision(rigidBodies[i], objectColliders[j]);
-				//collisionCount++;
-				//std::cout << collisionCount << " object \n";
 			}
 		}
 
@@ -43,8 +41,6 @@ void CollisionChecker::CheckCollisions()
 			if (rigidBodies[i]->collider->CheckCollision(rigidBodies[j]->collider))
 			{
 				PawnToPawnCollision(rigidBodies[i], rigidBodies[j]);
-				//collisionCount++;
-				//std::cout << collisionCount << " pawn \n";
 			}
 		}
 	}
@@ -75,7 +71,7 @@ void CollisionChecker::PawnToObjectCollision(std::shared_ptr<RigidBody> pRigidBo
 	if (shortestCollisionTime >= -1)
 	{
 		Object* object = pObjectCollider->object;
-		pRigidBody->HandleCollision(Collision(object, normal, shortestCollisionTime), pRigidBody->collider->currentCollisionState);
+		pRigidBody->HandleCollision(Collision(object, normal, shortestCollisionTime));
 	}
 }
 
@@ -83,13 +79,18 @@ void CollisionChecker::PawnToPawnCollision(std::shared_ptr<RigidBody> pRigidBody
 {
 	Vector2 normal, otherNormal;
 	Vector2 collisionTime = CalculateCollisionTime(pRigidBody, pOtherRigidBody->collider);
-	Vector2 otherCollisionTime = CalculateCollisionTime(pOtherRigidBody, pRigidBody->collider);
 
-	float shortestCollisionTime = std::max<float>(collisionTime.x, collisionTime.y);
-	float otherShortestCollisionTime = std::max<float>(otherCollisionTime.x, otherCollisionTime.y);
+	float totalVelocity;
+	float velocityPercentage;
+	float velocityAdjustment;
 
 	if (collisionTime.x > collisionTime.y)
 	{
+		totalVelocity = abs(pRigidBody->velocity.x) + abs(pOtherRigidBody->velocity.x);
+		velocityPercentage = pRigidBody->velocity.x / totalVelocity;
+		velocityAdjustment = collisionTime.x * velocityPercentage;
+		velocityAdjustment = abs(velocityAdjustment / pRigidBody->velocity.x) * -1;
+
 		if (pRigidBody->velocity.x > 0)
 			normal = Vector2(-1, 0);
 		else
@@ -97,6 +98,11 @@ void CollisionChecker::PawnToPawnCollision(std::shared_ptr<RigidBody> pRigidBody
 	}
 	else
 	{
+		totalVelocity = abs(pRigidBody->velocity.y) + abs(pOtherRigidBody->velocity.y);
+		velocityPercentage = pRigidBody->velocity.y / totalVelocity;
+		velocityAdjustment = collisionTime.y * velocityPercentage;
+		velocityAdjustment = abs(velocityAdjustment / pRigidBody->velocity.y) * -1;
+
 		if (pRigidBody->velocity.y > 0)
 			normal = Vector2(0, -1);
 		else
@@ -104,27 +110,13 @@ void CollisionChecker::PawnToPawnCollision(std::shared_ptr<RigidBody> pRigidBody
 	}
 
 	otherNormal = normal * -1;
+	
+	std::cout << "Adjustment: " << velocityAdjustment << "\n";
+	std::cout << pRigidBody->object->GetID() << ", " << pRigidBody->object->position.printVector();
+	std::cout << pOtherRigidBody->object->GetID() << ", " << pOtherRigidBody->object->position.printVector();
 
-	if (shortestCollisionTime > otherShortestCollisionTime)
-	{
-		if (shortestCollisionTime < -10)
-			return;
-
-		Object* object = pOtherRigidBody->object;
-		pRigidBody->HandleCollision(Collision(object, normal, shortestCollisionTime), pRigidBody->collider->currentCollisionState);
-
-		CollisionVelocityHandling(pRigidBody, pOtherRigidBody, normal);
-	}
-	else
-	{
-		if (otherShortestCollisionTime < -10)
-			return;
-
-		Object* object = pRigidBody->object;
-		pOtherRigidBody->HandleCollision(Collision(object, otherNormal, otherShortestCollisionTime), pRigidBody->collider->currentCollisionState);
-
-		CollisionVelocityHandling(pOtherRigidBody, pRigidBody, otherNormal);
-	}
+	pRigidBody->HandleCollision(Collision(pOtherRigidBody->object, normal, velocityAdjustment));
+	pOtherRigidBody->HandleCollision(Collision(pRigidBody->object, otherNormal, velocityAdjustment));
 }
 
 void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<RigidBody> pOtherRigidBody, Vector2 pNormal)
@@ -192,7 +184,7 @@ Vector2 CollisionChecker::CalculateCollisionTime(std::shared_ptr<RigidBody> pRig
 		yCollisionTime = -std::numeric_limits<float>::infinity();
 	}
 
-	return Vector2(xCollisionTime, yCollisionTime);
+	return Vector2(xCollisionEntry, yCollisionEntry);
 }
 
 Vector2 CollisionChecker::ElasticCollision(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<RigidBody> pOtherRigidBody)

@@ -39,7 +39,7 @@ public:
 
 	void AddForce(Vector2 pVelocity, VelocityType pVelocityType = continuous);
 
-	void HandleCollision(Collision collision, AABBCollider::collisionState pCollisionState);
+	void HandleCollision(Collision collision);
 	void HandleBounce(std::shared_ptr<RigidBody> pRigidBody);
 
 private:

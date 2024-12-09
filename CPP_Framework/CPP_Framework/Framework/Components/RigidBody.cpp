@@ -52,27 +52,34 @@ void RigidBody::AddForce(Vector2 pForce, VelocityType pVelocityType)
 
 	switch (pVelocityType)
 	{
-	case RigidBody::continuous:
+	case continuous:
 		velocity += tForce * deltaTime;
 		break;
-	case RigidBody::instant:
+	case instant:
 		velocity += tForce;
 		break;
-	case RigidBody::velocityChange:
+	case velocityChange:
 		velocity = tForce;
 		break;
 	}
 }
 
-void RigidBody::HandleCollision(Collision collision, AABBCollider::collisionState pCollisionState)
+void RigidBody::HandleCollision(Collision collision)
 {
 	if (collider->isTrigger)
 		return;
 
+	// Because it's discrete collision detection collision.collisionTime is always negative
 	Vector2 newPos = object->position + velocity * collision.collisionTime;
 	object->SetPosition(newPos);
 
-	if (collision.rigidBody == nullptr)
+	std::cout << object->GetID() << " newPos: " << newPos.printVector();
+
+	//Vector2 newVelocity = velocity * collision.collisionTime;
+	//AddForce(newVelocity, instant);
+	//std::cout << object->GetID() << " velocity adjustment: " << newVelocity.printVector();
+
+	if (collision.rigidBody != nullptr)
 	{
 		float dotProduct = (velocity.x * collision.normal.y + velocity.y * collision.normal.x) * collision.remainingTime;
 		velocity = Vector2(dotProduct * collision.normal.y, dotProduct * collision.normal.x);

@@ -2,7 +2,7 @@
 
 CollisionTestScene::CollisionTestScene()
 	: obstacle("obstacle", "TransparentSquare.png", 160), obstacle2("obstacle2", "TransparentSquare.png", 160),
-	  player("Player", "BlueSlime.png", 160), pawn("Pawn", "BlueSlime.png", 160), pawn1("Pawn1", "BlueSlime.png", 160),
+	  player("Player", "BlueSlime.png", 160), pawn("Pawn", "TransparentSquare.png", 160), pawn1("Pawn1", "BlueSlime.png", 160),
 	  a("a", "BlueSlime.png", 160)
 {
 	//pawn.SetPosition(Vector2(640, 960));
@@ -16,6 +16,7 @@ CollisionTestScene::CollisionTestScene()
 	pawn1.rigidBody->mass = 1;
 	pawn1.rigidBody->drag = 1;
 	pawn1.rigidBody->friction = 0;
+	pawn1.spriteRenderer->SetColor(sf::Color::Red);
 	//
 	//obstacle.SetPosition(Vector2(1230, 360));
 	//obstacle.AddComponent<AABBCollider>(obstacle.GetSize(), obstacle.position);
@@ -47,4 +48,5 @@ CollisionTestScene::~CollisionTestScene()
 void CollisionTestScene::UpdateScene()
 {
 	Scene::UpdateScene();
+	pawn1.rigidBody->AddForce(Vector2(-2, 0));
 }
