@@ -25,6 +25,14 @@ void Player::Start()
 
 void Player::Update()
 {
+	std::shared_ptr<AABBCollider> col;
+
+	if (TryGetComponent<AABBCollider>(col))
+	{
+		//std::cout << "a" << col->position->printVector();
+		//std::cout << "b" << position.printVector();
+	}
+
 	Pawn::Update();
 
 	inputMoveDirection = Vector2((float)input.GetHorizontalAxis(), (float)input.GetVerticalAxis());

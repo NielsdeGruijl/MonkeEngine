@@ -3,12 +3,12 @@
 #include "../Objects/Object.h"
 #include "AABBCollider.h"
 
-AABBCollider::AABBCollider(Object* pObject, Vector2 pSize, Vector2 pPosition)
+AABBCollider::AABBCollider(Object* pObject, Vector2 pSize, Vector2* pPosition)
 	: Component(pObject)
 {
 	size = pSize;
 	radius = pSize * 0.5f;
-	position = pPosition;
+	position = &pObject->position;
 
 	isTrigger = false;
 
@@ -22,27 +22,21 @@ AABBCollider::~AABBCollider()
 void AABBCollider::Update()
 {
 	Component::Update();
-	SetPosition(object->position);
-
 }
 
-void AABBCollider::SetPosition(Vector2 pPosition)
+void AABBCollider::GetBounds()
 {
-	position = pPosition;
-
-	left = position.x - radius.x;
-	right = position.x + radius.x;
-	top = position.y - radius.y;
-	bottom = position.y + radius.y;
-}
-
-void AABBCollider::Move(Vector2 pVelocity)
-{
-	position += pVelocity;
+	left = position->x - radius.x;
+	right = position->x + radius.x;
+	top = position->y - radius.y;
+	bottom = position->y + radius.y;
 }
 
 bool AABBCollider::CheckCollision(std::shared_ptr<AABBCollider> pCollider)
 {
+	GetBounds();
+	pCollider->GetBounds();
+
 	float topDiff = top - pCollider->bottom;
 	float bottomDiff = bottom - pCollider->top;
 	float leftDiff = left - pCollider->right;

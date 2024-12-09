@@ -20,7 +20,7 @@ RigidBody::RigidBody(Object* pObject)
 	isGrounded = false;
 
 	if (collider == nullptr)
-		collider = object->AddComponent<AABBCollider>(object, object->GetSize(), object->position);
+		collider = object->AddComponent<AABBCollider>(object, object->GetSize(), &object->position);
 }
 
 RigidBody::~RigidBody()
@@ -105,23 +105,23 @@ void RigidBody::HandleBounce(std::shared_ptr<RigidBody> pRigidBody)
 	Vector2 v2 = pRigidBody->velocity;
 	Vector2 v1 = velocity;
 
-	Vector2 normal = collider->position - pRigidBody->collider->position;
-	normal.Normalize();
-	Vector2 tangent = Vector2(-normal.y, normal.x);
-
-	float v1n = v1.Dot(normal);
-	float v1t = v1.Dot(tangent);
-	float v2n = v2.Dot(normal);
-	float v2t = v2.Dot(tangent);
-
-	float v1np = ((v1n * (mass1 - mass2)) + (2 * mass2 * v2n)) / (mass1 + mass2);
-	float v2np = ((v2n * (mass2 - mass1)) + (2 * mass1 * v1n)) / (mass1 + mass2);
-
-	Vector2 v1p = (normal * v1np) + (tangent * v1t);
-	Vector2 v2p = (normal * v2np) + (tangent * v2t);
-
-	AddForce(v1p * bounce * mass1, velocityChange);
-	pRigidBody->AddForce(v2p * bounce * mass2, velocityChange);
+	//Vector2 normal = collider->position - pRigidBody->collider->position;
+	//normal.Normalize();
+	//Vector2 tangent = Vector2(-normal.y, normal.x);
+	//
+	//float v1n = v1.Dot(normal);
+	//float v1t = v1.Dot(tangent);
+	//float v2n = v2.Dot(normal);
+	//float v2t = v2.Dot(tangent);
+	//
+	//float v1np = ((v1n * (mass1 - mass2)) + (2 * mass2 * v2n)) / (mass1 + mass2);
+	//float v2np = ((v2n * (mass2 - mass1)) + (2 * mass1 * v1n)) / (mass1 + mass2);
+	//
+	//Vector2 v1p = (normal * v1np) + (tangent * v1t);
+	//Vector2 v2p = (normal * v2np) + (tangent * v2t);
+	//
+	//AddForce(v1p * bounce * mass1, velocityChange);
+	//pRigidBody->AddForce(v2p * bounce * mass2, velocityChange);
 
 	return;
 }

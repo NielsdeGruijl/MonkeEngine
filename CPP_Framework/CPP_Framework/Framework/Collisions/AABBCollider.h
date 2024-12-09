@@ -11,7 +11,7 @@ class AABBCollider : public Component
 public:
 	Vector2 radius;
 	Vector2 size;
-	Vector2 position;
+	Vector2* position;
 
 	Event collisionEnterEvent;
 	Event collisionStayEvent;
@@ -31,13 +31,12 @@ public:
 	float left, right, top, bottom;
 
 public:
-	AABBCollider(Object* pObject, Vector2 pSize, Vector2 pPosition);
+	AABBCollider(Object* pObject, Vector2 pSize, Vector2* pPosition);
 	~AABBCollider();
 
 	void Update() override;
 
-	void SetPosition(Vector2 pPosition);
-	void Move(Vector2 pVelocity);
+	void GetBounds();
 
 	bool CheckCollision(std::shared_ptr<AABBCollider> pCollider);
 

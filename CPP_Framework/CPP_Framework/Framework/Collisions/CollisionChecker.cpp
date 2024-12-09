@@ -198,7 +198,7 @@ Vector2 CollisionChecker::ElasticCollision(std::shared_ptr<RigidBody> pRigidBody
 	Vector2 v1 = pRigidBody->velocity;
 	Vector2 v2 = pOtherRigidBody->velocity;
 
-	Vector2 normal = Vector2(col2->position.x - col1->position.x, col2->position.y - col1->position.y);
+	Vector2 normal = Vector2(col2->position->x - col1->position->x, col2->position->y - col1->position->y);
 	normal.Normalize();
 	Vector2 tangent = Vector2(-normal.y, normal.x);
 

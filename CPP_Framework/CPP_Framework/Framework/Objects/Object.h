@@ -17,6 +17,7 @@ public:
 	Vector2 origin;
 	Vector2 position;
 	Vector2 scale;
+
 public:
 	Object(std::string ID);
 	~Object();
