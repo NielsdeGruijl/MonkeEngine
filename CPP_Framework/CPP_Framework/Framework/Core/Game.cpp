@@ -47,7 +47,7 @@ void Game::Run()
 
 		if (sceneManager.GetCurrentScene() != nullptr)
 		{
-			sceneManager.GetCurrentScene()->CollsionUpdate();
+			sceneManager.GetCurrentScene()->CollisionUpdate();
 			sceneManager.GetCurrentScene()->UpdateScene();
 			sceneManager.GetCurrentScene()->RenderScene(&renderWindow);
 		}

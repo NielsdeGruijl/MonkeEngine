@@ -4,8 +4,6 @@
 #include "../Components/Component.h"
 #include "../Events/Event.h"
 
-
-
 class AABBCollider : public Component
 {
 public:
@@ -36,7 +34,7 @@ public:
 
 	void Update() override;
 
-	void GetBounds();
+	void UpdateBounds();
 
 	bool CheckCollision(std::shared_ptr<AABBCollider> pCollider);
 

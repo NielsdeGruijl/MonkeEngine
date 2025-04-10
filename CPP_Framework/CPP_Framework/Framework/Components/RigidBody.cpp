@@ -69,17 +69,14 @@ void RigidBody::HandleCollision(Collision collision)
 	if (collider->isTrigger)
 		return;
 
-	// Because it's discrete collision detection collision.collisionTime is always negative
-	Vector2 newPos = object->position + velocity * collision.collisionTime;
-	object->SetPosition(newPos);
+	if (velocity.GetLength() > 0)
+	{
+		Vector2 positionAdjustment = velocity.normalized * collision.collisionTime;
+		Vector2 newPos = object->position + positionAdjustment;
+		object->SetPosition(newPos);
+	}
 
-	std::cout << object->GetID() << " newPos: " << newPos.printVector();
-
-	//Vector2 newVelocity = velocity * collision.collisionTime;
-	//AddForce(newVelocity, instant);
-	//std::cout << object->GetID() << " velocity adjustment: " << newVelocity.printVector();
-
-	if (collision.rigidBody != nullptr)
+	if (collision.rigidBody == nullptr)
 	{
 		float dotProduct = (velocity.x * collision.normal.y + velocity.y * collision.normal.x) * collision.remainingTime;
 		velocity = Vector2(dotProduct * collision.normal.y, dotProduct * collision.normal.x);

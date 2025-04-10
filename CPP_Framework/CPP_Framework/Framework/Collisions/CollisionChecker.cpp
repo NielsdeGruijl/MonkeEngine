@@ -23,8 +23,15 @@ void CollisionChecker::AddRigidBody(std::shared_ptr<RigidBody> pRigidBody)
 
 void CollisionChecker::CheckCollisions()
 {
+	// Sort list of rigidBodies from left to right
+	std::sort(rigidBodies.begin(), rigidBodies.end(), [](std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<RigidBody> pOtherRigidBody)
+	{
+		return pRigidBody->collider->left < pOtherRigidBody->collider->left;
+	});
+
 	for (size_t i = 0; i < rigidBodies.size(); i++)
 	{
+		// Rigidbody vs static objects
 		for (size_t j = 0; j < objectColliders.size(); j++)
 		{
 			if (rigidBodies[i]->collider->CheckCollision(objectColliders[j]))
@@ -33,17 +40,43 @@ void CollisionChecker::CheckCollisions()
 			}
 		}
 
+		// Rigidbody vs other rigidbody
 		for (size_t j = i + 1; j < rigidBodies.size(); j++)
 		{
 			if (rigidBodies[i] == rigidBodies[j])
 				continue;
 
+			if (rigidBodies[j]->collider->left > rigidBodies[i]->collider->right)
+				break;
+
 			if (rigidBodies[i]->collider->CheckCollision(rigidBodies[j]->collider))
 			{
-				PawnToPawnCollision(rigidBodies[i], rigidBodies[j]);
+				RigidBodyCollision(rigidBodies[i], rigidBodies[j]);
 			}
 		}
 	}
+}
+
+bool CollisionChecker::WillRigidBodiesCollide(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<RigidBody> pOtherRigidBody)
+{
+	Vector2 velocityA = pRigidBody->velocity;
+	Vector2 velocityB = pOtherRigidBody->velocity;
+
+	if (pRigidBody->collider->top < pOtherRigidBody->collider->top)
+	{
+		if (velocityB.y < velocityA.y)
+			return true;
+	}
+	else
+	{
+		if (velocityA.y < velocityB.y)
+			return true;
+	}
+
+	if (velocityB.x < velocityA.x)
+		return true;
+
+	return false;
 }
 
 void CollisionChecker::PawnToObjectCollision(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<AABBCollider> pObjectCollider)
@@ -75,154 +108,349 @@ void CollisionChecker::PawnToObjectCollision(std::shared_ptr<RigidBody> pRigidBo
 	}
 }
 
-void CollisionChecker::PawnToPawnCollision(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<RigidBody> pOtherRigidBody)
+void CollisionChecker::PawnToPawnCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB)
 {
 	Vector2 normal, otherNormal;
-	Vector2 collisionTime = CalculateCollisionTime(pRigidBody, pOtherRigidBody->collider);
+	Vector2 collisionDistance = CalculateCollisionTime(pRigidBodyA, pRigidBodyB->collider);
+	Vector2 otherCollisionDistance = CalculateCollisionTime(pRigidBodyB, pRigidBodyA->collider);
+
+	Vector2 shortestCollisionDistance;
+
+	if (collisionDistance.x <= otherCollisionDistance.x && collisionDistance.y <= otherCollisionDistance.y)
+		shortestCollisionDistance = collisionDistance;
+	else
+		shortestCollisionDistance = otherCollisionDistance;
+	
+	std::cout << pRigidBodyA->object->GetID() << " collisionDistance: " << collisionDistance.printVector();
+	std::cout << pRigidBodyB->object->GetID() << " collisionDistance: " << otherCollisionDistance.printVector();
+	std::cout << "shortest time: " << shortestCollisionDistance.printVector();
 
 	float totalVelocity;
 	float velocityPercentage;
 	float velocityAdjustment;
 
-	if (collisionTime.x > collisionTime.y)
-	{
-		totalVelocity = abs(pRigidBody->velocity.x) + abs(pOtherRigidBody->velocity.x);
-		velocityPercentage = pRigidBody->velocity.x / totalVelocity;
-		velocityAdjustment = collisionTime.x * velocityPercentage;
-		velocityAdjustment = abs(velocityAdjustment / pRigidBody->velocity.x) * -1;
+	//std::cout << "collistion time " << collisionDistance.printVector();
 
-		if (pRigidBody->velocity.x > 0)
+	if (shortestCollisionDistance.x < shortestCollisionDistance.y)
+	{
+		if (shortestCollisionDistance.x == 0)
+			return;
+
+		totalVelocity = abs(pRigidBodyA->velocity.x) + abs(pRigidBodyB->velocity.x);
+		velocityPercentage = pRigidBodyA->velocity.x / totalVelocity;
+		velocityAdjustment = shortestCollisionDistance.x * velocityPercentage;
+		velocityAdjustment = abs(velocityAdjustment / pRigidBodyA->velocity.x) * -1;
+
+		if (pRigidBodyA->velocity.x > 0)
 			normal = Vector2(-1, 0);
 		else
 			normal = Vector2(1, 0);
+
+		otherNormal = normal * -1;
+		pRigidBodyA->HandleCollision(Collision(pRigidBodyB->object, normal, velocityAdjustment));
+		pRigidBodyB->HandleCollision(Collision(pRigidBodyA->object, otherNormal, velocityAdjustment));
 	}
 	else
 	{
-		totalVelocity = abs(pRigidBody->velocity.y) + abs(pOtherRigidBody->velocity.y);
-		velocityPercentage = pRigidBody->velocity.y / totalVelocity;
-		velocityAdjustment = collisionTime.y * velocityPercentage;
-		velocityAdjustment = abs(velocityAdjustment / pRigidBody->velocity.y) * -1;
+		if (shortestCollisionDistance.y == 0)
+			return;
 
-		if (pRigidBody->velocity.y > 0)
+		totalVelocity = abs(pRigidBodyA->velocity.y) + abs(pRigidBodyB->velocity.y);
+		velocityPercentage = pRigidBodyA->velocity.y / totalVelocity;
+		velocityAdjustment = shortestCollisionDistance.y * velocityPercentage;
+		velocityAdjustment = abs(velocityAdjustment / pRigidBodyA->velocity.y) * -1;
+
+		if (pRigidBodyA->velocity.y > 0)
 			normal = Vector2(0, -1);
 		else
 			normal = Vector2(0, 1);
+
+		otherNormal = normal * -1;
+		pRigidBodyA->HandleCollision(Collision(pRigidBodyB->object, normal, velocityAdjustment));
+		pRigidBodyB->HandleCollision(Collision(pRigidBodyA->object, otherNormal, velocityAdjustment));
 	}
-
-	otherNormal = normal * -1;
 	
-	std::cout << "Adjustment: " << velocityAdjustment << "\n";
-	std::cout << pRigidBody->object->GetID() << ", " << pRigidBody->object->position.printVector();
-	std::cout << pOtherRigidBody->object->GetID() << ", " << pOtherRigidBody->object->position.printVector();
+	//std::cout << "Adjustment: " << velocityAdjustment << "\n";
+	//std::cout << pRigidBodyA->object->GetID() << ", " << pRigidBodyA->object->position.printVector();
+	//std::cout << pRigidBodyB->object->GetID() << ", " << pRigidBodyB->object->position.printVector();
 
-	pRigidBody->HandleCollision(Collision(pOtherRigidBody->object, normal, velocityAdjustment));
-	pOtherRigidBody->HandleCollision(Collision(pRigidBody->object, otherNormal, velocityAdjustment));
+	CollisionVelocityHandling(pRigidBodyB, pRigidBodyA, normal);
 }
 
-void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<RigidBody> pOtherRigidBody, Vector2 pNormal)
+void CollisionChecker::RigidBodyCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB)
 {
-	float totalMass = pRigidBody->mass + pOtherRigidBody->mass;
+	Vector2 collisionDistance = CalculateCollisionDistance(pRigidBodyA, pRigidBodyB);
+
+	Vector2 normal, otherNormal;
+
+	if (collisionDistance.x > collisionDistance.y)
+	{
+		if (pRigidBodyB->velocity.x > pRigidBodyA->velocity.x)
+			return;
+
+		if (pRigidBodyA->velocity.x > 0)
+			normal = Vector2(-1, 0);
+		else
+			normal = Vector2(1, 0);
+
+		otherNormal = normal * -1;
+
+		float totalVelocity = abs(pRigidBodyA->velocity.x) + abs(pRigidBodyB->velocity.x);
+		float velocityPercentageA = pRigidBodyA->velocity.x / totalVelocity;
+		float velocityAdjustmentA;
+
+		if (velocityPercentageA != 0)
+		{
+			velocityAdjustmentA = collisionDistance.x * velocityPercentageA;
+			velocityAdjustmentA = abs(velocityAdjustmentA) * normal.x;
+		}
+		else
+		{
+			velocityAdjustmentA = 0;
+		}
+
+		float velocityPercentageB = pRigidBodyB->velocity.x / totalVelocity;
+		float velocityAdjustmentB;
+
+		if (velocityPercentageB != 0)
+		{
+			velocityAdjustmentB = collisionDistance.x * velocityPercentageB;
+			velocityAdjustmentB = abs(velocityAdjustmentB) * otherNormal.x;
+		}
+		else
+		{
+			velocityAdjustmentB = 0;
+		}
+
+		std::cout << "Before " << pRigidBodyA->object->position.printVector();
+
+
+		pRigidBodyA->HandleCollision(Collision(pRigidBodyB->object, normal, velocityAdjustmentA));
+		pRigidBodyB->HandleCollision(Collision(pRigidBodyA->object, otherNormal, velocityAdjustmentB));
+
+		std::cout << "After " << pRigidBodyA->object->position.printVector();
+		std::cout << pRigidBodyB->object->position.printVector();
+	}
+	else
+	{
+		if (pRigidBodyA->collider->top < pRigidBodyB->collider->top)
+		{
+			if (pRigidBodyB->velocity.y > pRigidBodyA->velocity.y)
+				return;
+		}
+		else
+		{
+			if (pRigidBodyA->velocity.y > pRigidBodyB->velocity.y)
+				return;
+		}
+
+		if (pRigidBodyA->velocity.y > 0)
+			normal = Vector2(0, -1);
+		else
+			normal = Vector2(0, 1);
+		
+		otherNormal = normal * -1;
+
+		float totalVelocity = abs(pRigidBodyA->velocity.y) + abs(pRigidBodyB->velocity.y);
+		float velocityPercentageA = pRigidBodyA->velocity.y / totalVelocity;
+		float velocityAdjustmentA;
+
+		if (velocityPercentageA != 0)
+		{
+			velocityAdjustmentA = collisionDistance.y * velocityPercentageA;
+			velocityAdjustmentA = abs(velocityAdjustmentA) * normal.y;
+		}
+		else
+		{
+			velocityAdjustmentA = 0;
+		}
+
+		float velocityPercentageB = 1 - abs(velocityPercentageA);
+		float velocityAdjustmentB;
+
+		if (velocityPercentageB != 0)
+		{
+			velocityAdjustmentB = collisionDistance.y * velocityPercentageB;
+			velocityAdjustmentB = abs(velocityAdjustmentB) * otherNormal.y;
+		}
+		else
+		{
+			velocityAdjustmentB = 0;
+		}
+		
+		pRigidBodyA->HandleCollision(Collision(pRigidBodyB->object, normal, velocityAdjustmentA));
+		pRigidBodyB->HandleCollision(Collision(pRigidBodyA->object, otherNormal, velocityAdjustmentB));
+	}
+
+	CollisionVelocityHandling(pRigidBodyA, pRigidBodyB, normal);
+}
+
+void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB, Vector2 pNormal)
+{
+	float totalMass = pRigidBodyA->mass + pRigidBodyB->mass;
 	totalMass = 1 / totalMass;
+
+	std::shared_ptr<RigidBody> impactingRigidBody, receivingRigidBody;
+
+	float momentumA = pRigidBodyA->velocity.GetLength() * pRigidBodyA->mass;
+	float momentumB = pRigidBodyB->velocity.GetLength() * pRigidBodyB->mass;
+
+	if (momentumA > momentumB)
+	{
+		impactingRigidBody = pRigidBodyA;
+		receivingRigidBody = pRigidBodyB;
+	}
+	else
+	{
+		impactingRigidBody = pRigidBodyB;
+		receivingRigidBody = pRigidBodyA;
+	}
 
 	Vector2 aImpulse, bImpulse;
 
 	if (pNormal.x == 0)
 	{
-		float xVelocity = (pRigidBody->velocity.x * (0.4f / pOtherRigidBody->mass) - pOtherRigidBody->velocity.x) * totalMass;
-		float yVelocity = (pRigidBody->velocity.y - pOtherRigidBody->velocity.y) * totalMass;
-
+		float xVelocity = (impactingRigidBody->velocity.x * (0.4f / receivingRigidBody->mass) - receivingRigidBody->velocity.x) * totalMass;
+		float yVelocity = (impactingRigidBody->velocity.y - receivingRigidBody->velocity.y) * totalMass;
+	
 		bImpulse = Vector2(xVelocity, yVelocity);
-		aImpulse = Vector2(xVelocity, yVelocity * pOtherRigidBody->mass) * -1;
+		aImpulse = Vector2(xVelocity, yVelocity * receivingRigidBody->mass) * -1;
 	}
-	if(pNormal.y == 0)
+	if (pNormal.y == 0)
 	{
-		float xVelocity = (pRigidBody->velocity.x - pOtherRigidBody->velocity.x) * totalMass;
-		float yVelocity = (pRigidBody->velocity.y * (0.4f / pOtherRigidBody->mass) - pOtherRigidBody->velocity.y) * totalMass;
-
-		bImpulse = Vector2(xVelocity, yVelocity);
-		aImpulse = Vector2(xVelocity * pOtherRigidBody->mass, yVelocity) * -1;
+		float xVelocityDifference = (impactingRigidBody->velocity.x - receivingRigidBody->velocity.x) * totalMass;
+		float yVelocity = (impactingRigidBody->velocity.y * (0.4f / receivingRigidBody->mass) - receivingRigidBody->velocity.y) * totalMass;
+	
+		bImpulse = Vector2(xVelocityDifference, yVelocity);
+		aImpulse = Vector2(xVelocityDifference * receivingRigidBody->mass, yVelocity) * -1;
 	}
+	
+	//if (pNormal.x == 0)
+	//{
+	//	float xVelocity = (pRigidBodyA->velocity.x * (0.4f / pRigidBodyB->mass) - pRigidBodyB->velocity.x) * totalMass;
+	//	float yVelocity = (pRigidBodyA->velocity.y - pRigidBodyB->velocity.y) * totalMass;
+	//
+	//	bImpulse = Vector2(xVelocity, yVelocity);
+	//	aImpulse = Vector2(xVelocity, yVelocity * pRigidBodyB->mass) * -1;
+	//}
+	//if(pNormal.y == 0)
+	//{
+	//	float xVelocityDifference = (pRigidBodyA->velocity.x - pRigidBodyB->velocity.x) * totalMass;
+	//	float yVelocity = (pRigidBodyA->velocity.y * (0.4f / pRigidBodyB->mass) - pRigidBodyB->velocity.y) * totalMass;
+	//
+	//	bImpulse = Vector2(xVelocityDifference, yVelocity);
+	//	aImpulse = Vector2(xVelocityDifference * pRigidBodyB->mass, yVelocity) * -1;
+	//}
+	
+	//std::cout << impactingRigidBody->object->GetID() << ": " << aImpulse.printVector();
+	//std::cout << receivingRigidBody->object->GetID() << ": " << bImpulse.printVector();
 
-	pRigidBody->AddForce(aImpulse, RigidBody::instant);
-	pOtherRigidBody->AddForce(bImpulse, RigidBody::instant);
-}
+	impactingRigidBody->AddForce(aImpulse, RigidBody::instant);
+	receivingRigidBody->AddForce(bImpulse, RigidBody::instant);
+}	
 
 Vector2 CollisionChecker::CalculateCollisionTime(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<AABBCollider> pObjectCollider)
 {
 	std::shared_ptr<AABBCollider> controllerCollider = pRigidBody->collider;
 	Vector2 pawnVelocity = pRigidBody->velocity;
-	float xCollisionEntry, yCollisionEntry;
-	float xCollisionTime, yCollisionTime;
+	float xCollisionEntryDistance, yCollisionEntryDistance;
 
 	if (pawnVelocity.x != 0)
 	{
 		if (pawnVelocity.x > 0)
-			xCollisionEntry = pObjectCollider->left - controllerCollider->right;
-		else
-			xCollisionEntry = pObjectCollider->right - controllerCollider->left;
+		{
+			xCollisionEntryDistance = pObjectCollider->left - controllerCollider->right;
 
-		xCollisionTime = xCollisionEntry / pawnVelocity.x;
+			if (xCollisionEntryDistance > 10 || xCollisionEntryDistance < -100)
+				xCollisionEntryDistance = 0;
+		}
+		else
+		{
+			xCollisionEntryDistance = pObjectCollider->right - controllerCollider->left;
+
+			if (xCollisionEntryDistance > 10 || xCollisionEntryDistance < -100)
+				xCollisionEntryDistance = 0;
+		}
 	}
 	else
 	{
-		xCollisionEntry = -std::numeric_limits<float>::infinity();
-		xCollisionTime = -std::numeric_limits<float>::infinity();
+		xCollisionEntryDistance = std::numeric_limits<float>::infinity();
 	}
 
 	if (pawnVelocity.y != 0)
 	{
 		if (pawnVelocity.y > 0)
-			yCollisionEntry = pObjectCollider->top - controllerCollider->bottom;
+			yCollisionEntryDistance = pObjectCollider->top - controllerCollider->bottom;
 		else
-			yCollisionEntry = pObjectCollider->bottom - controllerCollider->top;
-
-		yCollisionTime = yCollisionEntry / pawnVelocity.y;
+			yCollisionEntryDistance = pObjectCollider->bottom - controllerCollider->top;
 	}
 	else
 	{
-		yCollisionEntry = -std::numeric_limits<float>::infinity();
-		yCollisionTime = -std::numeric_limits<float>::infinity();
+		yCollisionEntryDistance = std::numeric_limits<float>::infinity();
 	}
 
-	return Vector2(xCollisionEntry, yCollisionEntry);
+	if (xCollisionEntryDistance > 100)
+	{
+		std::cout << "balls\n";
+	}
+
+	return Vector2(xCollisionEntryDistance, yCollisionEntryDistance);
 }
 
-Vector2 CollisionChecker::ElasticCollision(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<RigidBody> pOtherRigidBody)
+Vector2 CollisionChecker::CalculateCollisionDistance(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB)
 {
-	float mass1 = pRigidBody->mass;
-	float mass2 = pOtherRigidBody->mass;
+	std::shared_ptr<AABBCollider> colliderA = pRigidBodyA->collider;
+	std::shared_ptr<AABBCollider> colliderB = pRigidBodyB->collider;
 
-	std::shared_ptr<AABBCollider> col1 = pRigidBody->collider;
-	std::shared_ptr<AABBCollider> col2 = pOtherRigidBody->collider;
+	float xCollisionDistance = colliderB->left - colliderA->right;
+	float yCollisionDistance = 0;
 
-	Vector2 v1 = pRigidBody->velocity;
-	Vector2 v2 = pOtherRigidBody->velocity;
+	std::cout << colliderA->right << " A right\n";
+	std::cout << colliderB->left << " B left\n";
 
+	//std::cout << "Collider pos desync: " << colliderA->position->x << ", right: " << colliderA->right << "\n";
+
+	if (colliderA->top < colliderB->top)
+		yCollisionDistance = colliderB->top - colliderA->bottom;
+	else
+		yCollisionDistance = colliderA->top - colliderB->bottom;
+
+	std::cout << "x col dist: " << xCollisionDistance << "\n";
+	std::cout << "y col dist: " << yCollisionDistance << "\n";
+
+	return Vector2(xCollisionDistance, yCollisionDistance);
+}
+
+Vector2 CollisionChecker::ElasticCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB)
+{
+	float mass1 = pRigidBodyA->mass;
+	float mass2 = pRigidBodyB->mass;
+	
+	std::shared_ptr<AABBCollider> col1 = pRigidBodyA->collider;
+	std::shared_ptr<AABBCollider> col2 = pRigidBodyB->collider;
+	
+	Vector2 v1 = pRigidBodyA->velocity;
+	Vector2 v2 = pRigidBodyB->velocity;
+	
 	Vector2 normal = Vector2(col2->position->x - col1->position->x, col2->position->y - col1->position->y);
 	normal.Normalize();
 	Vector2 tangent = Vector2(-normal.y, normal.x);
-
+	
 	float v1n, v1t, v2n, v2t;
-
+	
 	v1n = v1.Dot(normal);
 	v1t = v1.Dot(tangent);
 	v2n = v2.Dot(normal);
 	v2t = v2.Dot(tangent);
-
+	
 	float v1np = ((v1n * (mass1 - mass2)) + (2 * mass2 * v2n)) / (mass1 + mass2);
 	float v2np = ((v2n * (mass2 - mass1)) + (2 * mass1 * v1n)) / (mass1 + mass2);
-
+	
 	Vector2 v1p = (normal * v1np) + (tangent * v1t);
 	Vector2 v2p = (normal * v2np) + (tangent * v2t);
-
-	pRigidBody->AddForce(v1p, RigidBody::velocityChange);
-	pOtherRigidBody->AddForce(v2p, RigidBody::velocityChange);
-
+	
+	pRigidBodyA->AddForce(v1p, RigidBody::velocityChange);
+	pRigidBodyB->AddForce(v2p, RigidBody::velocityChange);
+	
 	return Vector2();
 }
-
-// Clean up DiscreteCollision function and make it pretty :)
-// 
-// Implement continuous collision detection
-//
-// Create a better normal calculation
