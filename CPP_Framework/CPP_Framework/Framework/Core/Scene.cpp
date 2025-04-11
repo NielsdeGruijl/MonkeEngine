@@ -21,16 +21,12 @@ void Scene::UpdateScene()
 	}
 
 	collisionChecker.CheckCollisions();
-
-	//std::cout << "=====\n";
 }
 
 void Scene::CollisionUpdate()
 {
 	if (!isLoaded)
 		return;
-
-	//collisionChecker.CheckCollisions();
 }
 
 void Scene::RenderScene(sf::RenderWindow* renderWindow)

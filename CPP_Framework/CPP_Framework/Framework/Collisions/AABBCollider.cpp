@@ -22,14 +22,7 @@ AABBCollider::~AABBCollider()
 void AABBCollider::Update()
 {
 	Component::Update();
-
-	left = position->x - radius.x;
-	right = position->x + radius.x;
-	top = position->y - radius.y;
-	bottom = position->y + radius.y;
-	
-	//std::cout << object->GetID() << " collider position: " << position->x << "\n";
-	//std::cout << object->GetID() << " collider right: " << right << "\n";
+	UpdateBounds();
 }
 
 void AABBCollider::UpdateBounds()
@@ -45,77 +38,33 @@ bool AABBCollider::CheckCollision(std::shared_ptr<AABBCollider> pCollider)
 	UpdateBounds();
 	pCollider->UpdateBounds();
 
-	float topDiff = top - pCollider->bottom;
-	float bottomDiff = bottom - pCollider->top;
-	float leftDiff = left - pCollider->right;
-	float rightDiff = right - pCollider->left;
+	float rightToLeftDistance = pCollider->left - right;
+	float topToBottomDistance = top - pCollider->bottom;
+	float bottomToTopDistance = bottom - pCollider->top;
 	Vector2 totalSize = size + pCollider->size;
 
-	float rightDistance = pCollider->left - right;
-
-	//if (abs(topDiff) < totalSize.y && abs(bottomDiff) < totalSize.y)
-	//{
-	//	if (leftDiff < -0.01f && rightDiff > 0)
-	//	{
-	//		if (currentCollisionState != exit)
-	//			SetCollisionState(pCollider, stay);
-	//		
-	//		if (currentCollisionState == exit)
-	//			SetCollisionState(pCollider, enter);
-	//		
-	//		return true;
-	//	}
-	//	if (abs(leftDiff) <= 1 || abs(rightDiff) <= 1)
-	//	{
-	//		if (currentCollisionState != exit)
-	//			SetCollisionState(pCollider, stay);
-	//		
-	//		return false;
-	//	}
-	//}
-	//if (abs(leftDiff) < totalSize.x && abs(rightDiff) < totalSize.x)
-	//{
-	//	if (topDiff < 0 && bottomDiff > 0)
-	//	{
-	//		if (currentCollisionState != exit)
-	//			SetCollisionState(pCollider, stay);
-	//		
-	//		if (currentCollisionState == exit)
-	//			SetCollisionState(pCollider, enter);
-	//		
-	//		return true;
-	//	}
-	//	if (abs(topDiff) <= 1 || abs(bottomDiff) <= 1)
-	//	{
-	//		if (currentCollisionState != exit)
-	//			SetCollisionState(pCollider, stay);
-	//		return false;
-	//	}
-	//}
-
-	if (rightDistance < 0)
+	if (rightToLeftDistance <= 0)
 	{
-		if (topDiff < 0 && bottomDiff > 0)
+		if (topToBottomDistance < 0 && bottomToTopDistance > 0)
 		{
-			if (currentCollisionState != exit)
-				SetCollisionState(pCollider, stay);
-
 			if (currentCollisionState == exit)
 				SetCollisionState(pCollider, enter);
 
 			return true;
 		}
-		if (abs(topDiff) < 0.1f || abs(bottomDiff) < 0.1f)
+		if (abs(topToBottomDistance) > 0.5f && abs(bottomToTopDistance) > 0.5f)
 		{
 			if (currentCollisionState != exit)
-				SetCollisionState(pCollider, stay);
+				SetCollisionState(pCollider, exit);
 
 			return false;
 		}
 	}
-	
-	if (currentCollisionState != exit)
-		SetCollisionState(pCollider, exit);
+	if (rightToLeftDistance > 0.5f)
+	{
+		if (currentCollisionState != exit)
+			SetCollisionState(pCollider, exit);
+	}
 
 	return false;
 }
