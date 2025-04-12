@@ -1,4 +1,8 @@
-﻿  AABBCollider.cpp
+﻿  Game.cpp
   Scene.cpp
+  SceneManager.cpp
+  Main.cpp
+  CollisionTestScene.cpp
+  TestScene.cpp
   Generating Code...
   CPP_Framework.vcxproj -> D:\School\Tools\CPP_Framework_Repo\CPP_Framework\Debug\CPP_Framework.exe

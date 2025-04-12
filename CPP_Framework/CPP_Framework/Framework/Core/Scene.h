@@ -27,7 +27,6 @@ public:
 
 protected:
 	std::vector<Object*> objects;
-	std::vector<Pawn*> pawns;
 	CollisionChecker collisionChecker;
 
 	bool isLoaded;

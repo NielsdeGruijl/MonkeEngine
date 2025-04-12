@@ -11,11 +11,8 @@ public:
 	void AddRigidBody(std::shared_ptr<RigidBody> pRigidBodyA);
 
 	void CheckCollisions();
-	bool WillRigidBodiesCollide(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB);
 
-	void PawnToObjectCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<AABBCollider> pRigidBodyB);
-	void PawnToPawnCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB);
-
+	void ObjectCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<AABBCollider> pRigidBodyB);
 	void RigidBodyCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB);
 
 	Vector2 CalculateCollisionTime(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<AABBCollider> pObjectCollider);

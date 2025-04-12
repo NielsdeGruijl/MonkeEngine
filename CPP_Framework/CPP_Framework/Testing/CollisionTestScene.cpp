@@ -18,14 +18,15 @@ CollisionTestScene::CollisionTestScene()
 	pawn1.rigidBody->friction = 0;
 	pawn1.spriteRenderer->SetColor(sf::Color::Red);
 	//
-	//obstacle.SetPosition(Vector2(1230, 360));
-	//obstacle.AddComponent<AABBCollider>(obstacle.GetSize(), obstacle.position);
+	obstacle.SetPosition(Vector2(0, 360));
+	obstacle.SetScale(Vector2(1, 720));
+	obstacle.AddComponent<RigidBody>(&obstacle);
 	//
 	//obstacle2.SetPosition(Vector2(0, 360));
 	//obstacle2.SetScale(1);
 	//obstacle2.AddComponent<AABBCollider>(obstacle2.GetSize(), obstacle2.position);
 	//
-	player.SetPosition(Vector2(50, 360));
+	player.SetPosition(Vector2(120, 360));
 	player.rigidBody->gravity = 0;
 	player.rigidBody->mass = 1;
 	player.rigidBody->drag = 1;
@@ -34,7 +35,7 @@ CollisionTestScene::CollisionTestScene()
 	//AddObject(&pawn);
 	AddObject(&pawn1);
 	AddObject(&player);
-	//AddObject(&obstacle);
+	AddObject(&obstacle);
 	//AddObject(&obstacle2);
 
 	//a.AddComponent<RigidBody>(1, 1, 1);

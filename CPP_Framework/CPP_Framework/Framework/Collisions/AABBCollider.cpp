@@ -43,7 +43,7 @@ bool AABBCollider::CheckCollision(std::shared_ptr<AABBCollider> pCollider)
 	float bottomToTopDistance = bottom - pCollider->top;
 	Vector2 totalSize = size + pCollider->size;
 
-	if (rightToLeftDistance <= 0)
+	if (rightToLeftDistance <= 0 && abs(rightToLeftDistance) < totalSize.x)
 	{
 		if (topToBottomDistance < 0 && bottomToTopDistance > 0)
 		{
