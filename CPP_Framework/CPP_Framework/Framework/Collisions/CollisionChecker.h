@@ -8,7 +8,10 @@ class CollisionChecker
 {
 public:
 	void AddCollider(std::shared_ptr<AABBCollider> pCollider);
-	void AddRigidBody(std::shared_ptr<RigidBody> pRigidBodyA);
+	void RemoveCollider(std::shared_ptr<AABBCollider> pCollider);
+
+	void AddRigidBody(std::shared_ptr<RigidBody> pRigidBody);
+	void RemoveRigidBody(std::shared_ptr<RigidBody> pRigidBody);
 
 	void CheckCollisions();
 

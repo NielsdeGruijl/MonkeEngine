@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asteroids\AsteroidsScene.cpp" />
+    <ClCompile Include="Asteroids\Bullet.cpp" />
     <ClCompile Include="Asteroids\SpaceShip.cpp" />
     <ClCompile Include="Framework\Collisions\AABBCollider.cpp" />
     <ClCompile Include="Framework\Collisions\CollisionChecker.cpp" />
@@ -42,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asteroids\AsteroidsScene.h" />
+    <ClInclude Include="Asteroids\Bullet.h" />
     <ClInclude Include="Asteroids\SpaceShip.h" />
     <ClInclude Include="Framework\Collisions\AABBCollider.h" />
     <ClInclude Include="Framework\Collisions\Collision.h" />

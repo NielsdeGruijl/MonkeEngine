@@ -58,7 +58,7 @@ void Scene::Load()
 void Scene::RegisterCollider(Object* object)
 {
 	std::shared_ptr<RigidBody> rigidBody;
-	std::shared_ptr <AABBCollider> collider;
+	std::shared_ptr<AABBCollider> collider;
 
 	if(object->TryGetComponent(rigidBody))
 		collisionChecker.AddRigidBody(rigidBody);
@@ -66,9 +66,24 @@ void Scene::RegisterCollider(Object* object)
 		collisionChecker.AddCollider(collider);
 }
 
-void Scene::AddObject(Object* object)
+void Scene::AddObject(Object* pObject)
 {
-	objects.push_back(object);
+	objects.push_back(pObject);
+
+	if (isLoaded)
+	{
+		pObject->OnLoad();
+
+		RegisterCollider(pObject);
+
+		pObject->Start();
+	}
+}
+
+void Scene::RemoveObject(Object* pObject)
+{
+	auto it = std::find(objects.begin(), objects.end(), pObject);
+	objects.erase(it);
 }
 
 Object* Scene::FindObjectByName(std::string objectId) const

@@ -5,6 +5,7 @@
 #include "../Math/Vector2.h"
 #include "../Collisions/AABBCollider.h"	
 
+class CollisionChecker;
 struct Collision;
 
 class RigidBody : public Component
@@ -18,6 +19,7 @@ public:
 	};
 
 	std::shared_ptr<AABBCollider> collider;
+	CollisionChecker* collisionChecker;
 
 	Vector2 velocity;
 

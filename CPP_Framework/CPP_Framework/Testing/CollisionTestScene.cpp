@@ -1,8 +1,8 @@
 #include "CollisionTestScene.h"
 
 CollisionTestScene::CollisionTestScene()
-	: obstacle("obstacle", "TransparentSquare.png", 160), obstacle2("obstacle2", "TransparentSquare.png", 160), enemy("enemy", "BlueSlime.png", 160), 
-	  player("Player", "BlueSlime.png", 160)
+	: obstacle(this, "obstacle", "TransparentSquare.png", 160), obstacle2(this, "obstacle2", "TransparentSquare.png", 160), enemy(this, "enemy", "BlueSlime.png", 160), 
+	  player(this, "Player", "BlueSlime.png", 160)
 {
 	obstacle.SetPosition(Vector2(0, 360));
 	obstacle.SetScale(Vector2(1, 720));

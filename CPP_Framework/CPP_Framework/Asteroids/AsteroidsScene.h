@@ -1,4 +1,5 @@
 #include "../Framework/Core/Scene.h"
+#include "SpaceShip.h"
 
 class AsteroidsScene : public Scene
 {
@@ -9,4 +10,5 @@ public:
 	void UpdateScene() override;
 
 private:
+	SpaceShip spaceShip;
 };

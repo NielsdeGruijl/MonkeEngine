@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
-GameObject::GameObject(std::string pID, std::string pFileName, int pPixelsPerUnit) 
-	: Object(pID)
+GameObject::GameObject(Scene* pScene, std::string pID, std::string pFileName, int pPixelsPerUnit) 
+	: Object(pScene, pID)
 {
 	AddComponent<SpriteRenderer>(this, pFileName, pPixelsPerUnit);
 
@@ -12,6 +12,11 @@ GameObject::GameObject(std::string pID, std::string pFileName, int pPixelsPerUni
 
 GameObject::~GameObject()
 {
+}
+
+void GameObject::Start()
+{
+	Object::Start();
 }
 
 void GameObject::Update()

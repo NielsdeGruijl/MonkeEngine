@@ -23,6 +23,7 @@ public:
 	void RegisterCollider(Object* object);
 
 	void AddObject(Object* object);
+	void RemoveObject(Object* object);
 	Object* FindObjectByName(std::string objectId) const;
 
 protected:

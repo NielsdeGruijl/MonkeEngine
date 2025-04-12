@@ -19,7 +19,7 @@ public:
 	Vector2 scale;
 
 public:
-	Object(std::string ID);
+	Object(Scene* pScene, std::string ID);
 	~Object();
 
 	virtual void OnLoad();
@@ -94,6 +94,8 @@ public:
 
 protected:
 	std::vector<std::shared_ptr<Component>> components;
+
+	Scene* scene;
 
 protected:
 	virtual void OnCollisionEnter();

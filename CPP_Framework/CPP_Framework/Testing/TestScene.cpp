@@ -1,7 +1,7 @@
 #include "TestScene.h"
 
 TestScene::TestScene()
-	: Scene(), staticObject("staticObject", "TestSquare.png", 160), rectangleObject("rectangle", "OOcat.jpg", 3024), player("player", "Cat.jpg", 236)
+	: Scene(), staticObject(this, "staticObject", "TestSquare.png", 160), rectangleObject(this, "rectangle", "OOcat.jpg", 3024), player(this, "player", "Cat.jpg", 236)
 {
     staticObject.SetPosition(Vector2(1280, 720));
     AddObject(&staticObject);

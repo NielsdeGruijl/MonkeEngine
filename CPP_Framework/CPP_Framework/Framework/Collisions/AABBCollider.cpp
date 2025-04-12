@@ -3,6 +3,8 @@
 #include "../Objects/Object.h"
 #include "AABBCollider.h"
 
+#include "../Collisions/CollisionChecker.h"
+
 AABBCollider::AABBCollider(Object* pObject, Vector2 pSize, Vector2* pPosition)
 	: Component(pObject)
 {
@@ -17,6 +19,7 @@ AABBCollider::AABBCollider(Object* pObject, Vector2 pSize, Vector2* pPosition)
 
 AABBCollider::~AABBCollider()
 {
+	Component::~Component();
 }
 
 void AABBCollider::Update()

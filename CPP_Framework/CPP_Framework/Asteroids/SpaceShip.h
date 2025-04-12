@@ -9,8 +9,22 @@
 class SpaceShip : public GameObject
 {
 public:
-	SpaceShip(std::string pId, std::string pFileName, int pPixelsPerUnit);
+	SpaceShip(Scene* pScene, std::string pId, std::string pFileName, int pPixelsPerUnit);
 	~SpaceShip();
 
 	std::shared_ptr<RigidBody> rigidBody;
+
+private:
+	void OnLoad() override;
+	void Start() override;
+	void Update() override;
+	
+
+	InputActionMap inputActionMap;
+	InputHandler input;
+
+	Vector2 velocity;
+
+	float moveSpeed;
+
 };

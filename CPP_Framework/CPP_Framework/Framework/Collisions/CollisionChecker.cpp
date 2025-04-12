@@ -10,9 +10,22 @@ void CollisionChecker::AddCollider(std::shared_ptr<AABBCollider> pCollider)
 	objectColliders.push_back(pCollider);
 }
 
+void CollisionChecker::RemoveCollider(std::shared_ptr<AABBCollider> pCollider)
+{
+	auto it = std::find(objectColliders.begin(), objectColliders.end(), pCollider);
+	objectColliders.erase(it);
+}
+
 void CollisionChecker::AddRigidBody(std::shared_ptr<RigidBody> pRigidBody)
 {
 	rigidBodies.push_back(pRigidBody);
+	pRigidBody->collisionChecker = this;
+}
+
+void CollisionChecker::RemoveRigidBody(std::shared_ptr<RigidBody> pRigidBody)
+{
+	auto it = std::find(rigidBodies.begin(), rigidBodies.end(), pRigidBody);
+	rigidBodies.erase(it);
 }
 
 void CollisionChecker::CheckCollisions()
@@ -38,7 +51,7 @@ void CollisionChecker::CheckCollisions()
 				ObjectCollision(rigidBodies[i], objectColliders[j]);
 			}
 		}
-
+		
 		// Rigidbody vs other rigidbody
 		for (size_t j = i + 1; j < rigidBodies.size(); j++)
 		{

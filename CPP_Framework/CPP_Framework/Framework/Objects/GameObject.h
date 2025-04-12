@@ -10,11 +10,12 @@ public:
 	std::shared_ptr<SpriteRenderer> spriteRenderer;
 
 public:
-	GameObject(std::string pID, std::string pFileName, int pPixelsPerUnit = 100);
+	GameObject(Scene* pScene, std::string pID, std::string pFileName, int pPixelsPerUnit = 100);
 	~GameObject();
 
-	void Render(sf::RenderWindow* pRenderWindow) override;
+	void Start() override;
 	void Update() override;
+	void Render(sf::RenderWindow* pRenderWindow) override;
 
 	void SetPosition(const Vector2 pPosition);
 	void SetScale(const Vector2 pScale);

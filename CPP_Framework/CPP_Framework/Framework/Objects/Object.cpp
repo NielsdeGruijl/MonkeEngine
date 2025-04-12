@@ -4,14 +4,15 @@
 
 extern const int unitSize;
 
-Object::Object(std::string ID) 
-	: objectId(ID)
+Object::Object(Scene* pScene, std::string ID)
+	: scene(pScene), objectId(ID)
 {
 	size = Vector2(unitSize, unitSize);
 }
 
 Object::~Object()
 {
+
 }
 
 void Object::OnLoad()
