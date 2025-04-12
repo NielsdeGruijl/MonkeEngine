@@ -5,7 +5,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-#include "../Objects/Pawn.h"
+#include "../Objects/GameObject.h"
 #include "../Collisions/CollisionChecker.h"
 
 class Scene

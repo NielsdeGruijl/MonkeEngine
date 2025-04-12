@@ -1,12 +1,18 @@
 #include "Player.h"
 
 Player::Player(std::string objectId, std::string fileName, int pixelsPerUnit)
-	: Pawn(objectId, fileName, pixelsPerUnit), input()
+	: GameObject(objectId, fileName, pixelsPerUnit), input()
 {
 	SetActionMap(&defaultInputActionMap);
 
+	rigidBody = AddComponent<RigidBody>(this);
+
 	moveSpeed = 6;
 	dashSpeed = 10;
+
+	rigidBody->drag = 1;
+	rigidBody->mass = 1;
+	rigidBody->gravity = 0;
 }
 
 Player::~Player() 
@@ -15,25 +21,19 @@ Player::~Player()
 
 void Player::OnLoad()
 {
-	Pawn::OnLoad();
+	GameObject::OnLoad();
 }
 
 void Player::Start()
 {
-	Pawn::Start();
+	GameObject::Start();
 }
 
 void Player::Update()
 {
 	std::shared_ptr<AABBCollider> col;
 
-	if (TryGetComponent<AABBCollider>(col))
-	{
-		//std::cout << "a" << col->position->printVector();
-		//std::cout << "b" << position.printVector();
-	}
-
-	Pawn::Update();
+	GameObject::Update();
 
 	inputMoveDirection = Vector2((float)input.GetHorizontalAxis(), (float)input.GetVerticalAxis());
 

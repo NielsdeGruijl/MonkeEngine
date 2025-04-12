@@ -1,12 +1,6 @@
 #include "CollisionChecker.h"
 
-#include "../Objects/Pawn.h"
-
-#include "../Components/SpriteRenderer.h"
-#include "../Components/RigidBody.h"
-
 #include "../Math/Timer.h"
-
 #include "Collision.h"
 
 extern float deltaTime;

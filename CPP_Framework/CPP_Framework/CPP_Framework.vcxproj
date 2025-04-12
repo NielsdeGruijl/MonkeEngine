@@ -31,7 +31,6 @@
     <ClCompile Include="Framework\Input\InputHandler.cpp" />
     <ClCompile Include="Framework\Main.cpp" />
     <ClCompile Include="Framework\Objects\Object.cpp" />
-    <ClCompile Include="Framework\Objects\Pawn.cpp" />
     <ClCompile Include="Testing\CollisionTestScene.cpp" />
     <ClCompile Include="Testing\Player.cpp" />
     <ClCompile Include="Framework\Core\Scene.cpp" />
@@ -52,7 +51,6 @@
     <ClInclude Include="Framework\Components\RigidBody.h" />
     <ClInclude Include="Framework\Input\InputHandler.h" />
     <ClInclude Include="Framework\Objects\Object.h" />
-    <ClInclude Include="Framework\Objects\Pawn.h" />
     <ClInclude Include="Testing\CollisionTestScene.h" />
     <ClInclude Include="Testing\Player.h" />
     <ClInclude Include="Framework\Core\Scene.h" />

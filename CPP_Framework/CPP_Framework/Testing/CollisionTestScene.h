@@ -15,9 +15,7 @@ private:
 	GameObject obstacle;
 	GameObject obstacle2;
 
-	GameObject a;
 	Player player;
 
-	Pawn pawn;
-	Pawn pawn1;
+	GameObject enemy;
 };

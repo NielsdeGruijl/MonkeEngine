@@ -30,9 +30,6 @@
     <ClCompile Include="Framework\Objects\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Objects\Pawn.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Testing\TestScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -81,9 +78,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Objects\GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Objects\Pawn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Math\Vector2.h">

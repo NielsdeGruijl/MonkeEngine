@@ -1,10 +1,11 @@
 #pragma once
 
-#include "../Framework/Objects/Pawn.h"
+#include "../Framework/Objects/GameObject.h"
+#include "../Framework/Components/RigidBody.h"
 #include "../Framework/Input/InputActionMap.h"
 #include "../Framework/Input/InputHandler.h"
 
-class Player : public Pawn
+class Player : public GameObject
 {
 public:
 	Player(std::string pObjectId, std::string pFileName, int pPixelsPerUnit);
@@ -15,6 +16,8 @@ public:
 	void Update() override;
 
 	void SetActionMap(InputActionMap* pMap);
+
+	std::shared_ptr<RigidBody> rigidBody;
 
 protected:
 	void OnCollisionEnter() override;

@@ -1,6 +1,5 @@
 #include <iostream>
 
-#include "../Objects/Pawn.h"
 #include "RigidBody.h"
 
 #include "../Collisions/Collision.h"
@@ -13,7 +12,7 @@ RigidBody::RigidBody(Object* pObject)
 {
 	mass = 1;
 	drag = 1;
-	gravity = 1;
+	gravity = 9.81f;
 	friction = 0;
 	bounciness = 0;
 
@@ -125,7 +124,7 @@ void RigidBody::HandleBounce(std::shared_ptr<RigidBody> pRigidBody)
 
 void RigidBody::Move()
 {
-	velocity -= dragForce + gravityForce;
+	velocity -= dragForce;
 	object->SetPosition(object->position + velocity * deltaTime * (float)unitSize);
 }
 
@@ -144,4 +143,6 @@ void RigidBody::ApplyGravity()
 		gravityForce = Vector2(0, 0);
 	else
 		gravityForce = Vector2(0, gravity);
+
+	AddForce(gravityForce);
 }
