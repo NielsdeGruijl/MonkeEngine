@@ -28,6 +28,8 @@ void InputActionMap::ChangeKey(std::string inputActionName, InputAction newInput
 		currentInputActionMap[inputActionName] = newInputAction;
 	else
 		std::cout << "Input action with name \"" << inputActionName << "\" doesn't exist, use AddKey() instead. \n";
+
+	InitializeKeybindsList();
 }
 
 void InputActionMap::AddKey(std::string inputActionName, InputAction newInputAction)
@@ -36,6 +38,39 @@ void InputActionMap::AddKey(std::string inputActionName, InputAction newInputAct
 		currentInputActionMap[inputActionName] = newInputAction;
 	else
 		std::cout << "Input action with name \"" << inputActionName << "\" already exists, use ChangeKey() instead. \n";
+
+	InitializeKeybindsList();
+}
+
+void InputActionMap::RemoveKey(std::string pInputActionName)
+{
+	std::cout << currentInputActionMap.size() << "\n";
+	std::cout << keys.size() << "\n";
+
+	if (currentInputActionMap.find(pInputActionName) != currentInputActionMap.end())
+	{
+		InputAction* action = &currentInputActionMap[pInputActionName];
+
+		auto it = std::find(keys.begin(), keys.end(), action);
+		keys.erase(it);
+
+		currentInputActionMap.erase(pInputActionName);
+	}
+
+	std::cout << currentInputActionMap.size() << "\n";
+	std::cout << keys.size() << "\n";
+}
+
+void InputActionMap::ClearMap()
+{
+	if (currentInputActionMap.size() > 0)
+	{
+		currentInputActionMap.clear();
+		keys.clear();
+	}
+
+	std::cout << currentInputActionMap.size() << "\n";
+	std::cout << keys.size() << "\n";
 }
 
 void InputActionMap::UpdateKeyStatus()

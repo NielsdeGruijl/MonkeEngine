@@ -26,6 +26,9 @@ bool InputHandler::GetKeyDown(std::string inputActionName)
 
 	InputAction* inputAction = currentInputActionMap->GetInputAction(inputActionName);
 
+	if (inputAction == nullptr)
+		return false;
+
 	if (!inputAction->previousFrameActive && sf::Keyboard::isKeyPressed(inputAction->keybind))
 	{
 		inputAction->currentFrameActive = true;
