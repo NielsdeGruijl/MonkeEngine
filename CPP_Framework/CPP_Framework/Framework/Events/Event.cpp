@@ -2,27 +2,28 @@
 
 void Event::Subscribe(const std::function<void(void)> pFunction)
 {
-	//subscribers.push_back(pFunction);
 	this->actions.push_back(Action(pFunction, actions.size()));
 }
 
 void Event::Unsubscribe(const std::function<void(void)> pFunction)
 {
-	//const auto& it = std::find(subscribers.begin(), subscribers.end(), subscriber);
-	//subscribers.erase(it);
+	for (Action action : actions)
+	{
+		if (*(long*)(char*)&pFunction == *(long*)(char*)&action.function)
+		{
+			auto it = std::find(actions.begin(), actions.end(), action);
+			actions.erase(it);
+		}
+	}
+}
+
+void Event::ClearSubscribers()
+{
+	actions.clear();
 }
 
 void Event::Invoke()
 {
-	//if (subscribers.size() <= 0)
-	//	return;
-	//
-	//for (size_t i = 0; i < subscribers.size(); i++)
-	//{
-	//	std::function<void()> f = subscribers[i];
-	//	f();
-	//}
-
 	if (this->actions.size() <= 0)
 		return;
 	

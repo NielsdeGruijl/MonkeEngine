@@ -7,11 +7,11 @@ Bullet::Bullet(Scene* pScene, std::string pObjectId, std::string pSpriteFileName
 {
 	moveSpeed = 10;
 
+	SetScale(0.25f);
+
 	rigidBody = AddComponent<RigidBody>(this);
 	rigidBody->gravity = 0;
 	rigidBody->drag = 0;
-
-	SetScale(0.25f);
 }
 
 Bullet::~Bullet()
@@ -32,8 +32,20 @@ void Bullet::Update()
 
 	if (lifeTime.getElapsedTime().asSeconds() > 1)
 	{
-		scene->RemoveObject(this);
 
-		delete this;
 	}
+}
+
+void Bullet::Destroy()
+{
+	scene->RemoveObject(this);
+
+	delete this;
+}
+
+void Bullet::OnCollisionEnter()
+{
+	Object::OnCollisionEnter();
+
+	Destroy();
 }

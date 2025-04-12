@@ -8,9 +8,8 @@
 class AABBCollider : public Component
 {
 public:
-	Vector2 radius;
-	Vector2 size;
 	Vector2* position;
+	Vector2 radius;
 
 	Event collisionEnterEvent;
 	Event collisionStayEvent;
@@ -30,7 +29,7 @@ public:
 	float left, right, top, bottom;
 
 public:
-	AABBCollider(Object* pObject, Vector2 pSize, Vector2* pPosition);
+	AABBCollider(Object* pObject, Vector2* pPosition);
 	~AABBCollider();
 
 	void Update() override;

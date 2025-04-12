@@ -18,8 +18,10 @@ RigidBody::RigidBody(Object* pObject)
 
 	isGrounded = false;
 
+	Vector2 tempObjectSize = object->GetSize();
+
 	if (collider == nullptr)
-		collider = object->AddComponent<AABBCollider>(object, object->GetSize(), &object->position);
+		collider = object->AddComponent<AABBCollider>(object, &object->position);
 }
 
 RigidBody::~RigidBody()

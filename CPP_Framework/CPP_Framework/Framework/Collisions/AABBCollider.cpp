@@ -3,11 +3,10 @@
 #include "../Objects/Object.h"
 #include "AABBCollider.h"
 
-AABBCollider::AABBCollider(Object* pObject, Vector2 pSize, Vector2* pPosition)
+AABBCollider::AABBCollider(Object* pObject, Vector2* pPosition)
 	: Component(pObject)
 {
-	size = pSize;
-	radius = pSize * 0.5f;
+	radius = Vector2(0, 0);
 	position = &pObject->position;
 
 	isTrigger = false;
@@ -18,6 +17,10 @@ AABBCollider::AABBCollider(Object* pObject, Vector2 pSize, Vector2* pPosition)
 AABBCollider::~AABBCollider()
 {
 	Component::~Component();
+	
+	collisionEnterEvent.ClearSubscribers();
+	collisionStayEvent.ClearSubscribers();
+	collisionExitEvent.ClearSubscribers();
 }
 
 void AABBCollider::Update()
@@ -28,6 +31,8 @@ void AABBCollider::Update()
 
 void AABBCollider::UpdateBounds()
 {
+	radius = object->GetSize() * 0.5f;
+
 	left = position->x - radius.x;
 	right = position->x + radius.x;
 	top = position->y - radius.y;
@@ -42,7 +47,7 @@ bool AABBCollider::CheckCollision(std::shared_ptr<AABBCollider> pCollider)
 	float rightToLeftDistance = pCollider->left - right;
 	float topToBottomDistance = top - pCollider->bottom;
 	float bottomToTopDistance = bottom - pCollider->top;
-	Vector2 totalSize = size + pCollider->size;
+	Vector2 totalSize = object->GetSize() + pCollider->object->GetSize();
 
 	if (rightToLeftDistance <= 0 && abs(rightToLeftDistance) < totalSize.x)
 	{
@@ -75,23 +80,48 @@ void AABBCollider::SetCollisionState(std::shared_ptr<AABBCollider> pOtherCollide
 	currentCollisionState = pCollisionState;
 	pOtherCollider->currentCollisionState = pCollisionState;
 
-	switch (pCollisionState)
+	if (object)
 	{
-	case enter:
-		collisionEnterEvent.Invoke();
-		pOtherCollider->collisionEnterEvent.Invoke();
-		break;
-	case stay:
-		collisionStayEvent.Invoke();
-		pOtherCollider->collisionStayEvent.Invoke();
-		break;
-	case exit:
-		collisionExitEvent.Invoke();
-		pOtherCollider->collisionExitEvent.Invoke();
-		break;
-	default:
-		collisionExitEvent.Invoke();
-		pOtherCollider->collisionExitEvent.Invoke();
-		break;
+		switch (pCollisionState)
+		{
+		case enter:
+			if (object)
+				collisionEnterEvent.Invoke();
+			break;
+		case stay:
+			if (object)
+				collisionStayEvent.Invoke();
+			break;
+		case exit:
+
+			std::cout << "balls\n";
+			//if(object)
+			//	collisionExitEvent.Invoke();
+			break;
+		default:
+			//if (object)
+			//	collisionExitEvent.Invoke();
+			break;
+		}
+	}
+
+	if (pOtherCollider->object)
+	{
+		switch (pCollisionState)
+		{
+		case enter:
+			pOtherCollider->collisionEnterEvent.Invoke();
+			break;
+		case stay:
+			pOtherCollider->collisionStayEvent.Invoke();
+			break;
+		case exit:
+			//std::cout << pOtherCollider->object->GetID() << "\n";
+			//pOtherCollider->collisionExitEvent.Invoke();
+			break;
+		default:
+			//pOtherCollider->collisionExitEvent.Invoke();
+			break;
+		}
 	}
 }

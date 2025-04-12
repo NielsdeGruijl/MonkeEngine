@@ -40,9 +40,10 @@ void Scene::RenderScene(sf::RenderWindow* renderWindow)
 	}
 }
 
-
 void Scene::Load()
 {
+	isLoaded = true;
+
 	for (Object* object : objects)
 	{
 		object->OnLoad();
@@ -51,8 +52,6 @@ void Scene::Load()
 
 		object->Start();
 	}
-
-	isLoaded = true;
 }
 
 void Scene::RegisterCollider(Object* object)

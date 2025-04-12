@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Asteroids\Asteroid.cpp" />
+    <ClCompile Include="Asteroids\AsteroidSpawner.cpp" />
     <ClCompile Include="Asteroids\AsteroidsScene.cpp" />
     <ClCompile Include="Asteroids\Bullet.cpp" />
     <ClCompile Include="Asteroids\SpaceShip.cpp" />
@@ -42,6 +44,8 @@
     <ClCompile Include="Framework\Math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Asteroids\Asteroid.h" />
+    <ClInclude Include="Asteroids\AsteroidSpawner.h" />
     <ClInclude Include="Asteroids\AsteroidsScene.h" />
     <ClInclude Include="Asteroids\Bullet.h" />
     <ClInclude Include="Asteroids\SpaceShip.h" />

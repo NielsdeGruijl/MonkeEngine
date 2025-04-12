@@ -12,6 +12,15 @@ struct Action
 		id = pId;
 	}
 
+	bool operator==(const Action action)
+	{
+		if (id == action.id)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	std::function<void()> function;
 	int id;
 };
@@ -22,9 +31,10 @@ public:
 	void Subscribe(const std::function<void()> pFunction);
 	void Unsubscribe(const std::function<void(void)> pFunction);
 
+	void ClearSubscribers();
+
 	void Invoke();
 
 private:
-	std::vector<std::function<void()>> subscribers;
 	std::vector<Action> actions;
 };

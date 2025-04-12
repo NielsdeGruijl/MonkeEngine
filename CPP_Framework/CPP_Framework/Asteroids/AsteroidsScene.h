@@ -1,5 +1,6 @@
 #include "../Framework/Core/Scene.h"
 #include "SpaceShip.h"
+#include "AsteroidSpawner.h"
 
 class AsteroidsScene : public Scene
 {
@@ -11,6 +12,7 @@ public:
 
 private:
 	SpaceShip spaceShip;
+	AsteroidSpawner asteroidSpawner;
 
 	GameObject cube;
 };

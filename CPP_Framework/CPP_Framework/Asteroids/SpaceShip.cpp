@@ -48,9 +48,7 @@ void SpaceShip::Update()
 	if (input.GetKeyDown("fire"))
 	{
 		Bullet* bullet = new Bullet(scene, "Bullet", "Cat.jpg", 236);
-		bullet->SetPosition(position);
-
-		std::cout << "Bullet\n";
+		bullet->SetPosition(position + Vector2(0, -100));
 
 		scene->AddObject(bullet);
 	}

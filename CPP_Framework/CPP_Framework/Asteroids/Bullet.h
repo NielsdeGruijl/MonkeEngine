@@ -15,6 +15,10 @@ private:
 	void Start() override;
 	void Update() override;
 
+	void Destroy();
+
+	void OnCollisionEnter() override;
+
 	sf::Clock lifeTime;
 
 	float moveSpeed;
