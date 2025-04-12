@@ -11,4 +11,6 @@ public:
 
 private:
 	SpaceShip spaceShip;
+
+	GameObject cube;
 };

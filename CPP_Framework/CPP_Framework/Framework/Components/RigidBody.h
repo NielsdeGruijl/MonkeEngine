@@ -19,7 +19,6 @@ public:
 	};
 
 	std::shared_ptr<AABBCollider> collider;
-	CollisionChecker* collisionChecker;
 
 	Vector2 velocity;
 

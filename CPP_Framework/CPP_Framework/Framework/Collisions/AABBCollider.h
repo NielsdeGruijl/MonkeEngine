@@ -4,13 +4,10 @@
 #include "../Components/Component.h"
 #include "../Events/Event.h"
 
-class CollisionChecker;
 
 class AABBCollider : public Component
 {
 public:
-	CollisionChecker* collisionChecker;
-
 	Vector2 radius;
 	Vector2 size;
 	Vector2* position;

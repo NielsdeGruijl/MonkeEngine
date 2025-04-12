@@ -30,7 +30,7 @@ void Bullet::Update()
 {
 	GameObject::Update();
 
-	if (lifeTime.getElapsedTime().asSeconds() > 0.2f)
+	if (lifeTime.getElapsedTime().asSeconds() > 1)
 	{
 		scene->RemoveObject(this);
 

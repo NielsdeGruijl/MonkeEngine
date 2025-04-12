@@ -3,7 +3,6 @@
 #include "RigidBody.h"
 
 #include "../Collisions/Collision.h"
-#include "../Collisions/CollisionChecker.h"
 
 extern const int unitSize;
 extern float deltaTime;
@@ -26,7 +25,6 @@ RigidBody::RigidBody(Object* pObject)
 RigidBody::~RigidBody()
 {
 	Component::~Component();
-	std::cout << "RigidBody has been destroyed\n";
 }
 
 void RigidBody::OnLoad()
