@@ -60,8 +60,8 @@ bool AABBCollider::CheckCollision(std::shared_ptr<AABBCollider> pCollider)
 		}
 		if (abs(topToBottomDistance) > 0.5f && abs(bottomToTopDistance) > 0.5f)
 		{
-			if (currentCollisionState != exit)
-				SetCollisionState(pCollider, exit);
+				if (currentCollisionState != exit)
+					SetCollisionState(pCollider, exit);
 
 			return false;
 		}
@@ -80,32 +80,26 @@ void AABBCollider::SetCollisionState(std::shared_ptr<AABBCollider> pOtherCollide
 	currentCollisionState = pCollisionState;
 	pOtherCollider->currentCollisionState = pCollisionState;
 
-	if (object)
+	if (this)
 	{
 		switch (pCollisionState)
 		{
 		case enter:
-			if (object)
-				collisionEnterEvent.Invoke();
+			collisionEnterEvent.Invoke();
 			break;
 		case stay:
-			if (object)
-				collisionStayEvent.Invoke();
+			collisionStayEvent.Invoke();
 			break;
 		case exit:
-
-			std::cout << "balls\n";
-			//if(object)
-			//	collisionExitEvent.Invoke();
+			collisionExitEvent.Invoke();
 			break;
 		default:
-			//if (object)
-			//	collisionExitEvent.Invoke();
+			collisionExitEvent.Invoke();
 			break;
 		}
 	}
 
-	if (pOtherCollider->object)
+	if (pOtherCollider)
 	{
 		switch (pCollisionState)
 		{
@@ -116,11 +110,10 @@ void AABBCollider::SetCollisionState(std::shared_ptr<AABBCollider> pOtherCollide
 			pOtherCollider->collisionStayEvent.Invoke();
 			break;
 		case exit:
-			//std::cout << pOtherCollider->object->GetID() << "\n";
-			//pOtherCollider->collisionExitEvent.Invoke();
+			pOtherCollider->collisionExitEvent.Invoke();
 			break;
 		default:
-			//pOtherCollider->collisionExitEvent.Invoke();
+			pOtherCollider->collisionExitEvent.Invoke();
 			break;
 		}
 	}

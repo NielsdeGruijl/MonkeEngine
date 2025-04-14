@@ -12,7 +12,10 @@ Object::Object(Scene* pScene, std::string ID)
 
 Object::~Object()
 {
-
+	for (std::shared_ptr<Component> component : components)
+	{
+		component.reset();
+	}
 }
 
 void Object::OnLoad()

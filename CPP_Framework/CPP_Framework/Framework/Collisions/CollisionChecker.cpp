@@ -15,76 +15,106 @@ void CollisionChecker::AddRigidBody(std::shared_ptr<RigidBody> pRigidBody)
 	rigidBodies.push_back(pRigidBody);
 }
 
-void CollisionChecker::CheckCollisions()
+void CollisionChecker::RemoveExpiredReferences()
 {
-	// Sort list of rigidBodies from left to right
+	for (std::weak_ptr<RigidBody> rigidBody : rigidBodies)
+	{
+		if (rigidBody.expired())
+		{
+			rigidBodiesToRemove++;
+		}
+	}
+	
+	while (rigidBodiesToRemove > 0)
+	{
+		rigidBodies.erase(
+			std::remove_if(rigidBodies.begin(), rigidBodies.end(),
+				[](std::weak_ptr<RigidBody> rb)
+				{
+					return rb.expired();
+				}),
+			rigidBodies.end());
+	
+		rigidBodiesToRemove--;
+	}
+}
+
+void CollisionChecker::SortColliders()
+{
+	RemoveExpiredReferences();
+
 	std::sort(rigidBodies.begin(), rigidBodies.end(), [](std::weak_ptr<RigidBody> pRigidBody, std::weak_ptr<RigidBody> pOtherRigidBody)
 		{
-			std::shared_ptr<RigidBody> rigidBodyA, rigidBodyB;
-			if (pRigidBody.expired() || pOtherRigidBody.expired())
-				return false;
-
-			rigidBodyA = pRigidBody.lock();
-			rigidBodyB = pOtherRigidBody.lock();
+			std::shared_ptr<RigidBody> rigidBodyA = pRigidBody.lock();
+			std::shared_ptr<RigidBody> rigidBodyB = pOtherRigidBody.lock();
 
 			return rigidBodyA->collider->left < rigidBodyB->collider->left;
 		});
-
+	
 	std::sort(objectColliders.begin(), objectColliders.end(), [](std::weak_ptr<AABBCollider> pColliderA, std::weak_ptr<AABBCollider> pColliderB)
 		{
-			std::shared_ptr<AABBCollider> colliderA, colliderB;
-			
-			if (pColliderA.expired() || pColliderB.expired())
-				return false;
-			
-			colliderA = pColliderA.lock();
-			colliderB = pColliderB.lock();
-
+			std::shared_ptr<AABBCollider> colliderA = pColliderA.lock();
+			std::shared_ptr<AABBCollider> colliderB = pColliderB.lock();
+	
 			return colliderA->left < colliderB->left;
 		});
+}
+
+void CollisionChecker::CheckCollisions()
+{
+	SortColliders();
 
 	for (size_t i = 0; i < rigidBodies.size(); i++)
 	{
-		std::shared_ptr<RigidBody> rigidBodyA;
-		if (rigidBodies[i].expired())
-			continue;
-
-		rigidBodyA = rigidBodies[i].lock();
-
 		// Rigidbody vs static objects
 		for (size_t j = 0; j < objectColliders.size(); j++)
 		{
-			std::shared_ptr<AABBCollider> collider;
-
-			if (collider != objectColliders[j].lock())
+			if (auto rigidBodyA = rigidBodies[i].lock())
 			{
-				continue;
+				if (auto collider = objectColliders[j].lock())
+				{
+					if (rigidBodyA->collider->CheckCollision(collider))
+					{
+						ObjectCollision(rigidBodyA, collider);
+					}
+				}
+				else
+				{
+					continue;
+				}
 			}
-
-			if (rigidBodyA->collider->CheckCollision(collider))
+			else
 			{
-				ObjectCollision(rigidBodyA, collider);
+				break;
 			}
 		}
 		
 		// Rigidbody vs other rigidbody
 		for (size_t j = i + 1; j < rigidBodies.size(); j++)
 		{
-			std::shared_ptr<RigidBody> rigidBodyB;
-			if (rigidBodies[j].expired())
-				continue;
-
-			rigidBodyB = rigidBodies[j].lock();
-
-			if (rigidBodyA == rigidBodyB)
-				continue;
-
-			if (rigidBodyB->collider->left > rigidBodyA->collider->right + 1)
-				break;
-
-			if (rigidBodyA->collider->CheckCollision(rigidBodyB->collider))
+			if (auto rigidBodyA = rigidBodies[i].lock())
 			{
-				RigidBodyCollision(rigidBodyA, rigidBodyB);
+				if (auto rigidBodyB = rigidBodies[j].lock())
+				{
+					if (rigidBodyA == rigidBodyB)
+						continue;
+			
+					if (rigidBodyB->collider->left > rigidBodyA->collider->right + 1)
+						break;
+			
+					if (rigidBodyA->collider->CheckCollision(rigidBodyB->collider))
+					{
+						RigidBodyCollision(rigidBodyA, rigidBodyB);
+					}
+				}
+				else
+				{
+					continue;
+				}
+			}
+			else
+			{
+				break;
 			}
 		}
 	}

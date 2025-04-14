@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <unordered_map>
 #include "AABBCollider.h"
 #include "../Components/RigidBody.h"
 
@@ -9,6 +10,9 @@ class CollisionChecker
 public:
 	void AddCollider(std::shared_ptr<AABBCollider> pCollider);
 	void AddRigidBody(std::shared_ptr<RigidBody> pRigidBody);
+
+	void RemoveExpiredReferences();
+	void SortColliders();
 
 	void CheckCollisions();
 
@@ -25,4 +29,5 @@ public:
 private:
 	std::vector<std::weak_ptr<RigidBody>> rigidBodies;
 	std::vector<std::weak_ptr<AABBCollider>> objectColliders;
+	int rigidBodiesToRemove;
 };

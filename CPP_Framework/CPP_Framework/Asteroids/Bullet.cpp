@@ -32,7 +32,7 @@ void Bullet::Update()
 
 	if (lifeTime.getElapsedTime().asSeconds() > 1)
 	{
-
+		Destroy();
 	}
 }
 

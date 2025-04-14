@@ -34,6 +34,4 @@ void Asteroid::OnCollisionEnter()
 	Object::OnCollisionEnter();
 
 	Destroy();
-
-	std::cout << "collision\n";
 }
