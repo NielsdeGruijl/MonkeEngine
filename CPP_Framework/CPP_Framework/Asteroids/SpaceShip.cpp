@@ -49,9 +49,10 @@ void SpaceShip::Update()
 
 	if (input.GetKeyDown("fire"))
 	{
-		Bullet* bullet = new Bullet(scene, "Bullet");
-		bullet->SetPosition(position + Vector2(0, -100));
+		std::shared_ptr<Bullet> tBullet = std::make_shared<Bullet>(scene, "Bullet");
+		//Bullet* bullet = new Bullet(scene, "Bullet");
+		tBullet->SetPosition(position + Vector2(0, -100));
 
-		scene->AddObject(bullet);
+		scene->AddObject(tBullet);
 	}
 }

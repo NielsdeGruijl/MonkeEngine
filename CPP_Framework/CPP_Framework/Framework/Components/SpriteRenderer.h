@@ -22,7 +22,6 @@ public:
 	void SetColor(sf::Color pColor);
 	void SetPosition(const Vector2 pPosition);
 	void SetScale(const Vector2 pScale);
-	void SetScale(const float pScale);
 	void SetOrigin(const Vector2 pOrigin);
 	
 	void Move(const Vector2 pVelocity);

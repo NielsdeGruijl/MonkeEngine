@@ -18,9 +18,8 @@ RigidBody::RigidBody(GameObject* pObject)
 
 	isGrounded = false;
 
-	Vector2 tempObjectSize = object->GetSize();
-
-	if (collider == nullptr)
+	std::shared_ptr<AABBCollider> tCollider;
+	if(!object->TryGetComponent<AABBCollider>(tCollider))
 		collider = object->AddComponent<AABBCollider>(object, &object->position);
 }
 

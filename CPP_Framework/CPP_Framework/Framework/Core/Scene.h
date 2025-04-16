@@ -26,13 +26,16 @@ public:
 	void RegisterCollider(GameObject* object);
 	void RegisterSprite(GameObject* object);
 
-	void AddObject(GameObject* object);
-	void RemoveObject(GameObject* object);
+	void AddObject(std::shared_ptr<GameObject> gameObject);
+	void RemoveObject(std::shared_ptr<GameObject> gameObject);
 	GameObject* FindObjectByName(std::string objectId) const;
 
 protected:
 	std::vector<GameObject*> objects;
 	std::vector<GameObject*> objectsToDelete;
+
+	std::vector<std::shared_ptr<GameObject>> sharedObjects;
+	std::vector<std::shared_ptr<GameObject>> sharedObjectsToDelete;
 
 	CollisionChecker collisionChecker;
 	SceneRenderer sceneRenderer;

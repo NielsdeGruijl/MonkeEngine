@@ -20,9 +20,7 @@ void CollisionChecker::RemoveExpiredReferences()
 	for (std::weak_ptr<RigidBody> rigidBody : rigidBodies)
 	{
 		if (rigidBody.expired())
-		{
 			amountOfExpiredRigidBodies++;
-		}
 	}
 	
 	while (amountOfExpiredRigidBodies > 0)
@@ -43,11 +41,11 @@ void CollisionChecker::SortColliders()
 {
 	RemoveExpiredReferences();
 
-	std::sort(rigidBodies.begin(), rigidBodies.end(), [](std::weak_ptr<RigidBody> pRigidBody, std::weak_ptr<RigidBody> pOtherRigidBody)
+	std::sort(rigidBodies.begin(), rigidBodies.end(), [](std::weak_ptr<RigidBody> pRigidBodyA, std::weak_ptr<RigidBody> pRigidBodyB)
 		{
-			std::shared_ptr<RigidBody> rigidBodyA = pRigidBody.lock();
-			std::shared_ptr<RigidBody> rigidBodyB = pOtherRigidBody.lock();
-
+			std::shared_ptr<RigidBody> rigidBodyA = pRigidBodyA.lock();
+			std::shared_ptr<RigidBody> rigidBodyB = pRigidBodyB.lock();
+		
 			return rigidBodyA->collider->left < rigidBodyB->collider->left;
 		});
 	
@@ -102,9 +100,6 @@ void CollisionChecker::CheckCollisions()
 					if (rigidBodyB->collider->left > rigidBodyA->collider->right + 1)
 						break;
 			
-					std::cout << rigidBodies[i].expired() << ", ";
-					std::cout << rigidBodies[j].expired() << "\n";
-
 					if (rigidBodyA->collider->CheckCollision(rigidBodyB->collider))
 					{
 						RigidBodyCollision(rigidBodyA, rigidBodyB);

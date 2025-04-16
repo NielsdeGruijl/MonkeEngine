@@ -1,6 +1,5 @@
 #include <iostream>
 
-#include "../Objects/Object.h"
 #include "AABBCollider.h"
 
 AABBCollider::AABBCollider(GameObject* pObject, Vector2* pPosition)
@@ -80,43 +79,23 @@ void AABBCollider::SetCollisionState(std::shared_ptr<AABBCollider> pOtherCollide
 	currentCollisionState = pCollisionState;
 	pOtherCollider->currentCollisionState = pCollisionState;
 
-	if (this)
+	switch (pCollisionState)
 	{
-		switch (pCollisionState)
-		{
-		case enter:
-			collisionEnterEvent.Invoke();
-			paramCollisionEnterEvent.Invoke(pOtherCollider->object);
-			break;
-		case stay:
-			collisionStayEvent.Invoke();
-			break;
-		case exit:
-			collisionExitEvent.Invoke();
-			break;
-		default:
-			collisionExitEvent.Invoke();
-			break;
-		}
-	}
-
-	if (pOtherCollider)
-	{
-		switch (pCollisionState)
-		{
-		case enter:
-			pOtherCollider->collisionEnterEvent.Invoke();
-			pOtherCollider->paramCollisionEnterEvent.Invoke(object);
-			break;
-		case stay:
-			pOtherCollider->collisionStayEvent.Invoke();
-			break;
-		case exit:
-			pOtherCollider->collisionExitEvent.Invoke();
-			break;
-		default:
-			pOtherCollider->collisionExitEvent.Invoke();
-			break;
-		}
+	case enter:
+		paramCollisionEnterEvent.Invoke(pOtherCollider->object);
+		pOtherCollider->paramCollisionEnterEvent.Invoke(object);
+		break;
+	case stay:
+		collisionStayEvent.Invoke();
+		pOtherCollider->collisionStayEvent.Invoke();
+		break;
+	case exit:
+		collisionExitEvent.Invoke();
+		pOtherCollider->collisionExitEvent.Invoke();
+		break;
+	default:
+		collisionExitEvent.Invoke();
+		pOtherCollider->collisionExitEvent.Invoke();
+		break;
 	}
 }

@@ -35,7 +35,7 @@ void AsteroidSpawner::Update()
 
 void AsteroidSpawner::SpawnAsteroid()
 {
-	Asteroid* asteroid = new Asteroid(scene, "asteroid");
+	std::shared_ptr<Asteroid> asteroid = std::make_shared<Asteroid>(scene, "asteroid");
 	float xPosition = std::rand() % rightBound + leftBound;
 	asteroid->SetPosition(Vector2(xPosition, -50));
 	scene->AddObject(asteroid);

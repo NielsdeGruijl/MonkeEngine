@@ -1,20 +1,16 @@
 #include "AsteroidsScene.h"
 
 AsteroidsScene::AsteroidsScene()
-	: spaceShip(this, "spaceShip"), cube(this, "cube"), 
-	asteroidSpawner(this, "asteroidSpawner")
+	/*: spaceShip(this, "spaceShip"), cube(this, "cube"), 
+	asteroidSpawner(this, "asteroidSpawner")*/
 {
-	spaceShip.SetPosition(Vector2(640, 620));
+	spaceShip = std::make_shared<SpaceShip>(this, "spaceShip");
+	spaceShip->SetPosition(Vector2(640, 620));	
 
-	cube.SetPosition(Vector2(640, 100));
-	cube.SetScale(Vector2(12.8f, 1));
+	asteroidSpawner = std::make_shared<AsteroidSpawner>(this, "asteroidSpawner");
 
-	cube.AddComponent<RigidBody>(&cube);
-	cube.GetComponent<RigidBody>()->gravity = 0;
-
-	AddObject(&spaceShip);
-	//AddObject(&cube);
-	AddObject(&asteroidSpawner);
+	AddObject(spaceShip);
+	AddObject(asteroidSpawner);
 }
 
 AsteroidsScene::~AsteroidsScene()

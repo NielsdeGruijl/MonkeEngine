@@ -5,13 +5,12 @@
 SpriteRenderer::SpriteRenderer(GameObject* pObject, std::string pFileName, int pPixelsPerUnit)
 	: Component(pObject), spriteScale(CalculateSpriteScaleBasedOnPixelsPerUnit(pPixelsPerUnit))
 {
-	scale = pObject->scale;
-
-	SetOrigin(Vector2(0.5f, 0.5f));
+	SetScale(object->scale);
 
 	texture.loadFromFile("Assets/" + pFileName);
 	sprite.setTexture(texture);
-	SetScale(1);
+
+	SetOrigin(Vector2(0.5f, 0.5f)); 
 }
 
 SpriteRenderer::~SpriteRenderer()
@@ -38,11 +37,6 @@ void SpriteRenderer::SetScale(const Vector2 pScale)
 {
 	scale = pScale;
 	sprite.setScale((scale * spriteScale).ToSfVector());
-}
-
-void SpriteRenderer::SetScale(const float pScale)
-{
-	SetScale(Vector2(pScale, pScale));
 }
 
 void SpriteRenderer::SetOrigin(const Vector2 pOrigin)

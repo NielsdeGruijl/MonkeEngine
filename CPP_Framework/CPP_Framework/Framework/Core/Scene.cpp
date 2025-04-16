@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "../Math/Timer.h"
+#include "../../Asteroids/Bullet.h"
 
 Scene::Scene() 
 {
@@ -15,9 +16,9 @@ void Scene::UpdateScene()
 	if (!isLoaded)
 		return;
 
-	for (size_t i = 0; i < objects.size(); i++)
+	for (size_t i = 0; i < sharedObjects.size(); i++)
 	{
-		objects[i]->Update();
+		sharedObjects[i]->Update();
 	}
 
 	collisionChecker.CheckCollisions();
@@ -41,11 +42,11 @@ void Scene::Load()
 {
 	isLoaded = true;
 
-	for (GameObject* object : objects)
+	for (std::shared_ptr<GameObject> object : sharedObjects)
 	{
 		object->OnLoad();
 		
-		RegisterCollider(object);
+		RegisterCollider(object.get());
 
 		object->Start();
 	}
@@ -53,15 +54,13 @@ void Scene::Load()
 
 void Scene::CleanUpObjects()
 {
-	for (GameObject* object : objectsToDelete)
+	for (std::shared_ptr<GameObject> gameObject : sharedObjectsToDelete)
 	{
-		auto it = std::find(objects.begin(), objects.end(), object);
-		objects.erase(it);
-		
-		delete object;
+		auto it = std::find(sharedObjects.begin(), sharedObjects.end(), gameObject);
+		sharedObjects.erase(it);
 	}
 
-	objectsToDelete.clear();
+	sharedObjectsToDelete.clear();
 }
 
 void Scene::RegisterCollider(GameObject* object)
@@ -84,25 +83,25 @@ void Scene::RegisterSprite(GameObject* pObject)
 	}
 }
 
-void Scene::AddObject(GameObject* pObject)
+void Scene::AddObject(std::shared_ptr<GameObject> gameObject)
 {
-	objects.push_back(pObject);
+	sharedObjects.push_back(gameObject);
 
-	RegisterSprite(pObject);
+	RegisterSprite(gameObject.get());
 
 	if (isLoaded)
 	{
-		pObject->OnLoad();
+		gameObject->OnLoad();
 
-		RegisterCollider(pObject);
+		RegisterCollider(gameObject.get());
 
-		pObject->Start();
+		gameObject->Start();
 	}
 }
 
-void Scene::RemoveObject(GameObject* pObject)
+void Scene::RemoveObject(std::shared_ptr<GameObject> gameObject)
 {
-	objectsToDelete.push_back(pObject);
+	sharedObjectsToDelete.push_back(gameObject);
 }
 
 GameObject* Scene::FindObjectByName(std::string objectId) const

@@ -11,8 +11,6 @@ public:
 	void UpdateScene() override;
 
 private:
-	SpaceShip spaceShip;
-	AsteroidSpawner asteroidSpawner;
-
-	GameObject cube;
+	std::shared_ptr<SpaceShip> spaceShip;
+	std::shared_ptr<AsteroidSpawner> asteroidSpawner;
 };

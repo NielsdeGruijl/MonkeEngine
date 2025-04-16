@@ -7,6 +7,8 @@ Asteroid::Asteroid(Scene* pScene, std::string pId)
 	rigidBody = AddComponent<RigidBody>(this);
 	rigidBody->gravity = 1;
 
+	SetScale(1);
+
 	sprite = AddComponent<SpriteRenderer>(this, "Cat.jpg", 236);
 }
 

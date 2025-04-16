@@ -1,1 +1,4 @@
-﻿  CPP_Framework.vcxproj -> D:\School\Tools\CPP_Framework_Repo\CPP_Framework\Debug\CPP_Framework.exe
+﻿  GameObject.cpp
+D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Objects\GameObject.cpp(11,27): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Objects\GameObject.cpp(11,17): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+  CPP_Framework.vcxproj -> D:\School\Tools\CPP_Framework_Repo\CPP_Framework\Debug\CPP_Framework.exe

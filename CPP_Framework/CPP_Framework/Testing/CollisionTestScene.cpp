@@ -18,8 +18,8 @@ CollisionTestScene::CollisionTestScene()
 	enemy.AddComponent<RigidBody>(&enemy);
 	enemy.GetComponent<RigidBody>()->gravity = 0;
 
-	AddObject(&player);
-	AddObject(&enemy);
+	//AddObject(&player);
+	//AddObject(&enemy);
 	//AddObject(&obstacle);
 	//AddObject(&obstacle2);
 }

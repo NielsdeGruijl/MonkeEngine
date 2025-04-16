@@ -42,15 +42,11 @@ void Bullet::Update()
 void Bullet::OnCollisionEnter()
 {
 	GameObject::OnCollisionEnter();
-
 }
 
-void Bullet::OnParamCollisionEnter(GameObject* object)
+void Bullet::OnParamCollisionEnter(GameObject* pObject)
 {
-	GameObject::OnParamCollisionEnter(object);
+	GameObject::OnParamCollisionEnter(pObject);
 	
-	if(object)
-		std::cout << object->GetID();
-
 	Destroy();
 }

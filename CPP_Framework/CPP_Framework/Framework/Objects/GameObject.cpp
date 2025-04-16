@@ -6,7 +6,7 @@
 extern const int unitSize;
 
 GameObject::GameObject(Scene* pScene, std::string ID)
-	: scene(pScene), objectId(ID)
+	: scene(pScene), objectId(ID), scale(Vector2(1, 1))
 {
 	size = Vector2(unitSize, unitSize);
 	SetOrigin(Vector2(0.5f, 0.5f));
@@ -14,10 +14,7 @@ GameObject::GameObject(Scene* pScene, std::string ID)
 
 GameObject::~GameObject()
 {
-	for (std::shared_ptr<Component> component : components)
-	{
-		component.reset();
-	}
+	components.clear();
 }
 
 void GameObject::OnLoad()
@@ -55,7 +52,7 @@ void GameObject::Update()
 
 void GameObject::Destroy()
 {
-	scene->RemoveObject(this);
+	scene->RemoveObject(shared_from_this());
 }
 
 void GameObject::OnCollisionEnter()
@@ -78,6 +75,12 @@ void GameObject::SetScale(const Vector2 pScale)
 {
 	scale = pScale;
 	size = Vector2(unitSize * scale.x, unitSize * scale.y);
+
+	std::shared_ptr<SpriteRenderer> sprite;
+	if (TryGetComponent<SpriteRenderer>(sprite))
+	{
+		sprite->SetScale(scale);
+	}
 }
 
 void GameObject::SetScale(const float pScale)
