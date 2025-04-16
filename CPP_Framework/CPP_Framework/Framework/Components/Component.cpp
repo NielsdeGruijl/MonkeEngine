@@ -1,8 +1,8 @@
 #include "Component.h"
 
-#include "../Objects/Object.h"
+#include "../Objects/GameObject.h"
 
-Component::Component(Object* pObject)
+Component::Component(GameObject* pObject)
 {
 	object = pObject;
 	isActive = true;

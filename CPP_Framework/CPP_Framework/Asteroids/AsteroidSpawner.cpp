@@ -2,15 +2,13 @@
 #include "AsteroidSpawner.h"
 #include "../Framework/Core/Scene.h"
 
-AsteroidSpawner::AsteroidSpawner(Scene* scene, std::string pId, std::string fileName, int pPixelsPerInch)
-	: GameObject(scene, pId, fileName, pPixelsPerInch)
+AsteroidSpawner::AsteroidSpawner(Scene* scene, std::string pId)
+	: GameObject(scene, pId)
 {
 	leftBound = 50;
 	rightBound = 1180;
 
 	cooldown = 3;
-
-	spriteRenderer->SetColor(sf::Color::Transparent);
 }
 
 AsteroidSpawner::~AsteroidSpawner()
@@ -37,7 +35,7 @@ void AsteroidSpawner::Update()
 
 void AsteroidSpawner::SpawnAsteroid()
 {
-	Asteroid* asteroid = new Asteroid(scene, "asteroid", "Cat.jpg", 236);
+	Asteroid* asteroid = new Asteroid(scene, "asteroid");
 	float xPosition = std::rand() % rightBound + leftBound;
 	asteroid->SetPosition(Vector2(xPosition, -50));
 	scene->AddObject(asteroid);

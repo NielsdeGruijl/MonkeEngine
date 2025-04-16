@@ -8,7 +8,7 @@
 class Player : public GameObject
 {
 public:
-	Player(Scene* pScene, std::string pObjectId, std::string pFileName, int pPixelsPerUnit);
+	Player(Scene* pScene, std::string pObjectId);
 	~Player();
 
 	void OnLoad() override;

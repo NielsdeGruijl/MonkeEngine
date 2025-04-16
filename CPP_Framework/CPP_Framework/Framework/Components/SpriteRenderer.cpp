@@ -1,10 +1,14 @@
 #include "SpriteRenderer.h"
 
-#include "../Objects/Object.h"
+#include "../Objects/GameObject.h"
 
-SpriteRenderer::SpriteRenderer(Object* pObject, std::string pFileName, int pPixelsPerUnit)
+SpriteRenderer::SpriteRenderer(GameObject* pObject, std::string pFileName, int pPixelsPerUnit)
 	: Component(pObject), spriteScale(CalculateSpriteScaleBasedOnPixelsPerUnit(pPixelsPerUnit))
 {
+	scale = pObject->scale;
+
+	SetOrigin(Vector2(0.5f, 0.5f));
+
 	texture.loadFromFile("Assets/" + pFileName);
 	sprite.setTexture(texture);
 	SetScale(1);
@@ -17,7 +21,7 @@ SpriteRenderer::~SpriteRenderer()
 void SpriteRenderer::Update()
 {
 	Component::Update();
-	sprite.setPosition(object->position.ToSfVector());
+	SetPosition(object->position);
 }
 
 void SpriteRenderer::SetColor(sf::Color pColor)

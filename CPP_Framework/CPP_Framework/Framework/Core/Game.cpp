@@ -40,17 +40,15 @@ void Game::Run()
 
 		fps++;
 		std::string fpsCount = std::to_string((int)(fps / fpsClock.getElapsedTime().asSeconds()));
-		//std::string fpsCount = std::to_string((int)(1 / deltaTime));
 		fpsCounterText.setString(sf::String(fpsCount.c_str()));
 
 		renderWindow.clear();
 
-		if (sceneManager.GetCurrentScene() != nullptr)
+		if (Scene* scene = sceneManager.GetCurrentScene())
 		{
-			sceneManager.GetCurrentScene()->CollisionUpdate();
-			sceneManager.GetCurrentScene()->CleanUpObjects();
-			sceneManager.GetCurrentScene()->UpdateScene();
-			sceneManager.GetCurrentScene()->RenderScene(&renderWindow);
+			scene->CleanUpObjects();
+			scene->UpdateScene();
+			scene->RenderScene(&renderWindow);
 		}
 
 		renderWindow.draw(fpsCounterText);

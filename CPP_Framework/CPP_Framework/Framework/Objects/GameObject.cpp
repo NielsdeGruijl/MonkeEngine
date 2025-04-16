@@ -1,43 +1,83 @@
 #include "GameObject.h"
 
-GameObject::GameObject(Scene* pScene, std::string pID, std::string pFileName, int pPixelsPerUnit) 
-	: Object(pScene, pID)
+#include "../Collisions/AABBCollider.h"
+#include "../Core/Scene.h"
+
+extern const int unitSize;
+
+GameObject::GameObject(Scene* pScene, std::string ID)
+	: scene(pScene), objectId(ID)
 {
-	AddComponent<SpriteRenderer>(this, pFileName, pPixelsPerUnit);
-
-	spriteRenderer = GetComponent<SpriteRenderer>();
-
+	size = Vector2(unitSize, unitSize);
 	SetOrigin(Vector2(0.5f, 0.5f));
 }
 
 GameObject::~GameObject()
 {
+	for (std::shared_ptr<Component> component : components)
+	{
+		component.reset();
+	}
+}
+
+void GameObject::OnLoad()
+{
+	for (std::shared_ptr<Component> component : components)
+	{
+		component->OnLoad();
+
+		if (typeid(*(component)) == typeid(AABBCollider))
+		{
+			std::shared_ptr<AABBCollider> tCol = std::static_pointer_cast<AABBCollider>(component);
+
+			tCol->collisionEnterEvent.Subscribe([this]() {this->OnCollisionEnter(); });
+			tCol->collisionStayEvent.Subscribe([this]() {this->OnCollisionStay(); });
+			tCol->collisionExitEvent.Subscribe([this]() {this->OnCollisionExit(); });
+			tCol->paramCollisionEnterEvent.AddListener([this](GameObject* object) {this->OnParamCollisionEnter(object); });
+		}
+	}
 }
 
 void GameObject::Start()
 {
-	Object::Start();
 }
 
 void GameObject::Update()
 {
-	Object::Update();
+	for (std::shared_ptr<Component> component : components)
+	{
+		if (!component->IsActive())
+			return;
+
+		component->Update();
+	}
 }
 
-void GameObject::Render(sf::RenderWindow* pRenderWindow)
+void GameObject::Destroy()
 {
-	pRenderWindow->draw(spriteRenderer->sprite);
+	scene->RemoveObject(this);
 }
 
-void GameObject::SetPosition(const Vector2 pPosition)
+void GameObject::OnCollisionEnter()
 {
-	Object::SetPosition(pPosition);
+}
+
+void GameObject::OnCollisionStay()
+{
+}
+
+void GameObject::OnCollisionExit()
+{
+}
+
+void GameObject::OnParamCollisionEnter(GameObject* object)
+{
 }
 
 void GameObject::SetScale(const Vector2 pScale)
 {
-	Object::SetScale(pScale);
-	spriteRenderer->SetScale(pScale);
+	scale = pScale;
+	size = Vector2(unitSize * scale.x, unitSize * scale.y);
 }
 
 void GameObject::SetScale(const float pScale)
@@ -45,8 +85,26 @@ void GameObject::SetScale(const float pScale)
 	SetScale(Vector2(pScale, pScale));
 }
 
+void GameObject::SetPosition(const Vector2 pPosition)
+{
+	position = pPosition;
+}
+
 void GameObject::SetOrigin(const Vector2 pOrigin)
 {
-	Object::SetOrigin(pOrigin);
-	spriteRenderer->SetOrigin(pOrigin);
+	origin = size * pOrigin;
+}
+
+void GameObject::SetCollisionEvents()
+{
+}
+
+std::string GameObject::GetID() const
+{
+	return objectId;
+}
+
+Vector2 GameObject::GetSize()
+{
+	return size;
 }

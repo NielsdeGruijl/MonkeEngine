@@ -1,7 +1,7 @@
 #include "Player.h"
 
-Player::Player(Scene* pScene, std::string objectId, std::string fileName, int pixelsPerUnit)
-	: GameObject(pScene, objectId, fileName, pixelsPerUnit), input()
+Player::Player(Scene* pScene, std::string objectId)
+	: GameObject(pScene, objectId), input()
 {
 	SetActionMap(&defaultInputActionMap);
 

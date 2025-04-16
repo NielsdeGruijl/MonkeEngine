@@ -5,6 +5,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+#include "SceneRenderer.h"
 #include "../Objects/GameObject.h"
 #include "../Collisions/CollisionChecker.h"
 
@@ -22,16 +23,19 @@ public:
 
 	void CleanUpObjects();
 
-	void RegisterCollider(Object* object);
+	void RegisterCollider(GameObject* object);
+	void RegisterSprite(GameObject* object);
 
-	void AddObject(Object* object);
-	void RemoveObject(Object* object);
-	Object* FindObjectByName(std::string objectId) const;
+	void AddObject(GameObject* object);
+	void RemoveObject(GameObject* object);
+	GameObject* FindObjectByName(std::string objectId) const;
 
 protected:
-	std::vector<Object*> objects;
-	std::vector<Object*> objectsToDelete;
+	std::vector<GameObject*> objects;
+	std::vector<GameObject*> objectsToDelete;
+
 	CollisionChecker collisionChecker;
+	SceneRenderer sceneRenderer;
 
 	bool isLoaded;
 };

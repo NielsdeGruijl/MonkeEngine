@@ -2,14 +2,16 @@
 
 #include "../Framework/Objects/GameObject.h"
 #include "../Framework/Components/RigidBody.h"
+#include "../Framework/Components/SpriteRenderer.h"
 
 class Bullet : public GameObject
 {
 public:
-	Bullet(Scene* pScene, std::string pObjectId, std::string pSpriteFileName, int pPixelsPerUnit);
+	Bullet(Scene* pScene, std::string pObjectId);
 	~Bullet();
 
 	std::shared_ptr<RigidBody> rigidBody;
+	std::shared_ptr<SpriteRenderer> sprite;
 
 private:
 	void Start() override;
@@ -17,7 +19,7 @@ private:
 
 	void OnCollisionEnter() override;
 
-	void OnParamCollisionEnter(Object* object) override;
+	void OnParamCollisionEnter(GameObject* object) override;
 
 	sf::Clock lifeTime;
 

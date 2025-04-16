@@ -21,16 +21,10 @@
     <ClCompile Include="Framework\Math\Vector2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Objects\Object.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Components\SpriteRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Objects\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Testing\TestScene.cpp">
+    <ClCompile Include="Framework\Components\SpriteRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Components\RigidBody.cpp">
@@ -84,21 +78,18 @@
     <ClCompile Include="Asteroids\AsteroidSpawner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\Core\SceneRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Framework\Objects\Object.h">
+    <ClInclude Include="Framework\Objects\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Components\SpriteRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Objects\GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Math\Vector2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Testing\TestScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Components\RigidBody.h">
@@ -156,6 +147,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Asteroids\AsteroidSpawner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Core\SceneRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

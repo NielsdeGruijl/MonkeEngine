@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../../Testing/TestScene.h"
 #include "../../Testing/Player.h"
 #include "SceneManager.h"
 

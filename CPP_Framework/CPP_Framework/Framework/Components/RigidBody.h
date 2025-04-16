@@ -31,7 +31,7 @@ public:
 	bool isGrounded;
 
 public:
-	RigidBody(Object* pObject);
+	RigidBody(GameObject* pObject);
 	~RigidBody();
 
 	void OnLoad() override;

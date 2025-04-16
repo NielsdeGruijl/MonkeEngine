@@ -2,16 +2,19 @@
 #include "../Framework/Core/Scene.h"
 
 
-Bullet::Bullet(Scene* pScene, std::string pObjectId, std::string pSpriteFileName, int pPixelsPerUnit)
-	: GameObject(pScene, pObjectId, pSpriteFileName, pPixelsPerUnit)
+Bullet::Bullet(Scene* pScene, std::string pObjectId)
+	: GameObject(pScene, pObjectId)
 {
 	moveSpeed = 10;
 
-	SetScale(0.25f);
 
 	rigidBody = AddComponent<RigidBody>(this);
 	rigidBody->gravity = 0;
 	rigidBody->drag = 0;
+
+	sprite = AddComponent<SpriteRenderer>(this, "Cat.jpg", 236);
+
+	SetScale(0.25f);
 }
 
 Bullet::~Bullet()
@@ -38,13 +41,13 @@ void Bullet::Update()
 
 void Bullet::OnCollisionEnter()
 {
-	Object::OnCollisionEnter();
+	GameObject::OnCollisionEnter();
 
 }
 
-void Bullet::OnParamCollisionEnter(Object* object)
+void Bullet::OnParamCollisionEnter(GameObject* object)
 {
-	Object::OnParamCollisionEnter(object);
+	GameObject::OnParamCollisionEnter(object);
 	
 	if(object)
 		std::cout << object->GetID();

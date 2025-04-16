@@ -6,13 +6,15 @@
 #include "Bullet.h"
 
 
-SpaceShip::SpaceShip(Scene* pScene, std::string pId, std::string pFileName, int pPixelsPerUnit)
-	: GameObject(pScene, pId, pFileName, pPixelsPerUnit), input()
+SpaceShip::SpaceShip(Scene* pScene, std::string pId)
+	: GameObject(pScene, pId), input()
 {
 	moveSpeed = 5;
 
 	rigidBody = AddComponent<RigidBody>(this);
 	rigidBody->gravity = 0;
+
+	sprite = AddComponent<SpriteRenderer>(this, "Spaceship.png", 160);
 
 	inputActionMap.ClearMap();
 	inputActionMap.AddKey("left", InputAction(sf::Keyboard::A));
@@ -47,7 +49,7 @@ void SpaceShip::Update()
 
 	if (input.GetKeyDown("fire"))
 	{
-		Bullet* bullet = new Bullet(scene, "Bullet", "Cat.jpg", 236);
+		Bullet* bullet = new Bullet(scene, "Bullet");
 		bullet->SetPosition(position + Vector2(0, -100));
 
 		scene->AddObject(bullet);

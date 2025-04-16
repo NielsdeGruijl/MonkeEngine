@@ -150,7 +150,7 @@ void CollisionChecker::ObjectCollision(std::shared_ptr<RigidBody> pRigidBody, st
 	if (shortestCollisionTime >= -1)
 	{
 		std::cout << pRigidBody->object->GetID() << "\n";
-		Object* object = pObjectCollider->object;
+		GameObject* object = pObjectCollider->object;
 		pRigidBody->HandleCollision(Collision(object, normal, shortestCollisionTime));
 	}
 }

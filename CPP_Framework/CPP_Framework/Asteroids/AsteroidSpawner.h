@@ -4,7 +4,7 @@
 class AsteroidSpawner : public GameObject
 {
 public:
-	AsteroidSpawner(Scene* scene, std::string pId, std::string fileName, int pPixelsPerInch);
+	AsteroidSpawner(Scene* scene, std::string pId);
 	~AsteroidSpawner();
 
 private:

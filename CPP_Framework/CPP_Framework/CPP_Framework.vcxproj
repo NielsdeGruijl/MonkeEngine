@@ -29,18 +29,17 @@
     <ClCompile Include="Framework\Components\Component.cpp" />
     <ClCompile Include="Framework\Core\Game.cpp" />
     <ClCompile Include="Framework\Core\SceneManager.cpp" />
+    <ClCompile Include="Framework\Core\SceneRenderer.cpp" />
     <ClCompile Include="Framework\Events\Event.cpp" />
     <ClCompile Include="Framework\Input\InputActionMap.cpp" />
-    <ClCompile Include="Framework\Objects\GameObject.cpp" />
     <ClCompile Include="Framework\Components\RigidBody.cpp" />
     <ClCompile Include="Framework\Input\InputHandler.cpp" />
     <ClCompile Include="Framework\Main.cpp" />
-    <ClCompile Include="Framework\Objects\Object.cpp" />
+    <ClCompile Include="Framework\Objects\GameObject.cpp" />
     <ClCompile Include="Testing\CollisionTestScene.cpp" />
     <ClCompile Include="Testing\Player.cpp" />
     <ClCompile Include="Framework\Core\Scene.cpp" />
     <ClCompile Include="Framework\Components\SpriteRenderer.cpp" />
-    <ClCompile Include="Testing\TestScene.cpp" />
     <ClCompile Include="Framework\Math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -55,17 +54,16 @@
     <ClInclude Include="Framework\Components\Component.h" />
     <ClInclude Include="Framework\Core\Game.h" />
     <ClInclude Include="Framework\Core\SceneManager.h" />
+    <ClInclude Include="Framework\Core\SceneRenderer.h" />
     <ClInclude Include="Framework\Events\Event.h" />
     <ClInclude Include="Framework\Input\InputActionMap.h" />
-    <ClInclude Include="Framework\Objects\GameObject.h" />
     <ClInclude Include="Framework\Components\RigidBody.h" />
     <ClInclude Include="Framework\Input\InputHandler.h" />
-    <ClInclude Include="Framework\Objects\Object.h" />
+    <ClInclude Include="Framework\Objects\GameObject.h" />
     <ClInclude Include="Testing\CollisionTestScene.h" />
     <ClInclude Include="Testing\Player.h" />
     <ClInclude Include="Framework\Core\Scene.h" />
     <ClInclude Include="Framework\Components\SpriteRenderer.h" />
-    <ClInclude Include="Testing\TestScene.h" />
     <ClInclude Include="Framework\Math\Timer.h" />
     <ClInclude Include="Framework\Math\Vector2.h" />
   </ItemGroup>

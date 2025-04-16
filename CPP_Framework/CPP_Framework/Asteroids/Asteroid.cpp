@@ -1,11 +1,13 @@
 #include "Asteroid.h"
 #include "../Framework/Core/Scene.h"
 
-Asteroid::Asteroid(Scene* pScene, std::string pId, std::string pFileName, int pPixelsPerUnit)
-	: GameObject(pScene, pId, pFileName,pPixelsPerUnit)
+Asteroid::Asteroid(Scene* pScene, std::string pId)
+	: GameObject(pScene, pId)
 {
 	rigidBody = AddComponent<RigidBody>(this);
 	rigidBody->gravity = 1;
+
+	sprite = AddComponent<SpriteRenderer>(this, "Cat.jpg", 236);
 }
 
 Asteroid::~Asteroid()
@@ -24,11 +26,11 @@ void Asteroid::Update()
 
 void Asteroid::OnCollisionEnter()
 {
-	Object::OnCollisionEnter();
+	GameObject::OnCollisionEnter();
 }
 
-void Asteroid::OnParamCollisionEnter(Object* object)
+void Asteroid::OnParamCollisionEnter(GameObject* object)
 {
-	Object::OnParamCollisionEnter(object);
+	GameObject::OnParamCollisionEnter(object);
 	Destroy();
 }

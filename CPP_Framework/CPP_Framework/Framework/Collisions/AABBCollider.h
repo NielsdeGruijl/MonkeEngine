@@ -15,7 +15,7 @@ public:
 	Event collisionEnterEvent;
 	Event collisionStayEvent;
 	Event collisionExitEvent;
-	ParamEvent<Object*> paramCollisionEnterEvent;
+	ParamEvent<GameObject*> paramCollisionEnterEvent;
 	
 	enum collisionState
 	{
@@ -31,7 +31,7 @@ public:
 	float left, right, top, bottom;
 
 public:
-	AABBCollider(Object* pObject, Vector2* pPosition);
+	AABBCollider(GameObject* pObject, Vector2* pPosition);
 	~AABBCollider();
 
 	void Update() override;

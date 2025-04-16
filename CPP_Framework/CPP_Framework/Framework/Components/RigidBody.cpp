@@ -7,7 +7,7 @@
 extern const int unitSize;
 extern float deltaTime;
 
-RigidBody::RigidBody(Object* pObject)
+RigidBody::RigidBody(GameObject* pObject)
 	: Component(pObject)
 {
 	mass = 1;

@@ -3,7 +3,7 @@
 #include "../Objects/Object.h"
 #include "AABBCollider.h"
 
-AABBCollider::AABBCollider(Object* pObject, Vector2* pPosition)
+AABBCollider::AABBCollider(GameObject* pObject, Vector2* pPosition)
 	: Component(pObject)
 {
 	radius = Vector2(0, 0);

@@ -9,10 +9,11 @@
 class SpaceShip : public GameObject
 {
 public:
-	SpaceShip(Scene* pScene, std::string pId, std::string pFileName, int pPixelsPerUnit);
+	SpaceShip(Scene* pScene, std::string pId);
 	~SpaceShip();
 
 	std::shared_ptr<RigidBody> rigidBody;
+	std::shared_ptr<SpriteRenderer> sprite;
 
 private:
 	void OnLoad() override;
