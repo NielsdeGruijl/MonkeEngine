@@ -1,6 +1,7 @@
 #include "Object.h"
 
 #include "../Collisions/AABBCollider.h"
+#include "../Core/Scene.h"
 
 extern const int unitSize;
 
@@ -31,6 +32,7 @@ void Object::OnLoad()
 			tCol->collisionEnterEvent.Subscribe([this]() {this->OnCollisionEnter(); });
 			tCol->collisionStayEvent.Subscribe([this]() {this->OnCollisionStay(); });
 			tCol->collisionExitEvent.Subscribe([this]() {this->OnCollisionExit(); });
+			tCol->paramCollisionEnterEvent.AddListener([this](Object* object) {this->OnParamCollisionEnter(object); });
 		}
 	}
 }
@@ -50,6 +52,11 @@ void Object::Update()
 	}
 }
 
+void Object::Destroy()
+{
+	scene->RemoveObject(this);
+}
+
 void Object::OnCollisionEnter()
 {
 }
@@ -59,6 +66,10 @@ void Object::OnCollisionStay()
 }
 
 void Object::OnCollisionExit()
+{
+}
+
+void Object::OnParamCollisionEnter(Object* object)
 {
 }
 

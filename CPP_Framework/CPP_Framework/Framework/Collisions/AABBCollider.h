@@ -3,6 +3,7 @@
 #include "../Math/Vector2.h"
 #include "../Components/Component.h"
 #include "../Events/Event.h"
+#include "../Objects/GameObject.h"
 
 
 class AABBCollider : public Component
@@ -14,6 +15,7 @@ public:
 	Event collisionEnterEvent;
 	Event collisionStayEvent;
 	Event collisionExitEvent;
+	ParamEvent<Object*> paramCollisionEnterEvent;
 	
 	enum collisionState
 	{

@@ -29,5 +29,5 @@ public:
 private:
 	std::vector<std::weak_ptr<RigidBody>> rigidBodies;
 	std::vector<std::weak_ptr<AABBCollider>> objectColliders;
-	int rigidBodiesToRemove;
+	int amountOfExpiredRigidBodies;
 };

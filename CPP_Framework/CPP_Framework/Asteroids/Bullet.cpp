@@ -36,16 +36,18 @@ void Bullet::Update()
 	}
 }
 
-void Bullet::Destroy()
-{
-	scene->RemoveObject(this);
-
-	delete this;
-}
-
 void Bullet::OnCollisionEnter()
 {
 	Object::OnCollisionEnter();
+
+}
+
+void Bullet::OnParamCollisionEnter(Object* object)
+{
+	Object::OnParamCollisionEnter(object);
+	
+	if(object)
+		std::cout << object->GetID();
 
 	Destroy();
 }

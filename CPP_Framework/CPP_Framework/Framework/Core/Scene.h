@@ -20,6 +20,8 @@ public:
 
 	virtual void Load();
 
+	void CleanUpObjects();
+
 	void RegisterCollider(Object* object);
 
 	void AddObject(Object* object);
@@ -28,6 +30,7 @@ public:
 
 protected:
 	std::vector<Object*> objects;
+	std::vector<Object*> objectsToDelete;
 	CollisionChecker collisionChecker;
 
 	bool isLoaded;

@@ -86,6 +86,7 @@ void AABBCollider::SetCollisionState(std::shared_ptr<AABBCollider> pOtherCollide
 		{
 		case enter:
 			collisionEnterEvent.Invoke();
+			paramCollisionEnterEvent.Invoke(pOtherCollider->object);
 			break;
 		case stay:
 			collisionStayEvent.Invoke();
@@ -105,6 +106,7 @@ void AABBCollider::SetCollisionState(std::shared_ptr<AABBCollider> pOtherCollide
 		{
 		case enter:
 			pOtherCollider->collisionEnterEvent.Invoke();
+			pOtherCollider->paramCollisionEnterEvent.Invoke(object);
 			break;
 		case stay:
 			pOtherCollider->collisionStayEvent.Invoke();

@@ -15,9 +15,9 @@ private:
 	void Start() override;
 	void Update() override;
 
-	void Destroy();
-
 	void OnCollisionEnter() override;
+
+	void OnParamCollisionEnter(Object* object) override;
 
 	sf::Clock lifeTime;
 

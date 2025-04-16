@@ -21,11 +21,11 @@ void CollisionChecker::RemoveExpiredReferences()
 	{
 		if (rigidBody.expired())
 		{
-			rigidBodiesToRemove++;
+			amountOfExpiredRigidBodies++;
 		}
 	}
 	
-	while (rigidBodiesToRemove > 0)
+	while (amountOfExpiredRigidBodies > 0)
 	{
 		rigidBodies.erase(
 			std::remove_if(rigidBodies.begin(), rigidBodies.end(),
@@ -35,7 +35,7 @@ void CollisionChecker::RemoveExpiredReferences()
 				}),
 			rigidBodies.end());
 	
-		rigidBodiesToRemove--;
+		amountOfExpiredRigidBodies--;
 	}
 }
 
@@ -102,6 +102,9 @@ void CollisionChecker::CheckCollisions()
 					if (rigidBodyB->collider->left > rigidBodyA->collider->right + 1)
 						break;
 			
+					std::cout << rigidBodies[i].expired() << ", ";
+					std::cout << rigidBodies[j].expired() << "\n";
+
 					if (rigidBodyA->collider->CheckCollision(rigidBodyB->collider))
 					{
 						RigidBodyCollision(rigidBodyA, rigidBodyB);

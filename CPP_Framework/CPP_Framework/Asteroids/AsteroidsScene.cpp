@@ -1,7 +1,7 @@
 #include "AsteroidsScene.h"
 
 AsteroidsScene::AsteroidsScene()
-	: spaceShip(this, "spaceShip", "BlueSlime.png", 160), cube(this, "cube", "Cat.jpg", 236), 
+	: spaceShip(this, "spaceShip", "Spaceship.png", 160), cube(this, "cube", "Cat.jpg", 236), 
 	asteroidSpawner(this, "asteroidSpawner", "Cat.Jpg", 236)
 {
 	spaceShip.SetPosition(Vector2(640, 620));

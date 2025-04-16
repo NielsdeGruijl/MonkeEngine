@@ -54,6 +54,19 @@ void Scene::Load()
 	}
 }
 
+void Scene::CleanUpObjects()
+{
+	for (Object* object : objectsToDelete)
+	{
+		auto it = std::find(objects.begin(), objects.end(), object);
+		objects.erase(it);
+		
+		delete object;
+	}
+
+	objectsToDelete.clear();
+}
+
 void Scene::RegisterCollider(Object* object)
 {
 	std::shared_ptr<RigidBody> rigidBody;
@@ -81,8 +94,7 @@ void Scene::AddObject(Object* pObject)
 
 void Scene::RemoveObject(Object* pObject)
 {
-	auto it = std::find(objects.begin(), objects.end(), pObject);
-	objects.erase(it);
+	objectsToDelete.push_back(pObject);
 }
 
 Object* Scene::FindObjectByName(std::string objectId) const

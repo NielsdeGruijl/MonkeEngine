@@ -20,18 +20,15 @@ void Asteroid::Start()
 void Asteroid::Update()
 {
 	GameObject::Update();
-
-}
-
-void Asteroid::Destroy()
-{
-	scene->RemoveObject(this);
-	delete this;
 }
 
 void Asteroid::OnCollisionEnter()
 {
 	Object::OnCollisionEnter();
+}
 
+void Asteroid::OnParamCollisionEnter(Object* object)
+{
+	Object::OnParamCollisionEnter(object);
 	Destroy();
 }

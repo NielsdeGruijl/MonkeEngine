@@ -28,6 +28,7 @@ public:
 	virtual void Update();
 	virtual void Render(sf::RenderWindow* renderWindow) = 0;
 
+	virtual void Destroy();
 
 	void SetScale(const Vector2 pScale);
 	void SetPosition(const Vector2 pPosition);
@@ -101,6 +102,7 @@ protected:
 	virtual void OnCollisionEnter();
 	virtual void OnCollisionStay();
 	virtual void OnCollisionExit();
+	virtual void OnParamCollisionEnter(Object* object);
 
 private:
 	const std::string objectId;
