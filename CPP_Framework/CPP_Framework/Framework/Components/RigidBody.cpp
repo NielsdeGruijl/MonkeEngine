@@ -17,6 +17,8 @@ RigidBody::RigidBody(GameObject* pObject)
 	bounciness = 0;
 
 	isGrounded = false;
+	xConstraint = false;
+	yConstraint = false;
 
 	std::shared_ptr<AABBCollider> tCollider;
 	if(!object->TryGetComponent<AABBCollider>(tCollider))
@@ -127,6 +129,12 @@ void RigidBody::HandleBounce(std::shared_ptr<RigidBody> pRigidBody)
 void RigidBody::Move()
 {
 	velocity -= dragForce;
+
+	if (xConstraint)
+		velocity = Vector2(0, velocity.y);
+	if (yConstraint)
+		velocity = Vector2(velocity.x, 0);
+
 	object->SetPosition(object->position + velocity * deltaTime * (float)unitSize);
 }
 

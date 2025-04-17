@@ -1,4 +1,5 @@
 #include "Asteroid.h"
+#include "Powerups/PowerupObject.h"
 #include <SFML/Graphics.hpp>
 
 class AsteroidSpawner : public GameObject
@@ -12,6 +13,7 @@ private:
 	void Update() override;
 
 	void SpawnAsteroid();
+	void SpawnPowerup();
 
 	sf::Clock cooldownTimer;
 

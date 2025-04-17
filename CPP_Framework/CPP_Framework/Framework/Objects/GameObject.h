@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "../Math/Vector2.h"
+#include "../Math/Timer.h"
 
 #include "../Components/Component.h"
 
@@ -55,11 +56,8 @@ public:
 	{
 		for (std::shared_ptr<Component>& component : components)
 		{
-			if (typeid(*(component)) == typeid(T))
-			{
-				pOut = std::static_pointer_cast<T>(component);
+			if (pOut = std::dynamic_pointer_cast<T>(component))
 				return true;
-			}
 		}
 		return false;
 	}

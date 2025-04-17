@@ -30,6 +30,8 @@ public:
 
 	bool isGrounded;
 
+	bool xConstraint, yConstraint;
+
 public:
 	RigidBody(GameObject* pObject);
 	~RigidBody();

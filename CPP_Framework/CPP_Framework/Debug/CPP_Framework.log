@@ -1,20 +1,4 @@
-﻿  Asteroid.cpp
-  AsteroidSpawner.cpp
-D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Asteroids\AsteroidSpawner.cpp(39,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-  AsteroidsScene.cpp
-  Bullet.cpp
-  SpaceShip.cpp
+﻿  SpaceShip.cpp
   AABBCollider.cpp
-  CollisionChecker.cpp
-  RigidBody.cpp
-  Game.cpp
-  Scene.cpp
-  SceneManager.cpp
-  Main.cpp
-  GameObject.cpp
-D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Objects\GameObject.cpp(11,27): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
-D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Objects\GameObject.cpp(11,17): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
-  CollisionTestScene.cpp
-  Player.cpp
   Generating Code...
   CPP_Framework.vcxproj -> D:\School\Tools\CPP_Framework_Repo\CPP_Framework\Debug\CPP_Framework.exe

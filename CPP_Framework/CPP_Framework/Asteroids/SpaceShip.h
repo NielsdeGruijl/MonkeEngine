@@ -20,6 +20,7 @@ private:
 	void Start() override;
 	void Update() override;
 	
+	void OnCollisionEnter(GameObject* object) override;
 
 	InputActionMap inputActionMap;
 	InputHandler input;
@@ -28,4 +29,5 @@ private:
 
 	float moveSpeed;
 
+	float bulletSizeMultiplier;
 };

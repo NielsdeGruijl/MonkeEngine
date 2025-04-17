@@ -23,6 +23,7 @@
     <ClCompile Include="Asteroids\AsteroidSpawner.cpp" />
     <ClCompile Include="Asteroids\AsteroidsScene.cpp" />
     <ClCompile Include="Asteroids\Bullet.cpp" />
+    <ClCompile Include="Asteroids\Powerups\PowerupObject.cpp" />
     <ClCompile Include="Asteroids\SpaceShip.cpp" />
     <ClCompile Include="Framework\Collisions\AABBCollider.cpp" />
     <ClCompile Include="Framework\Collisions\CollisionChecker.cpp" />
@@ -46,6 +47,9 @@
     <ClInclude Include="Asteroids\AsteroidSpawner.h" />
     <ClInclude Include="Asteroids\AsteroidsScene.h" />
     <ClInclude Include="Asteroids\Bullet.h" />
+    <ClInclude Include="Asteroids\Powerups\BasePowerup.h" />
+    <ClInclude Include="Asteroids\Powerups\BigBulletPowerup.h" />
+    <ClInclude Include="Asteroids\Powerups\PowerupObject.h" />
     <ClInclude Include="Asteroids\SpaceShip.h" />
     <ClInclude Include="Framework\Collisions\AABBCollider.h" />
     <ClInclude Include="Framework\Collisions\Collision.h" />
