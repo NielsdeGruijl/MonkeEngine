@@ -60,9 +60,6 @@
     <ClCompile Include="Testing\CollisionTestScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Events\Event.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Asteroids\AsteroidsScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

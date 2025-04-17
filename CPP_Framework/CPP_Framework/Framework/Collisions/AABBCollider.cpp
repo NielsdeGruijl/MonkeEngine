@@ -16,10 +16,6 @@ AABBCollider::AABBCollider(GameObject* pObject, Vector2* pPosition)
 AABBCollider::~AABBCollider()
 {
 	Component::~Component();
-	
-	collisionEnterEvent.ClearSubscribers();
-	collisionStayEvent.ClearSubscribers();
-	collisionExitEvent.ClearSubscribers();
 }
 
 void AABBCollider::Update()
@@ -82,20 +78,20 @@ void AABBCollider::SetCollisionState(std::shared_ptr<AABBCollider> pOtherCollide
 	switch (pCollisionState)
 	{
 	case enter:
-		paramCollisionEnterEvent.Invoke(pOtherCollider->object);
-		pOtherCollider->paramCollisionEnterEvent.Invoke(object);
+		collisionEnterEvent.Invoke(pOtherCollider->object);
+		pOtherCollider->collisionEnterEvent.Invoke(object);
 		break;
 	case stay:
-		collisionStayEvent.Invoke();
-		pOtherCollider->collisionStayEvent.Invoke();
+		collisionStayEvent.Invoke(pOtherCollider->object);
+		pOtherCollider->collisionStayEvent.Invoke(object);
 		break;
 	case exit:
-		collisionExitEvent.Invoke();
-		pOtherCollider->collisionExitEvent.Invoke();
+		collisionExitEvent.Invoke(pOtherCollider->object);
+		pOtherCollider->collisionExitEvent.Invoke(object);
 		break;
 	default:
-		collisionExitEvent.Invoke();
-		pOtherCollider->collisionExitEvent.Invoke();
+		collisionExitEvent.Invoke(pOtherCollider->object);
+		pOtherCollider->collisionExitEvent.Invoke(object);
 		break;
 	}
 }

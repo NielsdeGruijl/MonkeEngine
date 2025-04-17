@@ -4,37 +4,21 @@
 #include <vector>
 #include <functional>
 
+template<typename... Parameters>
 struct Action
 {
-	Action(std::function<void(void)> pAction, int pId)
-	{
-		function = pAction;
-		id = pId;
-	}
-
-	bool operator==(const Action action)
-	{
-		if (id == action.id)
-		{
-			return true;
-		}
-		return false;
-	}
-
-	std::function<void()> function;
-	int id;
-};
-
-template<typename... Parameters>
-struct ParamAction
-{
-	ParamAction(std::function<void(Parameters...)> pFunction, int pId)
+	Action(std::function<void(Parameters...)> pFunction, int pId)
 	{
 		function = pFunction;
 		id = pId;
 	}
 
-	bool operator==(const ParamAction action)
+	~Action()
+	{
+		//std::cout << "action destroyed\n";
+	}
+
+	bool operator==(const Action action)
 	{
 		if (id == action.id)
 		{
@@ -47,32 +31,18 @@ struct ParamAction
 	int id;
 };
 
-class Event
-{
-public:
-	void Subscribe(const std::function<void()> pFunction);
-	void Unsubscribe(const std::function<void(void)> pFunction);
-
-	void ClearSubscribers();
-
-	void Invoke();
-
-private:
-	std::vector<Action> actions;
-};
-
 template<typename... Parameters>
-class ParamEvent
+class Event
 {
 public:
 	void AddListener(const std::function<void(Parameters...)> pFunction)
 	{
-		actions.push_back(ParamAction<Parameters...>(pFunction, actions.size()));
+		actions.push_back(Action<Parameters...>(pFunction, actions.size()));
 	}
 
 	void RemoveListener(const std::function<void(Parameters...)> pFunction)
 	{
-		for (Action action : actions)
+		for (Action<Parameters...> action : actions)
 		{
 			if (*(long*)(char*)&pFunction == *(long*)(char*)&action.function)
 			{
@@ -82,17 +52,22 @@ public:
 		}
 	}
 
+	void ClearSubscribers()
+	{
+		actions.clear();
+	}
+
 	void Invoke(Parameters&... parameters)
 	{
 		if (actions.size() <= 0)
 			return;
 
-		for (ParamAction<Parameters...> action : actions)
+		for (Action<Parameters...> action : actions)
 		{
 			action.function(parameters...);
 		}
 	}	
 
 private:
-	std::vector<ParamAction<Parameters...>> actions;
+	std::vector<Action<Parameters...>> actions;
 };

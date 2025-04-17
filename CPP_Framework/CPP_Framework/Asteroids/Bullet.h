@@ -17,9 +17,7 @@ private:
 	void Start() override;
 	void Update() override;
 
-	void OnCollisionEnter() override;
-
-	void OnParamCollisionEnter(GameObject* object) override;
+	void OnCollisionEnter(GameObject* object) override;
 
 	sf::Clock lifeTime;
 

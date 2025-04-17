@@ -27,10 +27,9 @@ void GameObject::OnLoad()
 		{
 			std::shared_ptr<AABBCollider> tCol = std::static_pointer_cast<AABBCollider>(component);
 
-			tCol->collisionEnterEvent.Subscribe([this]() {this->OnCollisionEnter(); });
-			tCol->collisionStayEvent.Subscribe([this]() {this->OnCollisionStay(); });
-			tCol->collisionExitEvent.Subscribe([this]() {this->OnCollisionExit(); });
-			tCol->paramCollisionEnterEvent.AddListener([this](GameObject* object) {this->OnParamCollisionEnter(object); });
+			tCol->collisionEnterEvent.AddListener([this](GameObject* pObject) {this->OnCollisionEnter(pObject); });
+			tCol->collisionStayEvent.AddListener([this](GameObject* pObject) {this->OnCollisionStay(pObject); });
+			tCol->collisionExitEvent.AddListener([this](GameObject* pObject) {this->OnCollisionExit(pObject); });
 		}
 	}
 }
@@ -55,19 +54,15 @@ void GameObject::Destroy()
 	scene->RemoveObject(shared_from_this());
 }
 
-void GameObject::OnCollisionEnter()
+void GameObject::OnCollisionStay(GameObject* object)
 {
 }
 
-void GameObject::OnCollisionStay()
+void GameObject::OnCollisionExit(GameObject* object)
 {
 }
 
-void GameObject::OnCollisionExit()
-{
-}
-
-void GameObject::OnParamCollisionEnter(GameObject* object)
+void GameObject::OnCollisionEnter(GameObject* object)
 {
 }
 

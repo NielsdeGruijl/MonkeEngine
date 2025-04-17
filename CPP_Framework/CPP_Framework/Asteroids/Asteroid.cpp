@@ -26,13 +26,8 @@ void Asteroid::Update()
 	GameObject::Update();
 }
 
-void Asteroid::OnCollisionEnter()
+void Asteroid::OnCollisionEnter(GameObject* pObject)
 {
-	GameObject::OnCollisionEnter();
-}
-
-void Asteroid::OnParamCollisionEnter(GameObject* object)
-{
-	GameObject::OnParamCollisionEnter(object);
+	GameObject::OnCollisionEnter(pObject);
 	Destroy();
 }

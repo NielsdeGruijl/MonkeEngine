@@ -39,14 +39,9 @@ void Bullet::Update()
 	}
 }
 
-void Bullet::OnCollisionEnter()
+void Bullet::OnCollisionEnter(GameObject* pObject)
 {
-	GameObject::OnCollisionEnter();
-}
-
-void Bullet::OnParamCollisionEnter(GameObject* pObject)
-{
-	GameObject::OnParamCollisionEnter(pObject);
+	GameObject::OnCollisionEnter(pObject);
 	
 	Destroy();
 }

@@ -56,17 +56,17 @@ void Player::SetActionMap(InputActionMap* playerInputActionMap)
 	input.SetInputActionMap(playerInputActionMap);
 }
 
-void Player::OnCollisionEnter()
+void Player::OnCollisionEnter(GameObject* pObject)
 {
 	std::cout << "enter\n";
 }
 
-void Player::OnCollisionStay()
+void Player::OnCollisionStay(GameObject* pObject)
 {
 	std::cout << "stay\n";
 }
 
-void Player::OnCollisionExit()
+void Player::OnCollisionExit(GameObject* pObject)
 {
 	std::cout << "exit\n";
 }

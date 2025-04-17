@@ -12,10 +12,9 @@ public:
 	Vector2* position;
 	Vector2 radius;
 
-	Event collisionEnterEvent;
-	Event collisionStayEvent;
-	Event collisionExitEvent;
-	ParamEvent<GameObject*> paramCollisionEnterEvent;
+	Event<GameObject*> collisionEnterEvent;
+	Event<GameObject*> collisionStayEvent;
+	Event<GameObject*> collisionExitEvent;
 	
 	enum collisionState
 	{

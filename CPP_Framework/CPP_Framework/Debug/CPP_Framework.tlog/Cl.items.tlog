@@ -9,7 +9,6 @@ D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Compone
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Core\Game.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\Game.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Core\SceneManager.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\SceneManager.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Core\SceneRenderer.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\SceneRenderer.obj
-D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Events\Event.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\Event.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Input\InputActionMap.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\InputActionMap.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Components\RigidBody.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\RigidBody.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Input\InputHandler.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\InputHandler.obj

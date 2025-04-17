@@ -99,10 +99,9 @@ protected:
 	Scene* scene;
 
 protected:
-	virtual void OnCollisionEnter();
-	virtual void OnCollisionStay();
-	virtual void OnCollisionExit();
-	virtual void OnParamCollisionEnter(GameObject* object);
+	virtual void OnCollisionEnter(GameObject* object);
+	virtual void OnCollisionStay(GameObject* object);
+	virtual void OnCollisionExit(GameObject* object);
 
 private:
 	const std::string objectId;
