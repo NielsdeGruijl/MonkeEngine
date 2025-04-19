@@ -20,17 +20,19 @@ void AsteroidSpawner::Start()
 	GameObject::Start();
 
 	SpawnAsteroid();
-
-	SpawnPowerup();
 }
 
 void AsteroidSpawner::Update()
 {
 	GameObject::Update();
-
+	
 	if (cooldownTimer.getElapsedTime().asSeconds() > cooldown)
 	{
-		SpawnAsteroid();
+		if (std::rand() % 100 < 10)
+			SpawnPowerup();
+		else
+			SpawnAsteroid();
+
 		cooldownTimer.restart();
 	}
 }
@@ -46,6 +48,7 @@ void AsteroidSpawner::SpawnAsteroid()
 void AsteroidSpawner::SpawnPowerup()
 {
 	std::shared_ptr<PowerupObject> powerup = std::make_shared<PowerupObject>(scene, "powerup");
-	powerup->SetPosition(Vector2(640, -50));
+	float xPosition = std::rand() % rightBound + leftBound;
+	powerup->SetPosition(Vector2(xPosition, -50));
 	scene->AddObject(powerup);
 }

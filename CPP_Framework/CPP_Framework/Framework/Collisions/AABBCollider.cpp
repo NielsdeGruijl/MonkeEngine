@@ -51,6 +51,9 @@ bool AABBCollider::CheckCollision(std::shared_ptr<AABBCollider> pCollider)
 			if (currentCollisionState == exit)
 				SetCollisionState(pCollider, enter);
 
+			if (isTrigger || pCollider->isTrigger)
+				return false;
+
 			return true;
 		}
 		if (abs(topToBottomDistance) > 0.5f && abs(bottomToTopDistance) > 0.5f)

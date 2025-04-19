@@ -1,4 +1,5 @@
 #include "Asteroid.h"
+#include "Bullet.h"
 #include "../Framework/Core/Scene.h"
 
 Asteroid::Asteroid(Scene* pScene, std::string pId)
@@ -29,5 +30,10 @@ void Asteroid::Update()
 void Asteroid::OnCollisionEnter(GameObject* pObject)
 {
 	GameObject::OnCollisionEnter(pObject);
-	Destroy();
+
+	if (typeid(*pObject) == typeid(Bullet))
+	{
+		std::cout << typeid(*pObject).name() << ", " << typeid(*this).name() << "\n";
+		Destroy();
+	}
 }

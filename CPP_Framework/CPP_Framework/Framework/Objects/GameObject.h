@@ -65,12 +65,10 @@ public:
 	template <typename T>
 	std::shared_ptr<T> GetComponent()
 	{
-		for (size_t i = 0; i < components.size(); i++)
+		for (std::shared_ptr<Component> component : components)
 		{
-			if (typeid(*(components[i])) == typeid(T))
-			{
-				return std::static_pointer_cast<T>(components[i]);
-			}
+			if (std::shared_ptr<T> castedComponent = std::dynamic_pointer_cast<T>(component))
+				return castedComponent;
 		}
 		return nullptr;
 	}

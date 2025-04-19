@@ -16,7 +16,7 @@ private:
 	void SpawnPowerup();
 
 	sf::Clock cooldownTimer;
-
+	
 	int leftBound, rightBound;
 	float cooldown;
 };

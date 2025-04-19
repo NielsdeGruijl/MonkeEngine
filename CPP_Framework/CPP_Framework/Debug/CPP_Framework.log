@@ -1,4 +1,7 @@
-﻿  SpaceShip.cpp
-  AABBCollider.cpp
+﻿  AsteroidSpawner.cpp
+D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Asteroids\AsteroidSpawner.cpp(43,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Asteroids\AsteroidSpawner.cpp(51,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  AsteroidsScene.cpp
+  Main.cpp
   Generating Code...
   CPP_Framework.vcxproj -> D:\School\Tools\CPP_Framework_Repo\CPP_Framework\Debug\CPP_Framework.exe
