@@ -7,7 +7,7 @@
 extern const int unitSize;
 extern float deltaTime;
 
-RigidBody::RigidBody(Object* pObject)
+RigidBody::RigidBody(GameObject* pObject)
 	: Component(pObject)
 {
 	mass = 1;
@@ -17,13 +17,17 @@ RigidBody::RigidBody(Object* pObject)
 	bounciness = 0;
 
 	isGrounded = false;
+	xConstraint = false;
+	yConstraint = false;
 
-	if (collider == nullptr)
-		collider = object->AddComponent<AABBCollider>(object, object->GetSize(), &object->position);
+	std::shared_ptr<AABBCollider> tCollider;
+	if(!object->TryGetComponent<AABBCollider>(tCollider))
+		collider = object->AddComponent<AABBCollider>(object, &object->position);
 }
 
 RigidBody::~RigidBody()
 {
+	Component::~Component();
 }
 
 void RigidBody::OnLoad()
@@ -125,6 +129,12 @@ void RigidBody::HandleBounce(std::shared_ptr<RigidBody> pRigidBody)
 void RigidBody::Move()
 {
 	velocity -= dragForce;
+
+	if (xConstraint)
+		velocity = Vector2(0, velocity.y);
+	if (yConstraint)
+		velocity = Vector2(velocity.x, 0);
+
 	object->SetPosition(object->position + velocity * deltaTime * (float)unitSize);
 }
 

@@ -1,7 +1,7 @@
 #include "Player.h"
 
-Player::Player(std::string objectId, std::string fileName, int pixelsPerUnit)
-	: GameObject(objectId, fileName, pixelsPerUnit), input()
+Player::Player(Scene* pScene, std::string objectId)
+	: GameObject(pScene, objectId), input()
 {
 	SetActionMap(&defaultInputActionMap);
 
@@ -56,17 +56,17 @@ void Player::SetActionMap(InputActionMap* playerInputActionMap)
 	input.SetInputActionMap(playerInputActionMap);
 }
 
-void Player::OnCollisionEnter()
+void Player::OnCollisionEnter(GameObject* pObject)
 {
 	std::cout << "enter\n";
 }
 
-void Player::OnCollisionStay()
+void Player::OnCollisionStay(GameObject* pObject)
 {
 	std::cout << "stay\n";
 }
 
-void Player::OnCollisionExit()
+void Player::OnCollisionExit(GameObject* pObject)
 {
 	std::cout << "exit\n";
 }

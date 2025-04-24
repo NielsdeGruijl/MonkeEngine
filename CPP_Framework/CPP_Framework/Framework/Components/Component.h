@@ -2,15 +2,15 @@
 
 #include "../Math/Vector2.h"
 
-class Object;
+class GameObject;
 
 class Component
 {
 public:
-	Object* object;
+	GameObject* object;
 
 public:
-	Component(Object* pObject);
+	Component(GameObject* pObject);
 	~Component();
 
 	virtual void Update();

@@ -8,7 +8,7 @@
 class Player : public GameObject
 {
 public:
-	Player(std::string pObjectId, std::string pFileName, int pPixelsPerUnit);
+	Player(Scene* pScene, std::string pObjectId);
 	~Player();
 
 	void OnLoad() override;
@@ -20,9 +20,9 @@ public:
 	std::shared_ptr<RigidBody> rigidBody;
 
 protected:
-	void OnCollisionEnter() override;
-	void OnCollisionStay() override;
-	void OnCollisionExit() override;
+	void OnCollisionEnter(GameObject* pObject) override;
+	void OnCollisionStay(GameObject* pObject) override;
+	void OnCollisionExit(GameObject* pObject) override;
 
 private:
 	InputActionMap defaultInputActionMap;

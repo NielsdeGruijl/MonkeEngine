@@ -4,27 +4,70 @@
 #include <vector>
 #include <functional>
 
+template<typename... Parameters>
 struct Action
 {
-	Action(std::function<void(void)> pAction, int pId)
+	Action(std::function<void(Parameters...)> pFunction, int pId)
 	{
-		function = pAction;
+		function = pFunction;
 		id = pId;
 	}
 
-	std::function<void()> function;
+	~Action()
+	{
+		//std::cout << "action destroyed\n";
+	}
+
+	bool operator==(const Action action)
+	{
+		if (id == action.id)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	std::function<void(Parameters...)> function;
 	int id;
 };
 
+template<typename... Parameters>
 class Event
 {
 public:
-	void Subscribe(const std::function<void()> pFunction);
-	void Unsubscribe(const std::function<void(void)> pFunction);
+	void AddListener(const std::function<void(Parameters...)> pFunction)
+	{
+		actions.push_back(Action<Parameters...>(pFunction, actions.size()));
+	}
 
-	void Invoke();
+	void RemoveListener(const std::function<void(Parameters...)> pFunction)
+	{
+		for (Action<Parameters...> action : actions)
+		{
+			if (*(long*)(char*)&pFunction == *(long*)(char*)&action.function)
+			{
+				auto it = std::find(actions.begin(), actions.end(), action);
+				actions.erase(it);
+			}
+		}
+	}
+
+	void ClearSubscribers()
+	{
+		actions.clear();
+	}
+
+	void Invoke(Parameters&... parameters)
+	{
+		if (actions.size() <= 0)
+			return;
+
+		for (Action<Parameters...> action : actions)
+		{
+			action.function(parameters...);
+		}
+	}	
 
 private:
-	std::vector<std::function<void()>> subscribers;
-	std::vector<Action> actions;
+	std::vector<Action<Parameters...>> actions;
 };

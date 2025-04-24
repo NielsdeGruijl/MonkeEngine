@@ -5,6 +5,7 @@
 #include "../Math/Vector2.h"
 #include "../Collisions/AABBCollider.h"	
 
+class CollisionChecker;
 struct Collision;
 
 class RigidBody : public Component
@@ -29,8 +30,10 @@ public:
 
 	bool isGrounded;
 
+	bool xConstraint, yConstraint;
+
 public:
-	RigidBody(Object* pObject);
+	RigidBody(GameObject* pObject);
 	~RigidBody();
 
 	void OnLoad() override;

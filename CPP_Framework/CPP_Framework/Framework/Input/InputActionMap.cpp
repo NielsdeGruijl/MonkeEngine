@@ -44,9 +44,6 @@ void InputActionMap::AddKey(std::string inputActionName, InputAction newInputAct
 
 void InputActionMap::RemoveKey(std::string pInputActionName)
 {
-	std::cout << currentInputActionMap.size() << "\n";
-	std::cout << keys.size() << "\n";
-
 	if (currentInputActionMap.find(pInputActionName) != currentInputActionMap.end())
 	{
 		InputAction* action = &currentInputActionMap[pInputActionName];
@@ -56,9 +53,6 @@ void InputActionMap::RemoveKey(std::string pInputActionName)
 
 		currentInputActionMap.erase(pInputActionName);
 	}
-
-	std::cout << currentInputActionMap.size() << "\n";
-	std::cout << keys.size() << "\n";
 }
 
 void InputActionMap::ClearMap()
@@ -68,9 +62,6 @@ void InputActionMap::ClearMap()
 		currentInputActionMap.clear();
 		keys.clear();
 	}
-
-	std::cout << currentInputActionMap.size() << "\n";
-	std::cout << keys.size() << "\n";
 }
 
 void InputActionMap::UpdateKeyStatus()
@@ -92,6 +83,7 @@ void InputActionMap::UpdateKeyStatus()
 
 void InputActionMap::InitializeKeybindsList()
 {
+	keys.clear();
 	for (auto& kv : currentInputActionMap)
 	{
 		InputAction* action = &kv.second;

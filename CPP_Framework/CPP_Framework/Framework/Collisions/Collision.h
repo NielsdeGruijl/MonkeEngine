@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../Objects/Object.h"
+#include "../Objects/GameObject.h"
 #include "../Components/RigidBody.h"
 
 struct Collision
 {
-	Collision(Object* pObject, Vector2 pNormal, float pCollisionTime)
+	Collision(GameObject* pObject, Vector2 pNormal, float pCollisionTime)
 	{
 		object = pObject;
 		object->TryGetComponent(rigidBody);
@@ -19,7 +19,7 @@ struct Collision
 	{
 	}
 
-	Object* object;
+	GameObject* object;
 	std::shared_ptr<RigidBody> rigidBody;
 
 	Vector2 normal;

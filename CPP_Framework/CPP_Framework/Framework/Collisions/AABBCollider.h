@@ -3,17 +3,18 @@
 #include "../Math/Vector2.h"
 #include "../Components/Component.h"
 #include "../Events/Event.h"
+#include "../Objects/GameObject.h"
+
 
 class AABBCollider : public Component
 {
 public:
-	Vector2 radius;
-	Vector2 size;
 	Vector2* position;
+	Vector2 radius;
 
-	Event collisionEnterEvent;
-	Event collisionStayEvent;
-	Event collisionExitEvent;
+	Event<GameObject*> collisionEnterEvent;
+	Event<GameObject*> collisionStayEvent;
+	Event<GameObject*> collisionExitEvent;
 	
 	enum collisionState
 	{
@@ -29,7 +30,7 @@ public:
 	float left, right, top, bottom;
 
 public:
-	AABBCollider(Object* pObject, Vector2 pSize, Vector2* pPosition);
+	AABBCollider(GameObject* pObject, Vector2* pPosition);
 	~AABBCollider();
 
 	void Update() override;

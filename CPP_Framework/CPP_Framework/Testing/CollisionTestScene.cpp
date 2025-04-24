@@ -1,8 +1,8 @@
 #include "CollisionTestScene.h"
 
 CollisionTestScene::CollisionTestScene()
-	: obstacle("obstacle", "TransparentSquare.png", 160), obstacle2("obstacle2", "TransparentSquare.png", 160), enemy("enemy", "BlueSlime.png", 160), 
-	  player("Player", "BlueSlime.png", 160)
+	: obstacle(this, "obstacle"), obstacle2(this, "obstacle2"), enemy(this, "enemy"), 
+	  player(this, "Player")
 {
 	obstacle.SetPosition(Vector2(0, 360));
 	obstacle.SetScale(Vector2(1, 720));
@@ -18,10 +18,8 @@ CollisionTestScene::CollisionTestScene()
 	enemy.AddComponent<RigidBody>(&enemy);
 	enemy.GetComponent<RigidBody>()->gravity = 0;
 
-	enemy.spriteRenderer->SetColor(sf::Color::Red);
-
-	AddObject(&player);
-	AddObject(&enemy);
+	//AddObject(&player);
+	//AddObject(&enemy);
 	//AddObject(&obstacle);
 	//AddObject(&obstacle2);
 }

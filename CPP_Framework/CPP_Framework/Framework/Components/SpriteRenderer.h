@@ -14,7 +14,7 @@ public:
 	sf::Sprite sprite;
 
 public:
-	SpriteRenderer(Object* pObject, std::string pFileName, int pPixelsPerUnit = 100);
+	SpriteRenderer(GameObject* pObject, std::string pFileName, int pPixelsPerUnit = 160);
 	~SpriteRenderer();
 
 	void Update() override;
@@ -22,7 +22,6 @@ public:
 	void SetColor(sf::Color pColor);
 	void SetPosition(const Vector2 pPosition);
 	void SetScale(const Vector2 pScale);
-	void SetScale(const float pScale);
 	void SetOrigin(const Vector2 pOrigin);
 	
 	void Move(const Vector2 pVelocity);
