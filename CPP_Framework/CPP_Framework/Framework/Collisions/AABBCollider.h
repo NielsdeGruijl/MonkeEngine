@@ -39,6 +39,6 @@ public:
 
 	bool CheckCollision(std::shared_ptr<AABBCollider> pCollider);
 
-private:
 	void SetCollisionState(std::shared_ptr<AABBCollider> pOtherCollider, collisionState pCollisionState);
+private:
 };

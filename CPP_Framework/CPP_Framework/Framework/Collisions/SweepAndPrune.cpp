@@ -34,7 +34,7 @@ void SweepAndPrune::Prune(std::weak_ptr<AABBCollider> pCollider)
 
 				std::shared_ptr<RigidBody> rbA, rbB;
 
-				// If on of the objects is not static, proceed to narrow phase
+				// If on of the objects is dynamic (AKA can collide), proceed to narrow phase
 				if (colliderA->object->TryGetComponent<RigidBody>(rbA) || colliderB->object->TryGetComponent<RigidBody>(rbB))
 				{
 					collisionChecker.CheckCollision(colliderA, colliderB);

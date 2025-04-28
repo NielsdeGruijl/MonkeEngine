@@ -21,4 +21,7 @@ void LeftObject::Update()
 void LeftObject::OnCollisionEnter(GameObject* object)
 {
 	GameObject::OnCollisionEnter(object);
+	moveDirection *= -1;
+
+	std::cout << "balls\n";
 }

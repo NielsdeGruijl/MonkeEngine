@@ -133,52 +133,90 @@ void CollisionChecker::CheckCollision(std::weak_ptr<AABBCollider> pCollider, std
 				RigidBodyCollision(rigidBodyA, rigidBodyB);
 				return;
 			}
-			ObjectCollision(colliderA, colliderB, true);
+			ObjectCollision(rigidBodyA, colliderB);
 			return;
 		}
 		else
 		{
-			ObjectCollision(colliderA, colliderB, false);
+			ObjectCollision(colliderA, colliderB->object->GetComponent<RigidBody>());
 		}
 	}
 }
 
-void CollisionChecker::ObjectCollision(std::shared_ptr<AABBCollider> pColliderA, std::shared_ptr<AABBCollider> pColliderB, bool pIsColliderADynamic)
+void CollisionChecker::ObjectCollision(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<AABBCollider> pCollider)
 {
-	std::shared_ptr<RigidBody> rigidBody;
-	std::shared_ptr<AABBCollider> collider;
-	Vector2 collisionTime = CalculateCollisionDistance(pColliderA, pColliderB);
+	Vector2 collisionDistance = CalculateCollisionDistance(pRigidBody->collider, pCollider);
 	Vector2 normal;
 
-	if (pIsColliderADynamic)
+	float shortestCollisionDistance = 0;
+	if (collisionDistance.x > collisionDistance.y)
 	{
-		rigidBody = pColliderA->object->GetComponent<RigidBody>();
-		collider = pColliderB;
+		if (pRigidBody->velocity.x < 0)
+			return;
+	
+		normal = Vector2(1, 0);
+	
+		shortestCollisionDistance = collisionDistance.x;
 	}
 	else
 	{
-		collider = pColliderA;
-		rigidBody = pColliderB->object->GetComponent<RigidBody>();
-	}
-
-	if (collisionTime.x > collisionTime.y)
-	{
-		if (rigidBody->velocity.x > 0)
-			normal = Vector2(-1, 0);
-		else
-			normal = Vector2(1, 0);
-	}
-	else
-	{
-		if(rigidBody->velocity.y > 0)
+		if (pRigidBody->collider->top < pCollider->top)
+		{
+			if (pRigidBody->velocity.y < 0)
+				return;
+	
 			normal = Vector2(0, -1);
+		}
 		else
+		{
+			if (pRigidBody->velocity.y > 0)
+				return;
+	
 			normal = Vector2(0, 1);
+		}
+	
+		shortestCollisionDistance = collisionDistance.y;
+	}
+	
+	pRigidBody->HandleCollision(Collision(pCollider->object, normal, shortestCollisionDistance));
+}
+
+void CollisionChecker::ObjectCollision(std::shared_ptr<AABBCollider> pCollider, std::shared_ptr<RigidBody> pRigidBody)
+{
+	Vector2 collisionDistance = CalculateCollisionDistance(pCollider, pRigidBody->collider);
+	Vector2 normal;
+
+	float shortestCollisionDistance = 0;
+	if (collisionDistance.x > collisionDistance.y)
+	{
+		if (pRigidBody->velocity.x > 0)
+			return;
+		
+		normal = Vector2(1, 0);
+
+		shortestCollisionDistance = collisionDistance.x;
+	}
+	else
+	{
+		if (pRigidBody->collider->top < pCollider->top)
+		{
+			if (pRigidBody->velocity.y < 0)
+				return;
+
+			normal = Vector2(0, -1);
+		}
+		else
+		{
+			if (pRigidBody->velocity.y > 0)
+				return;
+
+			normal = Vector2(0, 1);
+		}
+
+		shortestCollisionDistance = collisionDistance.y;
 	}
 
-	float shortestCollisionTime = std::max<float>(collisionTime.x, collisionTime.y);
-	GameObject* object = collider->object;
-	rigidBody->HandleCollision(Collision(object, normal, shortestCollisionTime));
+	pRigidBody->HandleCollision(Collision(pCollider->object, normal, shortestCollisionDistance));
 }
 
 void CollisionChecker::RigidBodyCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB)
@@ -299,9 +337,7 @@ void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRig
 
 	float momentumA = pRigidBodyA->velocity.GetLength() * pRigidBodyA->mass;
 	float momentumB = pRigidBodyB->velocity.GetLength() * pRigidBodyB->mass;
-
-
-
+	
 	if (momentumA > momentumB)
 	{
 		impactingRigidBody = pRigidBodyA;
@@ -335,50 +371,6 @@ void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRig
 	impactingRigidBody->AddForce(aImpulse, RigidBody::instant);
 	receivingRigidBody->AddForce(bImpulse, RigidBody::instant);
 }	
-
-Vector2 CollisionChecker::CalculateCollisionTime(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<AABBCollider> pObjectCollider)
-{
-	std::shared_ptr<AABBCollider> controllerCollider = pRigidBody->collider;
-	Vector2 pawnVelocity = pRigidBody->velocity;
-	float xCollisionEntryDistance, yCollisionEntryDistance;
-
-	if (pawnVelocity.x != 0)
-	{
-		if (pawnVelocity.x > 0)
-			xCollisionEntryDistance = pObjectCollider->left - controllerCollider->right;
-		else
-			xCollisionEntryDistance = pObjectCollider->right - controllerCollider->left;
-
-		if (xCollisionEntryDistance > 10 || xCollisionEntryDistance < -100)
-			xCollisionEntryDistance = 0;
-	}
-	else
-	{
-		xCollisionEntryDistance = std::numeric_limits<float>::infinity();
-	}
-
-	if (pawnVelocity.y != 0)
-	{
-		if (pawnVelocity.y > 0)
-			yCollisionEntryDistance = pObjectCollider->top - controllerCollider->bottom;
-		else
-			yCollisionEntryDistance = pObjectCollider->bottom - controllerCollider->top;
-
-		if (yCollisionEntryDistance > 10 || yCollisionEntryDistance < -100)
-			yCollisionEntryDistance = 0;
-	}
-	else
-	{
-		yCollisionEntryDistance = std::numeric_limits<float>::infinity();
-	}
-
-	if (xCollisionEntryDistance > 100)
-	{
-		std::cout << "balls\n";
-	}
-
-	return Vector2(xCollisionEntryDistance, yCollisionEntryDistance);
-}
 
 Vector2 CollisionChecker::CalculateCollisionDistance(std::shared_ptr<AABBCollider> pColliderA, std::shared_ptr<AABBCollider> pColliderB)
 {
