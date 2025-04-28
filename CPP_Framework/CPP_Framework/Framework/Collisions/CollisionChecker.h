@@ -17,11 +17,11 @@ public:
 	void CheckCollisions();
 	void CheckCollision(std::weak_ptr<AABBCollider> pCollider, std::weak_ptr<AABBCollider> pColliderB);
 
-	void ObjectCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<AABBCollider> pRigidBodyB);
+	void ObjectCollision(std::shared_ptr<AABBCollider> pColliderA, std::shared_ptr<AABBCollider> pColliderB, bool pIsColliderADynamic);
 	void RigidBodyCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB);
 
 	Vector2 CalculateCollisionTime(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<AABBCollider> pObjectCollider);
-	Vector2 CalculateCollisionDistance(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB);
+	Vector2 CalculateCollisionDistance(std::shared_ptr<AABBCollider> pColliderA, std::shared_ptr<AABBCollider> pColliderB);
 
 	Vector2 ElasticCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB);
 

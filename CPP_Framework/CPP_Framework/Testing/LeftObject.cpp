@@ -4,6 +4,8 @@
 LeftObject::LeftObject(Scene* pScene, std::string pObjectId)
 	: GameObject(pScene, pObjectId)
 {
+	moveSpeed = 3;
+
 	rigidBody = AddComponent<RigidBody>(this);
 	rigidBody->gravity = 0;
 
@@ -13,5 +15,10 @@ LeftObject::LeftObject(Scene* pScene, std::string pObjectId)
 void LeftObject::Update()
 {
 	GameObject::Update();
-	rigidBody->AddForce(Vector2(3 * moveDirection, 0));
+	rigidBody->AddForce(Vector2(moveSpeed * moveDirection, 0));
+}
+
+void LeftObject::OnCollisionEnter(GameObject* object)
+{
+	GameObject::OnCollisionEnter(object);
 }

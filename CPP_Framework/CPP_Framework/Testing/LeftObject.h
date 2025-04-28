@@ -11,8 +11,11 @@ public:
 
 	void Update() override;
 
+	void OnCollisionEnter(GameObject* object) override;
+
 public:
 	float moveDirection;
+	float moveSpeed;
 
 private:
 	std::shared_ptr<RigidBody> rigidBody;

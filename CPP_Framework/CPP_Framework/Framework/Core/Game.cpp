@@ -36,6 +36,7 @@ void Game::Run()
 	renderWindow.setFramerateLimit(360);
 	while (renderWindow.isOpen())
 	{
+		testData.AddData(timeClock.restart().asMilliseconds());
 		while (renderWindow.pollEvent(event))
 		{
 			if(event.type == sf::Event::Closed)
@@ -54,7 +55,6 @@ void Game::Run()
 			fpsClock.restart();
 		}
 
-		testData.AddData(timeClock.restart().asMilliseconds());
 
 		renderWindow.clear();
 
