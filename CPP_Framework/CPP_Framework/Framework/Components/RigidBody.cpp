@@ -74,7 +74,11 @@ void RigidBody::HandleCollision(Collision collision)
 
 	if (velocity.GetLength() > 0)
 	{
-		Vector2 positionAdjustment = velocity.normalized * collision.collisionTime;
+		Vector2 normalizedVelocity = velocity.normalized;
+		//normalizedVelocity = Vector2(abs(normalizedVelocity.x), abs(normalizedVelocity.y));
+		Vector2 positionAdjustment = normalizedVelocity * collision.collisionTime;
+		std::cout << object->GetID() << ", " << velocity.printVector(); 
+		std::cout << positionAdjustment.printVector() << "====\n";
 		Vector2 newPos = object->position + positionAdjustment;
 		object->SetPosition(newPos);
 	}

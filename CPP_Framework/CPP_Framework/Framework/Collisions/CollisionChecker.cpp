@@ -118,6 +118,31 @@ void CollisionChecker::CheckCollisions()
 	}
 }
 
+void CollisionChecker::CheckCollision(std::weak_ptr<AABBCollider> pCollider, std::weak_ptr<AABBCollider> pColliderB)
+{
+	std::shared_ptr<AABBCollider> colliderA = pCollider.lock();
+	std::shared_ptr<AABBCollider> colliderB = pColliderB.lock();
+
+	if (colliderA->CheckCollision(colliderB))
+	{
+		std::shared_ptr<RigidBody> rigidBodyA, rigidBodyB;
+		if (colliderA->object->TryGetComponent<RigidBody>(rigidBodyA))
+		{
+			if (colliderB->object->TryGetComponent<RigidBody>(rigidBodyB))
+			{
+				RigidBodyCollision(rigidBodyA, rigidBodyB);
+				return;
+			}
+			ObjectCollision(rigidBodyA, colliderB);
+			return;
+		}
+		else
+		{
+			ObjectCollision(colliderB->object->GetComponent<RigidBody>(), colliderA);
+		}
+	}
+}
+
 void CollisionChecker::ObjectCollision(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<AABBCollider> pObjectCollider)
 {
 	Vector2 collisionTime = CalculateCollisionTime(pRigidBody, pObjectCollider);
@@ -140,11 +165,8 @@ void CollisionChecker::ObjectCollision(std::shared_ptr<RigidBody> pRigidBody, st
 
 	float shortestCollisionTime = std::min<float>(collisionTime.x, collisionTime.y);
 
-	std::cout << pRigidBody->object->GetID() << ", " << shortestCollisionTime << "\n";
-
 	if (shortestCollisionTime >= -1)
 	{
-		std::cout << pRigidBody->object->GetID() << "\n";
 		GameObject* object = pObjectCollider->object;
 		pRigidBody->HandleCollision(Collision(object, normal, shortestCollisionTime));
 	}
@@ -195,6 +217,7 @@ void CollisionChecker::RigidBodyCollision(std::shared_ptr<RigidBody> pRigidBodyA
 			velocityAdjustmentB = 0;
 		}
 		
+		CollisionVelocityHandling(pRigidBodyA, pRigidBodyB, normal);
 		pRigidBodyA->HandleCollision(Collision(pRigidBodyB->object, normal, velocityAdjustmentA));
 		pRigidBodyB->HandleCollision(Collision(pRigidBodyA->object, otherNormal, velocityAdjustmentB));
 	}
@@ -252,11 +275,10 @@ void CollisionChecker::RigidBodyCollision(std::shared_ptr<RigidBody> pRigidBodyA
 			velocityAdjustmentB = 0;
 		}
 
+		CollisionVelocityHandling(pRigidBodyA, pRigidBodyB, normal);
 		topRigidBody->HandleCollision(Collision(bottomRigidBody->object, normal, velocityAdjustmentA));
 		bottomRigidBody->HandleCollision(Collision(topRigidBody->object, otherNormal, velocityAdjustmentB));
 	}
-
-	CollisionVelocityHandling(pRigidBodyA, pRigidBodyB, normal);
 }
 
 void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB, Vector2 pNormal)
@@ -268,6 +290,8 @@ void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRig
 
 	float momentumA = pRigidBodyA->velocity.GetLength() * pRigidBodyA->mass;
 	float momentumB = pRigidBodyB->velocity.GetLength() * pRigidBodyB->mass;
+
+
 
 	if (momentumA > momentumB)
 	{
@@ -299,8 +323,15 @@ void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRig
 		aImpulse = Vector2(xVelocityDifference * receivingRigidBody->mass, yVelocity) * -1;
 	}
 	
+	//std::cout << aImpulse.printVector();
+	//std::cout << bImpulse.printVector();
+
 	impactingRigidBody->AddForce(aImpulse, RigidBody::instant);
 	receivingRigidBody->AddForce(bImpulse, RigidBody::instant);
+
+	//std::cout << pRigidBodyA->velocity.printVector();
+	//std::cout << pRigidBodyB->velocity.printVector();
+	//std::cout << "===\n";
 }	
 
 Vector2 CollisionChecker::CalculateCollisionTime(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<AABBCollider> pObjectCollider)

@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "../Math/Timer.h"
+#include "../../Testing/TestData.h"
 
 extern const int unitSize = 100;
 float deltaTime;
@@ -26,6 +27,11 @@ Game::~Game()
 void Game::Run()
 {
 	sf::Event event;
+	TestData testData;
+
+	fpsClock.restart();
+
+	sf::Clock timeClock;
 
 	renderWindow.setFramerateLimit(360);
 	while (renderWindow.isOpen())
@@ -39,8 +45,16 @@ void Game::Run()
 		deltaTime = clock.restart().asSeconds();
 
 		fps++;
-		std::string fpsCount = std::to_string((int)(fps / fpsClock.getElapsedTime().asSeconds()));
-		fpsCounterText.setString(sf::String(fpsCount.c_str()));
+		if (fpsClock.getElapsedTime().asSeconds() > .1f)
+		{
+			int averageFps = (int)fps / fpsClock.getElapsedTime().asSeconds();
+			std::string fpsCount = std::to_string(averageFps);
+			fpsCounterText.setString(sf::String(fpsCount.c_str()));
+			fps = 0;
+			fpsClock.restart();
+		}
+
+		testData.AddData(timeClock.restart().asMilliseconds());
 
 		renderWindow.clear();
 

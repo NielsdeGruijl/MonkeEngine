@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "../Framework/Components/SpriteRenderer.h"
 
 Player::Player(Scene* pScene, std::string objectId)
 	: GameObject(pScene, objectId), input()
@@ -6,6 +7,8 @@ Player::Player(Scene* pScene, std::string objectId)
 	SetActionMap(&defaultInputActionMap);
 
 	rigidBody = AddComponent<RigidBody>(this);
+
+	AddComponent<SpriteRenderer>(this, "BlueSlime.png");
 
 	moveSpeed = 6;
 	dashSpeed = 10;

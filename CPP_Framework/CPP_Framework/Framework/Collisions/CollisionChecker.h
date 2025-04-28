@@ -15,6 +15,7 @@ public:
 	void SortColliders();
 
 	void CheckCollisions();
+	void CheckCollision(std::weak_ptr<AABBCollider> pCollider, std::weak_ptr<AABBCollider> pColliderB);
 
 	void ObjectCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<AABBCollider> pRigidBodyB);
 	void RigidBodyCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB);

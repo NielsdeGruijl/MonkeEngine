@@ -8,6 +8,8 @@
 #include "SceneRenderer.h"
 #include "../Objects/GameObject.h"
 #include "../Collisions/CollisionChecker.h"
+#include "../Collisions/BruteForce.h"
+#include "../Collisions/SweepAndPrune.h"
 
 class Scene
 {
@@ -37,6 +39,8 @@ protected:
 	std::vector<std::shared_ptr<GameObject>> sharedObjects;
 	std::vector<std::shared_ptr<GameObject>> sharedObjectsToDelete;
 
+	BruteForce bruteForce;
+	SweepAndPrune sweepAndPrune;
 	CollisionChecker collisionChecker;
 	SceneRenderer sceneRenderer;
 

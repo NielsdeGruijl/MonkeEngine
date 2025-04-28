@@ -1,6 +1,5 @@
 #include "Scene.h"
 #include "../Math/Timer.h"
-#include "../../Asteroids/Bullet.h"
 
 Scene::Scene() 
 {
@@ -21,7 +20,11 @@ void Scene::UpdateScene()
 		sharedObjects[i]->Update();
 	}
 
-	collisionChecker.CheckCollisions();
+	//collisionChecker.CheckCollisions();
+
+	//bruteForce.CheckCollisions();
+
+	sweepAndPrune.Sweep();
 }
 
 void Scene::CollisionUpdate()
@@ -65,13 +68,24 @@ void Scene::CleanUpObjects()
 
 void Scene::RegisterCollider(GameObject* object)
 {
-	std::shared_ptr<RigidBody> rigidBody;
-	std::shared_ptr<AABBCollider> collider;
+	// ======== OLD collisionChecker system ==========
+	//std::shared_ptr<RigidBody> rigidBody;
+	//std::shared_ptr<AABBCollider> collider;
 
-	if(object->TryGetComponent(rigidBody))
-		collisionChecker.AddRigidBody(rigidBody);
-	else if (object->TryGetComponent(collider))
-		collisionChecker.AddCollider(collider);
+	//if(object->TryGetComponent(rigidBody))
+	//	collisionChecker.AddRigidBody(rigidBody);
+	//else if (object->TryGetComponent(collider))
+	//	collisionChecker.AddCollider(collider);
+
+	// ======== Brute force system ==========
+	//std::shared_ptr<AABBCollider> collider;
+	//if (object->TryGetComponent<AABBCollider>(collider))
+	//	bruteForce.RegisterCollider(collider);
+
+	// ======== Sweep and prune system ==========
+	std::shared_ptr<AABBCollider> collider;
+	if (object->TryGetComponent<AABBCollider>(collider))
+		sweepAndPrune.RegisterCollider(collider);
 }
 
 void Scene::RegisterSprite(GameObject* pObject)

@@ -19,14 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Asteroids\Asteroid.cpp" />
-    <ClCompile Include="Asteroids\AsteroidSpawner.cpp" />
-    <ClCompile Include="Asteroids\AsteroidsScene.cpp" />
-    <ClCompile Include="Asteroids\Bullet.cpp" />
-    <ClCompile Include="Asteroids\Powerups\PowerupObject.cpp" />
-    <ClCompile Include="Asteroids\SpaceShip.cpp" />
     <ClCompile Include="Framework\Collisions\AABBCollider.cpp" />
+    <ClCompile Include="Framework\Collisions\BruteForce.cpp" />
     <ClCompile Include="Framework\Collisions\CollisionChecker.cpp" />
+    <ClCompile Include="Framework\Collisions\SweepAndPrune.cpp" />
     <ClCompile Include="Framework\Components\Component.cpp" />
     <ClCompile Include="Framework\Core\Game.cpp" />
     <ClCompile Include="Framework\Core\SceneManager.cpp" />
@@ -37,23 +33,20 @@
     <ClCompile Include="Framework\Main.cpp" />
     <ClCompile Include="Framework\Objects\GameObject.cpp" />
     <ClCompile Include="Testing\CollisionTestScene.cpp" />
+    <ClCompile Include="Testing\Enemy.cpp" />
+    <ClCompile Include="Testing\LeftObject.cpp" />
+    <ClCompile Include="Testing\PerformanceTestScene.cpp" />
     <ClCompile Include="Testing\Player.cpp" />
     <ClCompile Include="Framework\Core\Scene.cpp" />
     <ClCompile Include="Framework\Components\SpriteRenderer.cpp" />
     <ClCompile Include="Framework\Math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Asteroids\Asteroid.h" />
-    <ClInclude Include="Asteroids\AsteroidSpawner.h" />
-    <ClInclude Include="Asteroids\AsteroidsScene.h" />
-    <ClInclude Include="Asteroids\Bullet.h" />
-    <ClInclude Include="Asteroids\Powerups\BasePowerup.h" />
-    <ClInclude Include="Asteroids\Powerups\BigBulletPowerup.h" />
-    <ClInclude Include="Asteroids\Powerups\PowerupObject.h" />
-    <ClInclude Include="Asteroids\SpaceShip.h" />
     <ClInclude Include="Framework\Collisions\AABBCollider.h" />
+    <ClInclude Include="Framework\Collisions\BruteForce.h" />
     <ClInclude Include="Framework\Collisions\Collision.h" />
     <ClInclude Include="Framework\Collisions\CollisionChecker.h" />
+    <ClInclude Include="Framework\Collisions\SweepAndPrune.h" />
     <ClInclude Include="Framework\Components\Component.h" />
     <ClInclude Include="Framework\Core\Game.h" />
     <ClInclude Include="Framework\Core\SceneManager.h" />
@@ -64,11 +57,15 @@
     <ClInclude Include="Framework\Input\InputHandler.h" />
     <ClInclude Include="Framework\Objects\GameObject.h" />
     <ClInclude Include="Testing\CollisionTestScene.h" />
+    <ClInclude Include="Testing\Enemy.h" />
+    <ClInclude Include="Testing\LeftObject.h" />
+    <ClInclude Include="Testing\PerformanceTestScene.h" />
     <ClInclude Include="Testing\Player.h" />
     <ClInclude Include="Framework\Core\Scene.h" />
     <ClInclude Include="Framework\Components\SpriteRenderer.h" />
     <ClInclude Include="Framework\Math\Timer.h" />
     <ClInclude Include="Framework\Math\Vector2.h" />
+    <ClInclude Include="Testing\TestData.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
