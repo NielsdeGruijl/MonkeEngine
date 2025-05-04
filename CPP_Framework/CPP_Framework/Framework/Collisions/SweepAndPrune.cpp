@@ -19,6 +19,8 @@ void SweepAndPrune::Sweep()
 			Prune(edge.collider);
 		}
 	}
+
+	collisionChecker.CheckCollisionPairs();
 }
 
 void SweepAndPrune::Prune(std::weak_ptr<AABBCollider> pCollider)
@@ -37,7 +39,8 @@ void SweepAndPrune::Prune(std::weak_ptr<AABBCollider> pCollider)
 				// If on of the objects is dynamic (AKA can collide), proceed to narrow phase
 				if (colliderA->object->TryGetComponent<RigidBody>(rbA) || colliderB->object->TryGetComponent<RigidBody>(rbB))
 				{
-					collisionChecker.CheckCollision(colliderA, colliderB);
+					collisionChecker.AddCollisionPair(colliderA, colliderB);
+					//collisionChecker.CheckCollision(colliderA, colliderB);
 				}
 			}
 		}

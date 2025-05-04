@@ -65,6 +65,8 @@ void GameObject::OnCollisionExit(GameObject* object)
 
 void GameObject::OnCollisionEnter(GameObject* object)
 {
+	std::cout << "enter\n";
+
 }
 
 void GameObject::SetScale(const Vector2 pScale)

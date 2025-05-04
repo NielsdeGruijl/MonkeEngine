@@ -22,6 +22,7 @@
     <ClCompile Include="Framework\Collisions\AABBCollider.cpp" />
     <ClCompile Include="Framework\Collisions\BruteForce.cpp" />
     <ClCompile Include="Framework\Collisions\CollisionChecker.cpp" />
+    <ClCompile Include="Framework\Collisions\CollisionPair.cpp" />
     <ClCompile Include="Framework\Collisions\SweepAndPrune.cpp" />
     <ClCompile Include="Framework\Components\Component.cpp" />
     <ClCompile Include="Framework\Core\Game.cpp" />
@@ -46,6 +47,7 @@
     <ClInclude Include="Framework\Collisions\BruteForce.h" />
     <ClInclude Include="Framework\Collisions\Collision.h" />
     <ClInclude Include="Framework\Collisions\CollisionChecker.h" />
+    <ClInclude Include="Framework\Collisions\CollisionPair.h" />
     <ClInclude Include="Framework\Collisions\SweepAndPrune.h" />
     <ClInclude Include="Framework\Components\Component.h" />
     <ClInclude Include="Framework\Core\Game.h" />

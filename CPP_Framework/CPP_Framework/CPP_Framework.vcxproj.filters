@@ -78,6 +78,9 @@
     <ClCompile Include="Testing\PerformanceTestScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\Collisions\CollisionPair.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Objects\GameObject.h">
@@ -150,6 +153,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Testing\TestData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Collisions\CollisionPair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

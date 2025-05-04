@@ -5,11 +5,12 @@ PerformanceTestScene::PerformanceTestScene()
 {
 	int objectId = 0;
 
-	int totalObjects = 1;
-	float scale = 1;
+	int totalObjects = 10;
+	float scale = 0.5f;
 
-	int startPos = 360;
-	int margin = 30;
+	int startPos = 100 * scale;
+	int verticalOffset = 110 * scale;
+	int horizontalOffset = 0 * scale;
 
 	for (size_t i = 0; i < totalObjects; i++)
 	{
@@ -17,7 +18,7 @@ PerformanceTestScene::PerformanceTestScene()
 		objectId++;
 		oss << "LeftObject" << objectId;
 		std::shared_ptr<LeftObject> leftObject = std::make_shared<LeftObject>(this, oss.str());
-		leftObject->SetPosition(Vector2(200, startPos + (i * margin)));
+		leftObject->SetPosition(Vector2(200 + (i * horizontalOffset), startPos + (i * verticalOffset)));
 		leftObject->moveDirection = -1;
 		leftObject->SetScale(scale);
 		AddObject(leftObject);
@@ -29,7 +30,7 @@ PerformanceTestScene::PerformanceTestScene()
 		objectId++;
 		oss << "LeftObject" << objectId;
 		std::shared_ptr<LeftObject> leftObject = std::make_shared<LeftObject>(this, oss.str());
-		leftObject->SetPosition(Vector2(1080, startPos + (i * margin)));
+		leftObject->SetPosition(Vector2(1080 - (i * horizontalOffset), startPos + (i * verticalOffset)));
 		leftObject->moveDirection = 1;
 		leftObject->SetScale(scale);
 		AddObject(leftObject);

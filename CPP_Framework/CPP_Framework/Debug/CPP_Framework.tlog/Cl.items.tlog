@@ -1,6 +1,7 @@
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\AABBCollider.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\AABBCollider.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\BruteForce.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\BruteForce.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\CollisionChecker.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\CollisionChecker.obj
+D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\CollisionPair.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\CollisionPair.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SweepAndPrune.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\SweepAndPrune.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Components\Component.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\Component.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Core\Game.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Debug\Game.obj

@@ -58,70 +58,126 @@ void CollisionChecker::SortColliders()
 		});
 }
 
-void CollisionChecker::CheckCollisions()
+void CollisionChecker::AddCollisionPair(std::weak_ptr<AABBCollider> pColliderA, std::weak_ptr<AABBCollider> pColliderB)
 {
-	SortColliders();
-
-	for (size_t i = 0; i < rigidBodies.size(); i++)
+	if (auto colliderA = pColliderA.lock())
 	{
-		// Rigidbody vs static objects
-		for (size_t j = 0; j < objectColliders.size(); j++)
+		if (auto colliderB = pColliderB.lock())
 		{
-			if (auto rigidBodyA = rigidBodies[i].lock())
+			for (size_t i = 0; i < collisionPairs.size(); i++)
 			{
-				if (auto collider = objectColliders[j].lock())
-				{
-					if (rigidBodyA->collider->CheckCollision(collider))
-					{
-						//ObjectCollision(rigidBodyA, collider);
-					}
-				}
-				else
-				{
-					continue;
-				}
+				if (collisionPairs[i]->DoesCollisionPairExist(colliderA, colliderB))
+					return;
 			}
-			else
-			{
-				break;
-			}
+
+			if (colliderA->CheckCollision(colliderB))
+				collisionPairs.push_back(new CollisionPair(colliderA, colliderB));
 		}
-		
-		// Rigidbody vs other rigidbody
-		for (size_t j = i + 1; j < rigidBodies.size(); j++)
-		{
-			if (auto rigidBodyA = rigidBodies[i].lock())
-			{
-				if (auto rigidBodyB = rigidBodies[j].lock())
-				{
-					if (rigidBodyA == rigidBodyB)
-						continue;
-			
-					if (rigidBodyB->collider->left > rigidBodyA->collider->right + 1)
-						break;
-			
-					if (rigidBodyA->collider->CheckCollision(rigidBodyB->collider))
-					{
-						RigidBodyCollision(rigidBodyA, rigidBodyB);
-					}
-				}
-				else
-				{
-					continue;
-				}
-			}
-			else
-			{
-				break;
-			}
-		}
+	}
+
+	//std::cout << collisionPairs.size() << "\n";
+}
+
+void CollisionChecker::CheckCollisionPairs()
+{
+	if (collisionPairs.size() <= 0)
+		return;
+
+	for (size_t i = 0; i < collisionPairs.size(); i++)
+	{
+		CheckCollision(collisionPairs[i]);
 	}
 }
 
-void CollisionChecker::CheckCollision(std::weak_ptr<AABBCollider> pCollider, std::weak_ptr<AABBCollider> pColliderB)
+//void CollisionChecker::CheckCollisions()
+//{
+//	SortColliders();
+//
+//	for (size_t i = 0; i < rigidBodies.size(); i++)
+//	{
+//		// Rigidbody vs static objects
+//		for (size_t j = 0; j < objectColliders.size(); j++)
+//		{
+//			if (auto rigidBodyA = rigidBodies[i].lock())
+//			{
+//				if (auto collider = objectColliders[j].lock())
+//				{
+//					if (rigidBodyA->collider->CheckCollision(collider))
+//					{
+//						//ObjectCollision(rigidBodyA, collider);
+//					}
+//				}
+//				else
+//				{
+//					continue;
+//				}
+//			}
+//			else
+//			{
+//				break;
+//			}
+//		}
+//		
+//		// Rigidbody vs other rigidbody
+//		for (size_t j = i + 1; j < rigidBodies.size(); j++)
+//		{
+//			if (auto rigidBodyA = rigidBodies[i].lock())
+//			{
+//				if (auto rigidBodyB = rigidBodies[j].lock())
+//				{
+//					if (rigidBodyA == rigidBodyB)
+//						continue;
+//			
+//					if (rigidBodyB->collider->left > rigidBodyA->collider->right + 1)
+//						break;
+//			
+//					if (rigidBodyA->collider->CheckCollision(rigidBodyB->collider))
+//					{
+//						RigidBodyCollision(rigidBodyA, rigidBodyB);
+//					}
+//				}
+//				else
+//				{
+//					continue;
+//				}
+//			}
+//			else
+//			{
+//				break;
+//			}
+//		}
+//	}
+//}
+
+//void CollisionChecker::CheckCollision(std::weak_ptr<AABBCollider> pCollider, std::weak_ptr<AABBCollider> pColliderB)
+//{
+//	std::shared_ptr<AABBCollider> colliderA = pCollider.lock();
+//	std::shared_ptr<AABBCollider> colliderB = pColliderB.lock();
+//
+//	if (colliderA->CheckCollision(colliderB))
+//	{
+//		std::shared_ptr<RigidBody> rigidBodyA, rigidBodyB;
+//		if (colliderA->object->TryGetComponent<RigidBody>(rigidBodyA))
+//		{
+//			if (colliderB->object->TryGetComponent<RigidBody>(rigidBodyB))
+//			{
+//				RigidBodyCollision(rigidBodyA, rigidBodyB);
+//				return;
+//			}
+//			ObjectCollision(rigidBodyA, colliderB);
+//			return;
+//		}
+//		else
+//		{
+//			ObjectCollision(colliderA, colliderB->object->GetComponent<RigidBody>());
+//		}
+//	}
+//}
+
+void CollisionChecker::CheckCollision(CollisionPair* pCollisionPair)
 {
-	std::shared_ptr<AABBCollider> colliderA = pCollider.lock();
-	std::shared_ptr<AABBCollider> colliderB = pColliderB.lock();
+	std::shared_ptr<AABBCollider> colliderA = pCollisionPair->colliderA.lock();
+	std::shared_ptr<AABBCollider> colliderB = pCollisionPair->colliderB.lock();
 
 	if (colliderA->CheckCollision(colliderB))
 	{
@@ -131,15 +187,24 @@ void CollisionChecker::CheckCollision(std::weak_ptr<AABBCollider> pCollider, std
 			if (colliderB->object->TryGetComponent<RigidBody>(rigidBodyB))
 			{
 				RigidBodyCollision(rigidBodyA, rigidBodyB);
-				return;
 			}
-			ObjectCollision(rigidBodyA, colliderB);
-			return;
+			else
+			{
+				ObjectCollision(rigidBodyA, colliderB);
+			}
 		}
 		else
 		{
 			ObjectCollision(colliderA, colliderB->object->GetComponent<RigidBody>());
 		}
+	}
+	else if(colliderA->HasExitedCollision(colliderB))
+	{
+		auto it = std::find(collisionPairs.begin(), collisionPairs.end(), pCollisionPair);
+		collisionPairs.erase(it);
+		delete(pCollisionPair);
+	
+		return;
 	}
 }
 
@@ -385,36 +450,36 @@ Vector2 CollisionChecker::CalculateCollisionDistance(std::shared_ptr<AABBCollide
 	return Vector2(xCollisionDistance, yCollisionDistance);
 }
 
-Vector2 CollisionChecker::ElasticCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB)
-{
-	float mass1 = pRigidBodyA->mass;
-	float mass2 = pRigidBodyB->mass;
-	
-	std::shared_ptr<AABBCollider> col1 = pRigidBodyA->collider;
-	std::shared_ptr<AABBCollider> col2 = pRigidBodyB->collider;
-	
-	Vector2 v1 = pRigidBodyA->velocity;
-	Vector2 v2 = pRigidBodyB->velocity;
-	
-	Vector2 normal = Vector2(col2->position->x - col1->position->x, col2->position->y - col1->position->y);
-	normal.Normalize();
-	Vector2 tangent = Vector2(-normal.y, normal.x);
-	
-	float v1n, v1t, v2n, v2t;
-	
-	v1n = v1.Dot(normal);
-	v1t = v1.Dot(tangent);
-	v2n = v2.Dot(normal);
-	v2t = v2.Dot(tangent);
-	
-	float v1np = ((v1n * (mass1 - mass2)) + (2 * mass2 * v2n)) / (mass1 + mass2);
-	float v2np = ((v2n * (mass2 - mass1)) + (2 * mass1 * v1n)) / (mass1 + mass2);
-	
-	Vector2 v1p = (normal * v1np) + (tangent * v1t);
-	Vector2 v2p = (normal * v2np) + (tangent * v2t);
-	
-	pRigidBodyA->AddForce(v1p, RigidBody::velocityChange);
-	pRigidBodyB->AddForce(v2p, RigidBody::velocityChange);
-	
-	return Vector2();
-}
+//Vector2 CollisionChecker::ElasticCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB)
+//{
+//	float mass1 = pRigidBodyA->mass;
+//	float mass2 = pRigidBodyB->mass;
+//	
+//	std::shared_ptr<AABBCollider> col1 = pRigidBodyA->collider;
+//	std::shared_ptr<AABBCollider> col2 = pRigidBodyB->collider;
+//	
+//	Vector2 v1 = pRigidBodyA->velocity;
+//	Vector2 v2 = pRigidBodyB->velocity;
+//	
+//	Vector2 normal = Vector2(col2->position->x - col1->position->x, col2->position->y - col1->position->y);
+//	normal.Normalize();
+//	Vector2 tangent = Vector2(-normal.y, normal.x);
+//	
+//	float v1n, v1t, v2n, v2t;
+//	
+//	v1n = v1.Dot(normal);
+//	v1t = v1.Dot(tangent);
+//	v2n = v2.Dot(normal);
+//	v2t = v2.Dot(tangent);
+//	
+//	float v1np = ((v1n * (mass1 - mass2)) + (2 * mass2 * v2n)) / (mass1 + mass2);
+//	float v2np = ((v2n * (mass2 - mass1)) + (2 * mass1 * v1n)) / (mass1 + mass2);
+//	
+//	Vector2 v1p = (normal * v1np) + (tangent * v1t);
+//	Vector2 v2p = (normal * v2np) + (tangent * v2t);
+//	
+//	pRigidBodyA->AddForce(v1p, RigidBody::velocityChange);
+//	pRigidBodyB->AddForce(v2p, RigidBody::velocityChange);
+//	
+//	return Vector2();
+//}

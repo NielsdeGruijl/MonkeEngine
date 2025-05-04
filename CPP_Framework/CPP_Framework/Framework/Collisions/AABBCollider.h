@@ -38,6 +38,7 @@ public:
 	void UpdateBounds();
 
 	bool CheckCollision(std::shared_ptr<AABBCollider> pCollider);
+	bool HasExitedCollision(std::shared_ptr<AABBCollider> pCollider);
 
 	void SetCollisionState(std::shared_ptr<AABBCollider> pOtherCollider, collisionState pCollisionState);
 private:

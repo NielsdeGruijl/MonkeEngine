@@ -44,31 +44,47 @@ bool AABBCollider::CheckCollision(std::shared_ptr<AABBCollider> pCollider)
 	float bottomToTopDistance = bottom - pCollider->top;
 	Vector2 totalSize = object->GetSize() + pCollider->object->GetSize();
 
-	if (rightToLeftDistance <= 0 && abs(rightToLeftDistance) < totalSize.x)
+	if (rightToLeftDistance < 0 && abs(rightToLeftDistance) < totalSize.x)
 	{
 		if (topToBottomDistance < 0 && bottomToTopDistance > 0)
 		{
-			if (currentCollisionState == exit)
-				SetCollisionState(pCollider, enter);
-
 			if (isTrigger || pCollider->isTrigger)
 				return false;
 
 			return true;
 		}
-		if (abs(topToBottomDistance) > 0.5f && abs(bottomToTopDistance) > 0.5f)
-		{
-				if (currentCollisionState != exit)
-					SetCollisionState(pCollider, exit);
-
-			return false;
-		}
 	}
+
+	return false;
+}
+
+bool AABBCollider::HasExitedCollision(std::shared_ptr<AABBCollider> pCollider)
+{
+	UpdateBounds();
+	pCollider->UpdateBounds();
+
+	float rightToLeftDistance = pCollider->left - right;
+	float topToBottomDistance = top - pCollider->bottom;
+	float bottomToTopDistance = bottom - pCollider->top;
+	Vector2 totalSize = object->GetSize() + pCollider->object->GetSize();
+
 	if (rightToLeftDistance > 0.5f)
 	{
-		if (currentCollisionState != exit)
-			SetCollisionState(pCollider, exit);
+		//if (currentCollisionState != exit)
+			return true;
 	}
+	if (rightToLeftDistance <= 0 && abs(rightToLeftDistance) < totalSize.x)
+	{
+		if (abs(topToBottomDistance) > 0.5f && abs(bottomToTopDistance) > 0.5f)
+		{
+			//if (currentCollisionState != exit)
+				return true;
+		}
+	}
+
+	std::cout << object->GetID() << ", " << pCollider->object->GetID() << " leftover\n";
+	std::cout << rightToLeftDistance << "\n";
+	std::cout << currentCollisionState << "\n";
 
 	return false;
 }

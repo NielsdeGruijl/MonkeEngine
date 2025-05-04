@@ -20,11 +20,21 @@ void BruteForce::CheckCollisions()
 					if (colliderB->left > colliderA->right + 1)
 						break;
 
-					collisionChecker.CheckCollision(colliderA, colliderB);
+					//collisionChecker.AddCollisionPair(colliderA, colliderB);
+					//collisionChecker.CheckCollision(colliderA, colliderB);
+
+					std::shared_ptr<RigidBody> rbA, rbB;
+					if (colliderA->object->TryGetComponent<RigidBody>(rbA) || colliderB->object->TryGetComponent<RigidBody>(rbB))
+					{
+						collisionChecker.AddCollisionPair(colliderA, colliderB);
+						//collisionChecker.CheckCollision(colliderA, colliderB);
+					}
 				}
 			}
 		}
 	}
+
+	collisionChecker.CheckCollisionPairs();
 }
 
 void BruteForce::SortColliders()

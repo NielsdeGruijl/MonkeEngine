@@ -1,1 +1,1 @@
-2ms,1ms,3ms,2098 sample size
+495ms,454ms,1995ms,11976 sample size

@@ -1,4 +1,3 @@
-
 #include "CollisionChecker.h"
 #include "AABBCollider.h"
 #include "../Components/RigidBody.h"
