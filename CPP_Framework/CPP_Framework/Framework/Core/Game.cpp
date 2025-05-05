@@ -32,11 +32,16 @@ void Game::Run()
 	fpsClock.restart();
 
 	sf::Clock timeClock;
+	sf::Clock gameTime;
 
 	//renderWindow.setFramerateLimit(360);
 	while (renderWindow.isOpen())
 	{
+		if (gameTime.getElapsedTime().asSeconds() > 10)
+			renderWindow.close();
+
 		testData.AddData(timeClock.restart().asMicroseconds());
+
 		while (renderWindow.pollEvent(event))
 		{
 			if(event.type == sf::Event::Closed)

@@ -55,6 +55,9 @@ public:
 
 		int onePercent = int(data.size() / 100);
 
+		if (onePercent == 0)
+			onePercent = 1;
+
 		int total = 0;
 		for (size_t i = 0; i < onePercent; i++)
 		{
@@ -69,6 +72,9 @@ public:
 		std::sort(data.begin(), data.end(), std::greater<int>());
 
 		int onePercent = int(data.size() / 100);
+
+		if (onePercent == 0)
+			onePercent = 1;
 
 		int total = 0;
 		for (size_t i = 0; i < onePercent; i++)

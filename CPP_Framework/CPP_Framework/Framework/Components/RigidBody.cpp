@@ -23,6 +23,8 @@ RigidBody::RigidBody(GameObject* pObject)
 	std::shared_ptr<AABBCollider> tCollider;
 	if(!object->TryGetComponent<AABBCollider>(tCollider))
 		collider = object->AddComponent<AABBCollider>(object, &object->position);
+
+	collider->isDynamic = true;
 }
 
 RigidBody::~RigidBody()

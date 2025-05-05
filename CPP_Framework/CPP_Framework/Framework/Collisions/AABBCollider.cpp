@@ -9,6 +9,7 @@ AABBCollider::AABBCollider(GameObject* pObject, Vector2* pPosition)
 	position = &pObject->position;
 
 	isTrigger = false;
+	isDynamic = false;
 
 	currentCollisionState = exit;
 }
@@ -81,10 +82,6 @@ bool AABBCollider::HasExitedCollision(std::shared_ptr<AABBCollider> pCollider)
 				return true;
 		}
 	}
-
-	std::cout << object->GetID() << ", " << pCollider->object->GetID() << " leftover\n";
-	std::cout << rightToLeftDistance << "\n";
-	std::cout << currentCollisionState << "\n";
 
 	return false;
 }

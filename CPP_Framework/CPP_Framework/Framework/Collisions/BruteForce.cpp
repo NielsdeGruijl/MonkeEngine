@@ -7,7 +7,7 @@ void BruteForce::RegisterCollider(std::shared_ptr<AABBCollider> pCollider)
 
 void BruteForce::CheckCollisions()
 {
-	SortColliders();
+	//SortColliders();
 
 	for (size_t i = 0; i < colliders.size(); i++)
 	{
@@ -17,16 +17,21 @@ void BruteForce::CheckCollisions()
 			{
 				if (auto colliderB = colliders[j].lock())
 				{
-					if (colliderB->left > colliderA->right + 1)
-						break;
+					//if (colliderB->left > colliderA->right)
+					//{
+					//	break;
+					//}
 
 					//collisionChecker.AddCollisionPair(colliderA, colliderB);
 					//collisionChecker.CheckCollision(colliderA, colliderB);
 
-					std::shared_ptr<RigidBody> rbA, rbB;
-					if (colliderA->object->TryGetComponent<RigidBody>(rbA) || colliderB->object->TryGetComponent<RigidBody>(rbB))
+
+					if (colliderA->isDynamic || colliderB->isDynamic)
 					{
-						collisionChecker.AddCollisionPair(colliderA, colliderB);
+						if(colliderA->left < colliderB->left)
+							collisionChecker.AddCollisionPair(colliderA, colliderB);
+						else
+							collisionChecker.AddCollisionPair(colliderB, colliderA);
 						//collisionChecker.CheckCollision(colliderA, colliderB);
 					}
 				}

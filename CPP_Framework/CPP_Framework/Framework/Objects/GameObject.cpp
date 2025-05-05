@@ -60,12 +60,10 @@ void GameObject::OnCollisionStay(GameObject* object)
 
 void GameObject::OnCollisionExit(GameObject* object)
 {
-	std::cout << "exit\n";
 }
 
 void GameObject::OnCollisionEnter(GameObject* object)
 {
-	std::cout << "enter\n";
 
 }
 

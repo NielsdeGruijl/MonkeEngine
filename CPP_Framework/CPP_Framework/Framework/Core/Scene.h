@@ -10,6 +10,7 @@
 #include "../Collisions/CollisionChecker.h"
 #include "../Collisions/BruteForce.h"
 #include "../Collisions/SweepAndPrune.h"
+#include "../Collisions/TwoDimensionalSAP.h"
 
 class Scene
 {
@@ -41,6 +42,7 @@ protected:
 
 	BruteForce bruteForce;
 	SweepAndPrune sweepAndPrune;
+	TwoDimensionalSAP twoDimensionalSAP;
 	CollisionChecker collisionChecker;
 	SceneRenderer sceneRenderer;
 

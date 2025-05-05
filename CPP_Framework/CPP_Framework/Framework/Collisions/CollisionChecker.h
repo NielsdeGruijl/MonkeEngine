@@ -15,12 +15,13 @@ public:
 	void RemoveExpiredReferences();
 	void SortColliders();
 
+	void AddCollisionPair(CollisionPair pCollisionPair);
 	void AddCollisionPair(std::weak_ptr<AABBCollider> pColliderA, std::weak_ptr<AABBCollider> pColliderB);
 	void CheckCollisionPairs();
 
 	//void CheckCollisions();
 	//void CheckCollision(std::weak_ptr<AABBCollider> pCollider, std::weak_ptr<AABBCollider> pColliderB);
-	void CheckCollision(CollisionPair* pCollisionPair);
+	void CheckCollision(CollisionPair pCollisionPair);
 
 	void ObjectCollision(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<AABBCollider> pCollider);
 	void ObjectCollision(std::shared_ptr<AABBCollider> pCollider, std::shared_ptr<RigidBody> pRigidBody);
@@ -36,6 +37,6 @@ public:
 private:
 	std::vector<std::weak_ptr<RigidBody>> rigidBodies;
 	std::vector<std::weak_ptr<AABBCollider>> objectColliders;
-	std::vector<CollisionPair*> collisionPairs;
+	std::vector<CollisionPair> collisionPairs;
 	int amountOfExpiredRigidBodies;
 };

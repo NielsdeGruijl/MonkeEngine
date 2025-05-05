@@ -26,6 +26,7 @@ public:
 	collisionState currentCollisionState;
 
 	bool isTrigger;
+	bool isDynamic;
 
 	float left, right, top, bottom;
 

@@ -10,7 +10,7 @@ PerformanceTestScene::PerformanceTestScene()
 
 	int startPos = 100 * scale;
 	int verticalOffset = 110 * scale;
-	int horizontalOffset = 0 * scale;
+	int horizontalOffset = 50 * scale;
 
 	for (size_t i = 0; i < totalObjects; i++)
 	{
@@ -37,14 +37,14 @@ PerformanceTestScene::PerformanceTestScene()
 	}
 
 	std::shared_ptr<GameObject> leftBoundary = std::make_shared<GameObject>(this, "LeftBoundary");
-	leftBoundary->SetScale(Vector2(1, 7.2f));
+	leftBoundary->SetScale(Vector2(1, 100));
 	leftBoundary->SetPosition(Vector2(-49, 360));
 	leftBoundary->AddComponent<AABBCollider>(leftBoundary.get(), &leftBoundary->position);
 	leftBoundary->AddComponent<SpriteRenderer>(leftBoundary.get(), "Cat.jpg", 236);
 	AddObject(leftBoundary);
 
 	std::shared_ptr<GameObject> rightBoundary = std::make_shared<GameObject>(this, "RightBoundary");
-	rightBoundary->SetScale(Vector2(1, 7.2f));
+	rightBoundary->SetScale(Vector2(1, 100));
 	rightBoundary->SetPosition(Vector2(1329, 360));
 	rightBoundary->AddComponent<AABBCollider>(rightBoundary.get(), &rightBoundary->position);
 	rightBoundary->AddComponent<SpriteRenderer>(rightBoundary.get(), "Cat.jpg", 236);

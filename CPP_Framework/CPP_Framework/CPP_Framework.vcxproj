@@ -23,7 +23,9 @@
     <ClCompile Include="Framework\Collisions\BruteForce.cpp" />
     <ClCompile Include="Framework\Collisions\CollisionChecker.cpp" />
     <ClCompile Include="Framework\Collisions\CollisionPair.cpp" />
+    <ClCompile Include="Framework\Collisions\EdgePoint.cpp" />
     <ClCompile Include="Framework\Collisions\SweepAndPrune.cpp" />
+    <ClCompile Include="Framework\Collisions\TwoDimensionalSAP.cpp" />
     <ClCompile Include="Framework\Components\Component.cpp" />
     <ClCompile Include="Framework\Core\Game.cpp" />
     <ClCompile Include="Framework\Core\SceneManager.cpp" />
@@ -48,7 +50,9 @@
     <ClInclude Include="Framework\Collisions\Collision.h" />
     <ClInclude Include="Framework\Collisions\CollisionChecker.h" />
     <ClInclude Include="Framework\Collisions\CollisionPair.h" />
+    <ClInclude Include="Framework\Collisions\EdgePoint.h" />
     <ClInclude Include="Framework\Collisions\SweepAndPrune.h" />
+    <ClInclude Include="Framework\Collisions\TwoDimensionalSAP.h" />
     <ClInclude Include="Framework\Components\Component.h" />
     <ClInclude Include="Framework\Core\Game.h" />
     <ClInclude Include="Framework\Core\SceneManager.h" />

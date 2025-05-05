@@ -1,22 +1,8 @@
 #include "CollisionChecker.h"
 #include "AABBCollider.h"
 #include "../Components/RigidBody.h"
+#include "EdgePoint.h"
 
-struct EdgePoint
-{
-	EdgePoint(std::shared_ptr<AABBCollider> pCollider, bool pIsLeft)
-		: collider(pCollider), isLeft(pIsLeft)
-	{
-		if (pIsLeft)
-			position = &pCollider->left;
-		else
-			position = &pCollider->right;
-	}
-
-	std::weak_ptr<AABBCollider> collider;
-	float* position;
-	bool isLeft;
-};
 
 class SweepAndPrune
 {

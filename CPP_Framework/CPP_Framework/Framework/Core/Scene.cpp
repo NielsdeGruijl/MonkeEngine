@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "../Math/Timer.h"
 
+
 Scene::Scene() 
 {
 	isLoaded = false;
@@ -24,7 +25,9 @@ void Scene::UpdateScene()
 
 	//bruteForce.CheckCollisions();
 
-	sweepAndPrune.Sweep();
+	//sweepAndPrune.Sweep();
+
+	twoDimensionalSAP.Sweep();
 }
 
 void Scene::CollisionUpdate()
@@ -81,11 +84,16 @@ void Scene::RegisterCollider(GameObject* object)
 	//std::shared_ptr<AABBCollider> collider;
 	//if (object->TryGetComponent<AABBCollider>(collider))
 	//	bruteForce.RegisterCollider(collider);
-
+	
 	// ======== Sweep and prune system ==========
+	//std::shared_ptr<AABBCollider> collider;
+	//if (object->TryGetComponent<AABBCollider>(collider))
+	//	sweepAndPrune.RegisterCollider(collider);
+
+	// ======== 2D Sweep and prune system ==========
 	std::shared_ptr<AABBCollider> collider;
 	if (object->TryGetComponent<AABBCollider>(collider))
-		sweepAndPrune.RegisterCollider(collider);
+		twoDimensionalSAP.RegisterCollider(collider);
 }
 
 void Scene::RegisterSprite(GameObject* pObject)

@@ -12,12 +12,12 @@ void SweepAndPrune::Sweep()
 			continue;
 		}
 
-		touchingColliders.push_back(edge.collider);
-
-		if (touchingColliders.size() > 1)
+		if (touchingColliders.size() > 0)
 		{
 			Prune(edge.collider);
 		}
+
+		touchingColliders.push_back(edge.collider);
 	}
 
 	collisionChecker.CheckCollisionPairs();
@@ -31,13 +31,8 @@ void SweepAndPrune::Prune(std::weak_ptr<AABBCollider> pCollider)
 		{
 			if (auto colliderB = pCollider.lock())
 			{
-				if (colliderA == colliderB)
-					continue;
-
-				std::shared_ptr<RigidBody> rbA, rbB;
-
 				// If on of the objects is dynamic (AKA can collide), proceed to narrow phase
-				if (colliderA->object->TryGetComponent<RigidBody>(rbA) || colliderB->object->TryGetComponent<RigidBody>(rbB))
+				if (colliderA->isDynamic || colliderB->isDynamic)
 				{
 					collisionChecker.AddCollisionPair(colliderA, colliderB);
 					//collisionChecker.CheckCollision(colliderA, colliderB);

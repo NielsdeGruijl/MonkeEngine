@@ -60,22 +60,43 @@ void CollisionChecker::SortColliders()
 
 void CollisionChecker::AddCollisionPair(std::weak_ptr<AABBCollider> pColliderA, std::weak_ptr<AABBCollider> pColliderB)
 {
-	if (auto colliderA = pColliderA.lock())
-	{
-		if (auto colliderB = pColliderB.lock())
-		{
-			for (size_t i = 0; i < collisionPairs.size(); i++)
-			{
-				if (collisionPairs[i]->DoesCollisionPairExist(colliderA, colliderB))
-					return;
-			}
+	//if (auto colliderA = pColliderA.lock())
+	//{
+	//	if (auto colliderB = pColliderB.lock())
+	//	{
+	//		for (size_t i = 0; i < collisionPairs.size(); i++)
+	//		{
+	//			if (collisionPairs[i]->DoesCollisionPairExist(colliderA, colliderB))
+	//				return;
+	//		}
 
-			if (colliderA->CheckCollision(colliderB))
-				collisionPairs.push_back(new CollisionPair(colliderA, colliderB));
-		}
-	}
+	//		if (colliderA->CheckCollision(colliderB))
+	//			collisionPairs.push_back(new CollisionPair(colliderA, colliderB));
+	//	}
+	//}
 
 	//std::cout << collisionPairs.size() << "\n";
+}
+
+void CollisionChecker::AddCollisionPair(CollisionPair pCollisionPair)
+{
+	for (size_t i = 0; i < collisionPairs.size(); i++)
+	{
+		if (collisionPairs[i] == pCollisionPair)
+			return;
+	}
+
+	if (auto colliderA = pCollisionPair.colliderA.lock())
+	{
+		if (auto colliderB = pCollisionPair.colliderB.lock())
+		{
+			if (colliderA->CheckCollision(colliderB))
+			{
+				collisionPairs.push_back(pCollisionPair);
+				pCollisionPair.OnEnter();
+			}
+		}
+	}
 }
 
 void CollisionChecker::CheckCollisionPairs()
@@ -174,10 +195,12 @@ void CollisionChecker::CheckCollisionPairs()
 //	}
 //}
 
-void CollisionChecker::CheckCollision(CollisionPair* pCollisionPair)
+void CollisionChecker::CheckCollision(CollisionPair pCollisionPair)
 {
-	std::shared_ptr<AABBCollider> colliderA = pCollisionPair->colliderA.lock();
-	std::shared_ptr<AABBCollider> colliderB = pCollisionPair->colliderB.lock();
+	std::shared_ptr<AABBCollider> colliderA = pCollisionPair.colliderA.lock();
+	std::shared_ptr<AABBCollider> colliderB = pCollisionPair.colliderB.lock();
+
+
 
 	if (colliderA->CheckCollision(colliderB))
 	{
@@ -198,12 +221,10 @@ void CollisionChecker::CheckCollision(CollisionPair* pCollisionPair)
 			ObjectCollision(colliderA, colliderB->object->GetComponent<RigidBody>());
 		}
 	}
-	else if(colliderA->HasExitedCollision(colliderB))
+	else if (colliderA->HasExitedCollision(colliderB))
 	{
 		auto it = std::find(collisionPairs.begin(), collisionPairs.end(), pCollisionPair);
 		collisionPairs.erase(it);
-		delete(pCollisionPair);
-	
 		return;
 	}
 }
