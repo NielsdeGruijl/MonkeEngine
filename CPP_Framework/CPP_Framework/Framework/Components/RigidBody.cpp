@@ -87,6 +87,7 @@ void RigidBody::HandleCollision(Collision collision)
 		if (bounciness > 0)
 		{
 			velocity *= bounciness * -1;
+			return;
 		}
 		else
 		{

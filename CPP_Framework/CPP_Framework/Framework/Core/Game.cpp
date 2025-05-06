@@ -37,7 +37,7 @@ void Game::Run()
 	//renderWindow.setFramerateLimit(360);
 	while (renderWindow.isOpen())
 	{
-		if (gameTime.getElapsedTime().asSeconds() > 10)
+		if (gameTime.getElapsedTime().asSeconds() > 30)
 			renderWindow.close();
 
 		testData.AddData(timeClock.restart().asMicroseconds());

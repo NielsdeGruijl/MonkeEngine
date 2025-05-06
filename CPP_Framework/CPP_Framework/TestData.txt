@@ -1,1 +1,1 @@
-5644ms,4326ms,10516ms,1771 sample size
+417us,392us,842us,64873 sample size

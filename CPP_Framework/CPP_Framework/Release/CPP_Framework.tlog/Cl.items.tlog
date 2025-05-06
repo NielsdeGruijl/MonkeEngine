@@ -2,7 +2,9 @@ D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisi
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\BruteForce.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\BruteForce.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\CollisionChecker.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\CollisionChecker.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\CollisionPair.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\CollisionPair.obj
+D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\EdgePoint.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\EdgePoint.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SweepAndPrune.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\SweepAndPrune.obj
+D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\TwoDimensionalSAP.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\TwoDimensionalSAP.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Components\Component.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\Component.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Core\Game.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\Game.obj
 D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Core\SceneManager.cpp;D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\SceneManager.obj

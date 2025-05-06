@@ -7,14 +7,18 @@ public:
 	std::vector<EdgePoint> xEdges;
 	std::vector<EdgePoint> yEdges;
 
-	CollisionChecker collisionChecker;
+	std::vector<std::weak_ptr<AABBCollider>> colliders;
 
-	std::vector<CollisionPair> xPossibleCollisions;
-	std::vector<CollisionPair> yPossibleCollisions;
+	std::vector<std::pair<int, int>> xCollisions;
+	std::vector<std::pair<int, int>> yCollisions;
+
+	CollisionChecker collisionChecker;
 
 	void RegisterCollider(std::shared_ptr<AABBCollider> pCollider);
 	void Sweep();
 
 	void SweepX();
 	void SweepY();
+
+	int colliderId;
 };

@@ -3,35 +3,32 @@
 
 void TwoDimensionalSAP::RegisterCollider(std::shared_ptr<AABBCollider> pCollider)
 {
-	xEdges.push_back(EdgePoint(pCollider, &pCollider->left, true));
-	xEdges.push_back(EdgePoint(pCollider, &pCollider->right, false));
-	yEdges.push_back(EdgePoint(pCollider, &pCollider->top, true));
-	yEdges.push_back(EdgePoint(pCollider, &pCollider->bottom, false));
+	xEdges.push_back(EdgePoint(colliderId, &pCollider->left, true));
+	xEdges.push_back(EdgePoint(colliderId, &pCollider->right, false));
+	yEdges.push_back(EdgePoint(colliderId, &pCollider->top, true));
+	yEdges.push_back(EdgePoint(colliderId, &pCollider->bottom, false));
+	colliders.push_back(pCollider);
+
+	colliderId++;
 }
 
 void TwoDimensionalSAP::Sweep()
 {
-	xPossibleCollisions.clear();
-	yPossibleCollisions.clear();
+	xCollisions.clear();
+	yCollisions.clear();
 
 	SweepX();
 	SweepY();
 
-	std::sort(yPossibleCollisions.begin(), yPossibleCollisions.end(), [](const CollisionPair& pairA, const CollisionPair& pairB)
+	for (std::pair<int, int> xCollision : xCollisions)
 	{
-			return pairA.colliderA.lock()->left < pairB.colliderA.lock()->left;
-	});
-
-
-	for (CollisionPair xCollision : xPossibleCollisions)
-	{
-		for (CollisionPair yCollision : yPossibleCollisions)
+		for (std::pair<int, int> yCollision : yCollisions)
 		{
-			if (yCollision.colliderA.lock()->left > xCollision.colliderB.lock()->right)
-				continue;
-	
-			if (xCollision == yCollision)
-				collisionChecker.AddCollisionPair(std::move(xCollision));
+			if ((xCollision.first == yCollision.first && xCollision.second == yCollision.second) ||
+				(xCollision.second == yCollision.first && xCollision.first == yCollision.second))
+			{
+				collisionChecker.AddCollisionPair(std::move(CollisionPair(colliders.at(xCollision.first), colliders.at(xCollision.second))));
+			}
 		}
 	}
 
@@ -45,38 +42,38 @@ void TwoDimensionalSAP::SweepX()
 			return *(edgePointA.position) < *(edgePointB.position);
 		});
 
-	std::vector<std::weak_ptr<AABBCollider>> touchingColliders;
-	for (EdgePoint edge : xEdges)
+	std::vector<int> touchingColliders;
+	for (const EdgePoint& edge : xEdges)
 	{
 		if (!edge.isLeft)
 		{
-			auto it = std::find_if(touchingColliders.begin(), touchingColliders.end(), [edge](std::weak_ptr<AABBCollider> pColliderB)
+			auto it = std::find_if(touchingColliders.begin(), touchingColliders.end(), [edge](int colliderId)
 				{
-					return pColliderB.lock() == edge.collider.lock();
+					return colliderId == edge.colliderId;
 				});
 		
 			touchingColliders.erase(it);
 			continue;
 		}
 
-		for (std::weak_ptr<AABBCollider> collider : touchingColliders)
+		for (int colliderId : touchingColliders)
 		{
-			if (auto colliderA = collider.lock())
-			{
-				if (auto colliderB = edge.collider.lock())
-				{
-					if (colliderA == colliderB)
-						continue;
+			if (colliderId == edge.colliderId)
+				continue;
 
+			if (auto colliderA = colliders.at(colliderId).lock())
+			{
+				if (auto colliderB = colliders.at(edge.colliderId).lock())
+				{
 					if (colliderA->isDynamic || colliderB->isDynamic)
 					{
-						xPossibleCollisions.push_back(CollisionPair(colliderA, colliderB));
+						xCollisions.push_back(std::make_pair(colliderId, edge.colliderId));
 					}
 				}
 			}
 		}
 
-		touchingColliders.push_back(edge.collider);
+		touchingColliders.push_back(edge.colliderId);
 	}
 }
 
@@ -87,37 +84,37 @@ void TwoDimensionalSAP::SweepY()
 			return *(edgePointA.position) < *(edgePointB.position);
 		});
 
-	std::vector<std::weak_ptr<AABBCollider>> touchingColliders;
-	for (EdgePoint edge : yEdges)
+	std::vector<int> touchingColliders;
+	for (const EdgePoint& edge : yEdges)
 	{
 		if (!edge.isLeft)
 		{
-			auto it = std::find_if(touchingColliders.begin(), touchingColliders.end(), [edge](std::weak_ptr<AABBCollider> pColliderB)
+			auto it = std::find_if(touchingColliders.begin(), touchingColliders.end(), [edge](int colliderId)
 				{
-					return pColliderB.lock() == edge.collider.lock();
+					return colliderId == edge.colliderId;
 				});
 
 			touchingColliders.erase(it);
 			continue;
 		}
 
-		for (std::weak_ptr<AABBCollider> collider : touchingColliders)
+		for (int colliderId : touchingColliders)
 		{
-			if (auto colliderA = collider.lock())
+			if (auto colliderA = colliders.at(colliderId).lock())
 			{
-				if (auto colliderB = edge.collider.lock())
+				if (auto colliderB = colliders.at(edge.colliderId).lock())
 				{
 					if (colliderA == colliderB)
 						continue;
 
 					if (colliderA->isDynamic || colliderB->isDynamic)
 					{
-						yPossibleCollisions.push_back(CollisionPair(colliderA, colliderB));
+						yCollisions.push_back(std::make_pair(colliderId, edge.colliderId));
 					}
 				}
 			}
 		}
 
-		touchingColliders.push_back(edge.collider);
+		touchingColliders.push_back(edge.colliderId);
 	}
 }

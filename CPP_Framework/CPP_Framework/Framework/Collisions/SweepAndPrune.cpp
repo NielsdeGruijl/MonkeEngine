@@ -4,38 +4,42 @@ void SweepAndPrune::Sweep()
 {
 	SortEdgePoints();
 
-	for (EdgePoint edge : edgePoints)
+	touchingColliders.clear();
+
+	for (const EdgePoint& edge : edgePoints)
 	{
 		if (!edge.isLeft)
 		{
-			RemoveTouchingCollider(edge.collider);
+			RemoveTouchingCollider(edge.colliderId);
 			continue;
 		}
-
+		
 		if (touchingColliders.size() > 0)
 		{
-			Prune(edge.collider);
+			Prune(edge.colliderId);
 		}
-
-		touchingColliders.push_back(edge.collider);
+		
+		touchingColliders.push_back(edge.colliderId);
 	}
 
 	collisionChecker.CheckCollisionPairs();
 }
 
-void SweepAndPrune::Prune(std::weak_ptr<AABBCollider> pCollider)
+void SweepAndPrune::Prune(int pColliderId)
 {
-	for (std::weak_ptr<AABBCollider> collider : touchingColliders)
+	for (int colliderId : touchingColliders)
 	{
-		if (auto colliderA = collider.lock())
+		if (colliderId == pColliderId)
+			continue;
+
+		if (auto colliderA = colliders.at(colliderId).lock())
 		{
-			if (auto colliderB = pCollider.lock())
+			if (auto colliderB = colliders.at(pColliderId).lock())
 			{
 				// If on of the objects is dynamic (AKA can collide), proceed to narrow phase
 				if (colliderA->isDynamic || colliderB->isDynamic)
 				{
-					collisionChecker.AddCollisionPair(colliderA, colliderB);
-					//collisionChecker.CheckCollision(colliderA, colliderB);
+					collisionChecker.AddCollisionPair(std::move(CollisionPair(colliderA, colliderB)));
 				}
 			}
 		}
@@ -44,23 +48,26 @@ void SweepAndPrune::Prune(std::weak_ptr<AABBCollider> pCollider)
 
 void SweepAndPrune::RegisterCollider(std::shared_ptr<AABBCollider> pCollider)
 {
-	edgePoints.push_back(EdgePoint(pCollider, true));
-	edgePoints.push_back(EdgePoint(pCollider, false));
+	edgePoints.push_back(EdgePoint(colliderId, &pCollider->left, true));
+	edgePoints.push_back(EdgePoint(colliderId, &pCollider->right, false));
+	colliders.push_back(pCollider);
+
+	colliderId++;
 }
 
 void SweepAndPrune::SortEdgePoints()
 {
-	std::sort(edgePoints.begin(), edgePoints.end(), [](EdgePoint edgePointA, EdgePoint edgePointB)
+	std::sort(edgePoints.begin(), edgePoints.end(), [](const EdgePoint& edgePointA, const EdgePoint& edgePointB)
 		{
 			return *edgePointA.position < *edgePointB.position;
 		});
 }
 
-void SweepAndPrune::RemoveTouchingCollider(std::weak_ptr<AABBCollider> pColliderA)
+void SweepAndPrune::RemoveTouchingCollider(int pColliderAId)
 {
-	auto it = std::find_if(touchingColliders.begin(), touchingColliders.end(), [pColliderA](std::weak_ptr<AABBCollider> pColliderB)
+	auto it = std::find_if(touchingColliders.begin(), touchingColliders.end(), [pColliderAId](int pColliderBId)
 		{
-			return pColliderB.lock() == pColliderA.lock();
+			return pColliderAId == pColliderBId;
 		});
 
 	touchingColliders.erase(it);

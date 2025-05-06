@@ -22,7 +22,7 @@ void Scene::UpdateScene()
 	}
 
 	//collisionChecker.CheckCollisions();
-
+	
 	//bruteForce.CheckCollisions();
 
 	//sweepAndPrune.Sweep();

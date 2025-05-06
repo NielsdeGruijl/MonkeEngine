@@ -24,9 +24,9 @@ public:
 		//	outData << i << "ms" << ",";
 		//}
 
-		outData << GetAverage() << "ms,";
-		outData << GetOnePercentLow() << "ms,";
-		outData << GetOnePercentHigh() << "ms,";
+		outData << GetAverage() << "us,";
+		outData << GetOnePercentLow() << "us,";
+		outData << GetOnePercentHigh() << "us,";
 		outData << data.size() << " sample size";
 
 		outData.close();
