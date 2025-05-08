@@ -22,6 +22,7 @@ Game::Game(int horizontalResolution, int verticalResolution)
 
 Game::~Game()
 {
+	printf("non");
 }
 
 void Game::Run()
@@ -73,6 +74,7 @@ void Game::Run()
 		renderWindow.draw(fpsCounterText);
 
 		renderWindow.display();
+		//std::cout << "test\n";
 	}
 }
 

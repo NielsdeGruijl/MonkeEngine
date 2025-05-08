@@ -1,1 +1,1 @@
-417us,392us,842us,64873 sample size
+387813us,1us,830119us,24 sample size

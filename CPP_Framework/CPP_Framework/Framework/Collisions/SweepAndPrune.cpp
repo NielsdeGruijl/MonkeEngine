@@ -70,5 +70,6 @@ void SweepAndPrune::RemoveTouchingCollider(int pColliderAId)
 			return pColliderAId == pColliderBId;
 		});
 
-	touchingColliders.erase(it);
+	if(it != touchingColliders.end())
+		touchingColliders.erase(it);
 }

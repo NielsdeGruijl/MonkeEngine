@@ -51,8 +51,10 @@ void TwoDimensionalSAP::SweepX()
 				{
 					return colliderId == edge.colliderId;
 				});
-		
-			touchingColliders.erase(it);
+			
+			if(it != touchingColliders.end())
+				touchingColliders.erase(it);
+
 			continue;
 		}
 
@@ -94,7 +96,8 @@ void TwoDimensionalSAP::SweepY()
 					return colliderId == edge.colliderId;
 				});
 
-			touchingColliders.erase(it);
+			if (it != touchingColliders.end())
+				touchingColliders.erase(it);
 			continue;
 		}
 

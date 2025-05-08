@@ -15,6 +15,7 @@ GameObject::GameObject(Scene* pScene, std::string ID)
 GameObject::~GameObject()
 {
 	components.clear();
+	std::cout << "Destroy\n";
 }
 
 void GameObject::OnLoad()

@@ -9,6 +9,7 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+	printf("NON!!\n");
 }
 
 void Scene::UpdateScene()
@@ -25,9 +26,9 @@ void Scene::UpdateScene()
 	
 	//bruteForce.CheckCollisions();
 
-	//sweepAndPrune.Sweep();
+	sweepAndPrune.Sweep();
 
-	twoDimensionalSAP.Sweep();
+	//twoDimensionalSAP.Sweep();
 }
 
 void Scene::CollisionUpdate()
@@ -86,14 +87,14 @@ void Scene::RegisterCollider(GameObject* object)
 	//	bruteForce.RegisterCollider(collider);
 	
 	// ======== Sweep and prune system ==========
-	//std::shared_ptr<AABBCollider> collider;
-	//if (object->TryGetComponent<AABBCollider>(collider))
-	//	sweepAndPrune.RegisterCollider(collider);
-
-	// ======== 2D Sweep and prune system ==========
 	std::shared_ptr<AABBCollider> collider;
 	if (object->TryGetComponent<AABBCollider>(collider))
-		twoDimensionalSAP.RegisterCollider(collider);
+		sweepAndPrune.RegisterCollider(collider);
+
+	// ======== 2D Sweep and prune system ==========
+	//std::shared_ptr<AABBCollider> collider;
+	//if (object->TryGetComponent<AABBCollider>(collider))
+	//	twoDimensionalSAP.RegisterCollider(collider);
 }
 
 void Scene::RegisterSprite(GameObject* pObject)
