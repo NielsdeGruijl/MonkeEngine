@@ -7,16 +7,21 @@ PerformanceTestScene::PerformanceTestScene()
 
 	int totalObjects = 10;
 
-	int rows = 20;
-	int columns = 20;
+	int rows = 10;
+	int columns = 50;
 
 	float scale = .3f;
 
-	int xOffset = 1280 / columns;
-	int yOffset = 720 / rows;
+	int xOffset = 50;
+	int yOffset = 1080 / rows;
 
-	int xStart = xOffset / 2;
-	int yStart = yOffset / 2;
+	float gridWidth =columns * xOffset;
+
+	int xStart = 960 - (gridWidth * 0.5f);
+	int yStart = yOffset * 0.5f;
+
+	std::cout << xStart << "\n";
+	std::cout << gridWidth << "\n";
 
 	for (int i = 0; i < rows; i++)
 	{
@@ -32,26 +37,47 @@ PerformanceTestScene::PerformanceTestScene()
 			leftObject->SetPosition(Vector2(xStart + (j * xOffset), yStart + (i * yOffset)));
 			leftObject->moveDirection = moveDirection;
 			leftObject->SetScale(scale);
+
+			objects.push_back(leftObject);
+
+			if(j % 2 == 0)
+				leftObject->GetComponent<SpriteRenderer>()->sprite.setColor(sf::Color::Red);
+
 			AddObject(leftObject);
 		}
 	}
 
 	std::shared_ptr<GameObject> leftBoundary = std::make_shared<GameObject>(this, "LeftBoundary");
 	leftBoundary->SetScale(Vector2(10, 100));
-	leftBoundary->SetPosition(Vector2(-499, 360));
+	leftBoundary->SetPosition(Vector2(xStart - 499 - xOffset, 540));
 	leftBoundary->AddComponent<AABBCollider>(leftBoundary.get(), &leftBoundary->position);
 	leftBoundary->AddComponent<SpriteRenderer>(leftBoundary.get(), "Cat.jpg", 236);
 	AddObject(leftBoundary);
 
 	std::shared_ptr<GameObject> rightBoundary = std::make_shared<GameObject>(this, "RightBoundary");
 	rightBoundary->SetScale(Vector2(10, 100));
-	rightBoundary->SetPosition(Vector2(1280 + 499, 360));
+	rightBoundary->SetPosition(Vector2(xStart + gridWidth + 499, 540));
 	rightBoundary->AddComponent<AABBCollider>(rightBoundary.get(), &rightBoundary->position);
 	rightBoundary->AddComponent<SpriteRenderer>(rightBoundary.get(), "Cat.jpg", 236);
 	AddObject(rightBoundary);
 }
 
-void PerformanceTestScene::UpdateScene()
+void PerformanceTestScene::Update()
 {
-	Scene::UpdateScene();
+	Scene::Update();
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !started)
+	{
+		started = true;
+		Timer timer;
+		for (std::shared_ptr<LeftObject> rb : objects)
+		{
+			rb->moveSpeed = 3;
+		}
+	}
+
+	for (std::shared_ptr<LeftObject> rb : objects)
+	{
+		//std::cout << rb->position.printVector();
+	}
 }

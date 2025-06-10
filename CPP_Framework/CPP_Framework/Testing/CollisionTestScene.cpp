@@ -27,7 +27,7 @@ CollisionTestScene::~CollisionTestScene()
 {
 }
 
-void CollisionTestScene::UpdateScene()
+void CollisionTestScene::Update()
 {
-	Scene::UpdateScene();
+	Scene::Update();
 }

@@ -10,7 +10,7 @@ public:
 	CollisionTestScene();
 	~CollisionTestScene();
 
-	void UpdateScene() override;
+	void Update() override;
 
 private:
 	GameObject obstacle;

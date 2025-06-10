@@ -10,6 +10,7 @@ public:
 	LeftObject(Scene* pScene, std::string pObjectId);
 
 	void Update() override;
+	void FixedUpdate() override;
 
 	void OnCollisionEnter(GameObject* object) override;
 

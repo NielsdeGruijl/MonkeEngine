@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "AABBCollider.h"
+#include "../Objects/GameObject.h"
 
 AABBCollider::AABBCollider(GameObject* pObject, Vector2* pPosition)
 	: Component(pObject)

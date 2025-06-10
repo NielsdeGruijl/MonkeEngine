@@ -13,7 +13,6 @@ SceneManager::SceneManager(std::string pSceneName, Scene* pDefaultScene)
 
 SceneManager::~SceneManager()
 {
-	printf("ooo");
 }
 
 Scene* SceneManager::GetCurrentScene()

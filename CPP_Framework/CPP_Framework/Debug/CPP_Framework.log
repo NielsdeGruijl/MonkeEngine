@@ -1,4 +1,4 @@
 ﻿  PerformanceTestScene.cpp
-D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(32,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(32,43): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  CPP_Framework.vcxproj -> D:\School\Tools\CPP_Framework_Repo\CPP_Framework\Debug\CPP_Framework.exe
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(32,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(32,43): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  CPP_Framework.vcxproj -> C:\School\Tools\CPP_Framework_Repo\CPP_Framework\Debug\CPP_Framework.exe

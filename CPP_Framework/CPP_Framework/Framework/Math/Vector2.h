@@ -21,6 +21,8 @@ struct Vector2
 
 	float Dot(Vector2 v2);
 
+	Vector2 Lerp(const Vector2& v2, float t);
+
 	// Multiplication operators
 	Vector2 operator*(const float f1);
 	Vector2 operator*=(const float f1);

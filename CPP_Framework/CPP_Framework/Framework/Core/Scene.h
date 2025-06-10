@@ -18,8 +18,8 @@ public:
 	Scene();
 	~Scene();
 	 
-	virtual void UpdateScene();
-	virtual void CollisionUpdate();
+	virtual void FixedUpdate();
+	virtual void Update();
 	virtual void RenderScene(sf::RenderWindow* renderWindow);
 
 	virtual void Load();

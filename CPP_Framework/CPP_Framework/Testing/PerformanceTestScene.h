@@ -6,5 +6,8 @@ class PerformanceTestScene : public Scene
 {
 public:
 	PerformanceTestScene();
-	void UpdateScene() override;
+	void Update() override;
+
+	std::vector<shared_ptr<LeftObject>> objects;
+	bool started = false;
 };

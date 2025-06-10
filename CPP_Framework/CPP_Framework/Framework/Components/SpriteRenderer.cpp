@@ -1,6 +1,10 @@
 #include "SpriteRenderer.h"
 
 #include "../Objects/GameObject.h"
+#include <cmath>
+
+extern float fixedDeltaTime;
+extern float accumulator;
 
 SpriteRenderer::SpriteRenderer(GameObject* pObject, std::string pFileName, int pPixelsPerUnit)
 	: Component(pObject), spriteScale(CalculateSpriteScaleBasedOnPixelsPerUnit(pPixelsPerUnit))
@@ -20,7 +24,11 @@ SpriteRenderer::~SpriteRenderer()
 void SpriteRenderer::Update()
 {
 	Component::Update();
-	SetPosition(object->position);
+
+	Vector2 renderPosition = object->previousPosition.Lerp(object->position, accumulator / fixedDeltaTime);
+	SetPosition(renderPosition);
+
+	//SetPosition(object->position);
 }
 
 void SpriteRenderer::SetColor(sf::Color pColor)
@@ -53,3 +61,4 @@ float SpriteRenderer::CalculateSpriteScaleBasedOnPixelsPerUnit(int pPixelsPerUni
 {
 	return (float)unitSize / pPixelsPerUnit;
 }
+

@@ -1,11 +1,14 @@
 #include <iostream>
+#include <cmath>
 
 #include "RigidBody.h"
 
 #include "../Collisions/Collision.h"
+#include "../Objects/GameObject.h"
 
 extern const int unitSize;
 extern float deltaTime;
+extern float fixedDeltaTime;
 
 RigidBody::RigidBody(GameObject* pObject)
 	: Component(pObject)
@@ -58,7 +61,7 @@ void RigidBody::AddForce(Vector2 pForce, VelocityType pVelocityType)
 	switch (pVelocityType)
 	{
 	case continuous:
-		velocity += tForce * deltaTime;
+		velocity += tForce * fixedDeltaTime;
 		break;
 	case instant:
 		velocity += tForce;
@@ -69,7 +72,7 @@ void RigidBody::AddForce(Vector2 pForce, VelocityType pVelocityType)
 	}
 }
 
-void RigidBody::HandleCollision(Collision collision)
+void RigidBody::HandleCollision(const Collision& collision)
 {
 	if (collider->isTrigger)
 		return;
@@ -79,7 +82,13 @@ void RigidBody::HandleCollision(Collision collision)
 		Vector2 normalizedVelocity = velocity.normalized;
 		Vector2 positionAdjustment = normalizedVelocity * collision.collisionTime;
 		Vector2 newPos = object->position + positionAdjustment;
-		object->SetPosition(newPos);
+		object->position = newPos;
+
+		//if (isnan(object->position.x))
+		//{
+		//	std::cout << "nan\n";
+		//}
+
 	}
 
 	if (collision.rigidBody == nullptr)
@@ -99,40 +108,44 @@ void RigidBody::HandleCollision(Collision collision)
 	if (friction > 0 && velocity.GetLength() > 0)
 	{
 		float tFriction = (velocity.GetLength() * velocity.GetLength()) * friction;
-		Vector2 frictionVector = velocity.normalized * tFriction * deltaTime;
+		Vector2 frictionVector = velocity.normalized * tFriction * fixedDeltaTime;
 		AddForce(frictionVector * -1);
 	}
+
+
 }
 
 void RigidBody::HandleBounce(std::shared_ptr<RigidBody> pRigidBody)
 {
-	float bounce = this->bounciness;
-	if (bounce < pRigidBody->bounciness)
-		bounce = pRigidBody->bounciness;
-	
-	float mass1 = mass;
-	float mass2 = pRigidBody->mass;
-	
-	Vector2 v2 = pRigidBody->velocity;
-	Vector2 v1 = velocity;
-	
-	Vector2 normal = *collider->position - *pRigidBody->collider->position;
-	normal.Normalize();
-	Vector2 tangent = Vector2(-normal.y, normal.x);
-	
-	float v1n = v1.Dot(normal);
-	float v1t = v1.Dot(tangent);
-	float v2n = v2.Dot(normal);
-	float v2t = v2.Dot(tangent);
-	
-	float v1np = ((v1n * (mass1 - mass2)) + (2 * mass2 * v2n)) / (mass1 + mass2);
-	float v2np = ((v2n * (mass2 - mass1)) + (2 * mass1 * v1n)) / (mass1 + mass2);
-	
-	Vector2 v1p = (normal * v1np) + (tangent * v1t);
-	Vector2 v2p = (normal * v2np) + (tangent * v2t);
-	
-	AddForce(v1p * bounce * mass1, velocityChange);
-	pRigidBody->AddForce(v2p * bounce * mass2, velocityChange);
+	//float bounce = this->bounciness;
+	//if (bounce < pRigidBody->bounciness)
+	//	bounce = pRigidBody->bounciness;
+	//
+	//float mass1 = mass;
+	//float mass2 = pRigidBody->mass;
+	//
+	//Vector2 v2 = pRigidBody->velocity;
+	//Vector2 v1 = velocity;
+	//
+	//Vector2 normal = *collider->position - *pRigidBody->collider->position;
+	//normal.Normalize();
+	//Vector2 tangent = Vector2(-normal.y, normal.x);
+	//
+	//float v1n = v1.Dot(normal);
+	//float v1t = v1.Dot(tangent);
+	//float v2n = v2.Dot(normal);
+	//float v2t = v2.Dot(tangent);
+	//
+	//float v1np = ((v1n * (mass1 - mass2)) + (2 * mass2 * v2n)) / (mass1 + mass2);
+	//float v2np = ((v2n * (mass2 - mass1)) + (2 * mass1 * v1n)) / (mass1 + mass2);
+	//
+	//Vector2 v1p = (normal * v1np) + (tangent * v1t);
+	//Vector2 v2p = (normal * v2np) + (tangent * v2t);
+	//
+	//AddForce(v1p * bounce * mass1, velocityChange);
+	//pRigidBody->AddForce(v2p * bounce * mass2, velocityChange);
+
+	AddForce(velocity * bounciness * -2, instant);
 
 	return;
 }
@@ -146,13 +159,14 @@ void RigidBody::Move()
 	if (yConstraint)
 		velocity = Vector2(velocity.x, 0);
 
-	object->SetPosition(object->position + velocity * deltaTime * (float)unitSize);
+	object->previousPosition = object->position;
+	object->position = object->position + velocity * fixedDeltaTime * (float)unitSize;
 }
 
 void RigidBody::CalculateDrag()
 {
 	float tDrag = velocity.GetLength() * drag;
-	dragForce = velocity.normalized * tDrag * deltaTime;
+	dragForce = velocity.normalized * tDrag * fixedDeltaTime;
 
 	if (velocity.GetLength() <= 0.001f)
 		velocity = Vector2(0, 0);

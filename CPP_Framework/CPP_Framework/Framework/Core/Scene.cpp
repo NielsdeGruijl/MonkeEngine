@@ -9,10 +9,26 @@ Scene::Scene()
 
 Scene::~Scene()
 {
-	printf("NON!!\n");
 }
 
-void Scene::UpdateScene()
+void Scene::FixedUpdate()
+{
+	if (!isLoaded)
+		return;
+
+	for (size_t i = 0; i < sharedObjects.size(); i++)
+	{
+		sharedObjects[i]->FixedUpdate();
+	}
+
+	//bruteForce.CheckCollisions();
+
+	//sweepAndPrune.Sweep();
+
+	twoDimensionalSAP.Sweep();
+}
+
+void Scene::Update()
 {
 	if (!isLoaded)
 		return;
@@ -21,20 +37,6 @@ void Scene::UpdateScene()
 	{
 		sharedObjects[i]->Update();
 	}
-
-	//collisionChecker.CheckCollisions();
-	
-	//bruteForce.CheckCollisions();
-
-	sweepAndPrune.Sweep();
-
-	//twoDimensionalSAP.Sweep();
-}
-
-void Scene::CollisionUpdate()
-{
-	if (!isLoaded)
-		return;
 }
 
 void Scene::RenderScene(sf::RenderWindow* renderWindow)
@@ -87,14 +89,14 @@ void Scene::RegisterCollider(GameObject* object)
 	//	bruteForce.RegisterCollider(collider);
 	
 	// ======== Sweep and prune system ==========
-	std::shared_ptr<AABBCollider> collider;
-	if (object->TryGetComponent<AABBCollider>(collider))
-		sweepAndPrune.RegisterCollider(collider);
-
-	// ======== 2D Sweep and prune system ==========
 	//std::shared_ptr<AABBCollider> collider;
 	//if (object->TryGetComponent<AABBCollider>(collider))
-	//	twoDimensionalSAP.RegisterCollider(collider);
+	//	sweepAndPrune.RegisterCollider(collider);
+
+	// ======== 2D Sweep and prune system ==========
+	std::shared_ptr<AABBCollider> collider;
+	if (object->TryGetComponent<AABBCollider>(collider))
+		twoDimensionalSAP.RegisterCollider(collider);
 }
 
 void Scene::RegisterSprite(GameObject* pObject)

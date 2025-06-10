@@ -200,6 +200,8 @@ void CollisionChecker::CheckCollision(CollisionPair pCollisionPair)
 	std::shared_ptr<AABBCollider> colliderA = pCollisionPair.colliderA.lock();
 	std::shared_ptr<AABBCollider> colliderB = pCollisionPair.colliderB.lock();
 
+	//std::cout << " ==============================\n";
+
 	if (colliderA->CheckCollision(colliderB))
 	{
 		std::shared_ptr<RigidBody> rigidBodyA, rigidBodyB;
@@ -262,7 +264,7 @@ void CollisionChecker::ObjectCollision(std::shared_ptr<RigidBody> pRigidBody, st
 		shortestCollisionDistance = collisionDistance.y;
 	}
 	
-	pRigidBody->HandleCollision(Collision(pCollider->object, normal, shortestCollisionDistance));
+	pRigidBody->HandleCollision(Collision(pCollider->object, normal, std::move(shortestCollisionDistance)));
 }
 
 void CollisionChecker::ObjectCollision(std::shared_ptr<AABBCollider> pCollider, std::shared_ptr<RigidBody> pRigidBody)
@@ -300,126 +302,156 @@ void CollisionChecker::ObjectCollision(std::shared_ptr<AABBCollider> pCollider, 
 		shortestCollisionDistance = collisionDistance.y;
 	}
 
-	pRigidBody->HandleCollision(Collision(pCollider->object, normal, shortestCollisionDistance));
+	pRigidBody->HandleCollision(Collision(pCollider->object, normal, std::move(shortestCollisionDistance)));
 }
 
 void CollisionChecker::RigidBodyCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB)
 {
 	Vector2 collisionDistance = CalculateCollisionDistance(pRigidBodyA->collider, pRigidBodyB->collider);
 
-	Vector2 normal, otherNormal;
-
 	if (collisionDistance.x > collisionDistance.y)
 	{
-		if (pRigidBodyB->velocity.x > pRigidBodyA->velocity.x)
+		if (pRigidBodyA->velocity.x == 0 && pRigidBodyB->velocity.x == 0)
 			return;
-
-		if (pRigidBodyA->velocity.x > 0)
-			normal = Vector2(-1, 0);
 		else
-			normal = Vector2(1, 0);
-
-		otherNormal = normal * -1;
-
-		float totalVelocity = abs(pRigidBodyA->velocity.x) + abs(pRigidBodyB->velocity.x);
-		float velocityPercentageA = pRigidBodyA->velocity.x / totalVelocity;
-		float velocityAdjustmentA;
-
-		if (velocityPercentageA != 0)
-		{
-			velocityAdjustmentA = collisionDistance.x * velocityPercentageA;
-			velocityAdjustmentA = abs(velocityAdjustmentA) * normal.x;
-		}
-		else
-		{
-			velocityAdjustmentA = 0;
-		}
-
-		float velocityPercentageB = pRigidBodyB->velocity.x / totalVelocity;
-		float velocityAdjustmentB;
-
-		if (velocityPercentageB != 0)
-		{
-			velocityAdjustmentB = collisionDistance.x * velocityPercentageB;
-			velocityAdjustmentB = abs(velocityAdjustmentB) * otherNormal.x;
-		}
-		else
-		{
-			velocityAdjustmentB = 0;
-		}
-		
-		CollisionVelocityHandling(pRigidBodyA, pRigidBodyB, normal);
-		pRigidBodyA->HandleCollision(Collision(pRigidBodyB->object, normal, velocityAdjustmentA));
-		pRigidBodyB->HandleCollision(Collision(pRigidBodyA->object, otherNormal, velocityAdjustmentB));
+			HorizontalRigidBodyCollision(pRigidBodyA, pRigidBodyB, collisionDistance.x);
 	}
 	else
 	{
-		std::shared_ptr<RigidBody> topRigidBody, bottomRigidBody;
-		if (pRigidBodyA->collider->top < pRigidBodyB->collider->top)
-		{
-			if (pRigidBodyB->velocity.y > pRigidBodyA->velocity.y)
-				return;
-
-			topRigidBody = pRigidBodyA;
-			bottomRigidBody = pRigidBodyB;
-		}
+		if (pRigidBodyA->velocity.y == 0 && pRigidBodyB->velocity.y == 0)
+			return;
 		else
-		{
-			if (pRigidBodyA->velocity.y > pRigidBodyB->velocity.y)
-				return;
-
-			topRigidBody = pRigidBodyB;
-			bottomRigidBody = pRigidBodyA;
-		}
-
-		if (pRigidBodyA->velocity.y > 0)
-			normal = Vector2(0, -1);
-		else
-			normal = Vector2(0, 1);
-		
-		otherNormal = normal * -1;
-
-		float totalVelocity = abs(topRigidBody->velocity.y) + abs(bottomRigidBody->velocity.y);
-		float velocityPercentageA = topRigidBody->velocity.y / totalVelocity;
-		float velocityAdjustmentA;
-
-		if (velocityPercentageA != 0)
-		{
-			velocityAdjustmentA = collisionDistance.y * velocityPercentageA;
-			velocityAdjustmentA = abs(velocityAdjustmentA) * normal.y;
-		}
-		else
-		{
-			velocityAdjustmentA = 0;
-		}
-
-		float velocityPercentageB = bottomRigidBody->velocity.y / totalVelocity;
-		float velocityAdjustmentB;
-
-		if (velocityPercentageB != 0)
-		{
-			velocityAdjustmentB = collisionDistance.y * velocityPercentageB;
-			velocityAdjustmentB = abs(velocityAdjustmentB) * otherNormal.y;
-		}
-		else
-		{
-			velocityAdjustmentB = 0;
-		}
-
-
-
-		CollisionVelocityHandling(pRigidBodyA, pRigidBodyB, normal);
-		topRigidBody->HandleCollision(Collision(bottomRigidBody->object, normal, velocityAdjustmentA));
-		bottomRigidBody->HandleCollision(Collision(topRigidBody->object, otherNormal, velocityAdjustmentB));
+			VerticalRigidBodyCollision(pRigidBodyA, pRigidBodyB, collisionDistance.y);
 	}
+}
+
+void CollisionChecker::HorizontalRigidBodyCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB, float pCollisionDistance)
+{
+	Vector2 normal, otherNormal;
+
+	if (pRigidBodyB->velocity.x > pRigidBodyA->velocity.x)
+		return;
+
+	if (pRigidBodyA->velocity.x > 0)
+		normal = Vector2(-1, 0);
+	else
+		normal = Vector2(1, 0);
+
+	otherNormal = normal * -1;
+
+	float totalVelocity = abs(pRigidBodyA->velocity.x) + abs(pRigidBodyB->velocity.x);
+
+	float aVelocityX = pRigidBodyA->velocity.x;
+	float velocityPercentageA = 0;
+	if (pRigidBodyA->velocity.x != 0)
+		velocityPercentageA = aVelocityX / totalVelocity;
+	float velocityAdjustmentA = 0.0f;
+
+
+	if (velocityPercentageA != 0)
+	{
+		velocityAdjustmentA = pCollisionDistance * velocityPercentageA;
+		velocityAdjustmentA = abs(velocityAdjustmentA) * normal.x;
+	}
+	else
+	{
+		velocityAdjustmentA = 0;
+	}
+
+	float velocityPercentageB = 0;
+	float bVelocityX = pRigidBodyB->velocity.x;
+
+	if (pRigidBodyB->velocity.x != 0)
+		velocityPercentageB = bVelocityX / totalVelocity;
+
+	float velocityAdjustmentB = 0.0f;
+
+	if (velocityPercentageB != 0)
+	{
+		velocityAdjustmentB = pCollisionDistance * velocityPercentageB;
+		velocityAdjustmentB = abs(velocityAdjustmentB) * otherNormal.x;
+	}
+	else
+	{
+		velocityAdjustmentB = 0;
+	}
+
+	CollisionVelocityHandling(pRigidBodyA, pRigidBodyB, normal);
+	Collision aCollision = Collision(pRigidBodyB->object, normal, velocityAdjustmentA);
+	//pRigidBodyA->HandleCollision(aCollision);
+	Collision bCollision = Collision(pRigidBodyA->object, otherNormal, velocityAdjustmentB);
+	//pRigidBodyB->HandleCollision(bCollision);
+}
+
+void CollisionChecker::VerticalRigidBodyCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB, float pCollisionDistance)
+{
+	Vector2 normal, otherNormal;
+
+	std::shared_ptr<RigidBody> topRigidBody, bottomRigidBody;
+	if (pRigidBodyA->collider->top < pRigidBodyB->collider->top)
+	{
+		if (pRigidBodyB->velocity.y > pRigidBodyA->velocity.y)
+			return;
+
+		topRigidBody = pRigidBodyA;
+		bottomRigidBody = pRigidBodyB;
+	}
+	else
+	{
+		if (pRigidBodyA->velocity.y > pRigidBodyB->velocity.y)
+			return;
+
+		topRigidBody = pRigidBodyB;
+		bottomRigidBody = pRigidBodyA;
+	}
+
+	if (pRigidBodyA->velocity.y > 0)
+		normal = Vector2(0, -1);
+	else
+		normal = Vector2(0, 1);
+
+	otherNormal = normal * -1;
+
+	float totalVelocity = abs(topRigidBody->velocity.y) + abs(bottomRigidBody->velocity.y);
+	float velocityPercentageA = topRigidBody->velocity.y / totalVelocity;
+	float velocityAdjustmentA;
+
+	if (velocityPercentageA != 0)
+	{
+		velocityAdjustmentA = pCollisionDistance * velocityPercentageA;
+		velocityAdjustmentA = abs(velocityAdjustmentA) * normal.y;
+	}
+	else
+	{
+		velocityAdjustmentA = 0;
+	}
+
+	float velocityPercentageB = bottomRigidBody->velocity.y / totalVelocity;
+	float velocityAdjustmentB;
+
+	if (velocityPercentageB != 0)
+	{
+		velocityAdjustmentB = pCollisionDistance * velocityPercentageB;
+		velocityAdjustmentB = abs(velocityAdjustmentB) * otherNormal.y;
+	}
+	else
+	{
+		velocityAdjustmentB = 0;
+	}
+
+	CollisionVelocityHandling(pRigidBodyA, pRigidBodyB, normal);
+	topRigidBody->HandleCollision(Collision(bottomRigidBody->object, normal, std::move(velocityAdjustmentA)));
+	bottomRigidBody->HandleCollision(Collision(topRigidBody->object, otherNormal, std::move(velocityAdjustmentB)));
 }
 
 void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB, Vector2 pNormal)
 {
 	if (pRigidBodyA->bounciness > 0 || pRigidBodyB->bounciness > 0)
 	{
-		pRigidBodyA->AddForce(pRigidBodyA->velocity * pRigidBodyA->bounciness, RigidBody::instant);
-		pRigidBodyB->AddForce(pRigidBodyB->velocity * pRigidBodyB->bounciness, RigidBody::instant);
+		//std::cout << pRigidBodyA->velocity.printVector();
+		pRigidBodyA->HandleBounce(pRigidBodyB);
+		//std::cout << pRigidBodyA->velocity.printVector();
+		pRigidBodyB->HandleBounce(pRigidBodyA);
 		return;
 	}
 

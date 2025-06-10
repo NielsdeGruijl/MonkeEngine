@@ -15,12 +15,27 @@ GameObject::GameObject(Scene* pScene, std::string ID)
 GameObject::~GameObject()
 {
 	components.clear();
-	std::cout << "Destroy\n";
+	//std::cout << "Destroy\n";
 }
 
 void GameObject::OnLoad()
 {
 	for (std::shared_ptr<Component> component : components)
+	{
+		component->OnLoad();
+
+
+		//if (typeid(*(component)) == typeid(AABBCollider))
+		//{
+		//	std::shared_ptr<AABBCollider> tCol = std::static_pointer_cast<AABBCollider>(component);
+
+		//	tCol->collisionEnterEvent.AddListener([this](GameObject* pObject) {this->OnCollisionEnter(pObject); });
+		//	tCol->collisionStayEvent.AddListener([this](GameObject* pObject) {this->OnCollisionStay(pObject); });
+		//	tCol->collisionExitEvent.AddListener([this](GameObject* pObject) {this->OnCollisionExit(pObject); });
+		//}
+	}
+
+	for (std::shared_ptr<Component> component : physicsComponents)
 	{
 		component->OnLoad();
 
@@ -39,12 +54,23 @@ void GameObject::Start()
 {
 }
 
+void GameObject::FixedUpdate()
+{
+	for (std::shared_ptr<Component> component : physicsComponents)
+	{
+		if (!component->IsActive())
+			continue;
+
+		component->Update();
+	}
+}
+
 void GameObject::Update()
 {
 	for (std::shared_ptr<Component> component : components)
 	{
 		if (!component->IsActive())
-			return;
+			continue;
 
 		component->Update();
 	}
@@ -88,6 +114,7 @@ void GameObject::SetScale(const float pScale)
 void GameObject::SetPosition(const Vector2 pPosition)
 {
 	position = pPosition;
+	previousPosition = pPosition;
 }
 
 void GameObject::SetOrigin(const Vector2 pOrigin)

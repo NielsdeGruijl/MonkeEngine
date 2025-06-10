@@ -4,6 +4,8 @@
 
 extern const int unitSize = 100;
 float deltaTime;
+float fixedDeltaTime = 0.02f;
+float accumulator;
 
 Game::Game(int horizontalResolution, int verticalResolution)
 	: renderWindow(sf::VideoMode(horizontalResolution, verticalResolution), "CPP_Framework")
@@ -17,12 +19,12 @@ Game::Game(int horizontalResolution, int verticalResolution)
 
 	fpsCounterText.setFont(font);
 	fpsCounterText.setFillColor(sf::Color::White);
-	fpsCounterText.setPosition(1190, 10);
+	fpsCounterText.setPosition(renderWindow.getSize().x - 100, 10);
+
 }
 
 Game::~Game()
 {
-	printf("non");
 }
 
 void Game::Run()
@@ -35,7 +37,8 @@ void Game::Run()
 	sf::Clock timeClock;
 	sf::Clock gameTime;
 
-	//renderWindow.setFramerateLimit(360);
+	//renderWindow.setFramerateLimit(144);
+	renderWindow.setVerticalSyncEnabled(false);
 	while (renderWindow.isOpen())
 	{
 		if (gameTime.getElapsedTime().asSeconds() > 30)
@@ -52,29 +55,35 @@ void Game::Run()
 		deltaTime = clock.restart().asSeconds();
 
 		fps++;
-		if (fpsClock.getElapsedTime().asSeconds() > .1f)
+		if (fpsClock.getElapsedTime().asSeconds() > 1)
 		{
-			int averageFps = (int)fps / fpsClock.getElapsedTime().asSeconds();
-			std::string fpsCount = std::to_string(averageFps);
+			//int averageFps = (int)fps / fpsClock.getElapsedTime().asSeconds();
+			std::string fpsCount = std::to_string((int)fps);
 			fpsCounterText.setString(sf::String(fpsCount.c_str()));
 			fps = 0;
 			fpsClock.restart();
 		}
-
 
 		renderWindow.clear();
 
 		if (Scene* scene = sceneManager.GetCurrentScene())
 		{
 			scene->CleanUpObjects();
-			scene->UpdateScene();
+			
+			accumulator += deltaTime;
+			if (accumulator >= fixedDeltaTime)
+			{
+				scene->FixedUpdate();
+				accumulator -= fixedDeltaTime;
+			}
+
+			scene->Update();
 			scene->RenderScene(&renderWindow);
 		}
 
 		renderWindow.draw(fpsCounterText);
 
 		renderWindow.display();
-		//std::cout << "test\n";
 	}
 }
 

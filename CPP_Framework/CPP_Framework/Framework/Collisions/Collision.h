@@ -6,24 +6,36 @@
 struct Collision
 {
 	Collision(GameObject* pObject, Vector2 pNormal, float pCollisionTime)
+		: object(pObject), normal(pNormal)
 	{
-		object = pObject;
-		object->TryGetComponent(rigidBody);
+		//object->TryGetComponent<RigidBody>(rigidBody);
 
-		normal = pNormal;
+		remainingTime = 1 + collisionTime;
 
-		collisionTime = pCollisionTime;
-		remainingTime = 1 + pCollisionTime;
+		//std::cout << normal.printVector();
+
+		if (isnan(pCollisionTime))
+		{
+			collisionTime = 0;
+			std::cout << object->GetID() << "\n";
+			std::cout << normal.printVector();
+			std::cout << "Nan\n";
+		}
+		else 
+		{
+			collisionTime = pCollisionTime;
+		}
 	}
 	~Collision()
 	{
 	}
+
 
 	GameObject* object;
 	std::shared_ptr<RigidBody> rigidBody;
 
 	Vector2 normal;
 
-	float collisionTime;
-	float remainingTime;
+	float collisionTime = 0;
+	float remainingTime = 0;
 };

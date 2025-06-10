@@ -9,13 +9,17 @@
 #include "../Math/Timer.h"
 
 #include "../Components/Component.h"
+#include "../Components/RigidBody.h"
+
 
 class Scene;
+class AABBCollider;
 
 class GameObject : public std::enable_shared_from_this<GameObject>
 {
 public:
 	Vector2 origin;
+	Vector2 previousPosition;
 	Vector2 position;
 	Vector2 scale;
 
@@ -26,6 +30,7 @@ public:
 	virtual void OnLoad();
 	virtual void Start();
 
+	virtual void FixedUpdate();
 	virtual void Update();
 
 	virtual void Destroy();
@@ -46,8 +51,16 @@ public:
 	{
 		std::shared_ptr<T> componentPointer = std::make_shared<T>(std::forward<ConstructorArgs>(pConstructorArgs)...);
 
-		components.push_back(componentPointer);
+		//if (std::shared_ptr<AABBCollider> collider = std::dynamic_pointer_cast<AABBCollider>(componentPointer))
+		//	physicsComponents.push_back(collider);
+		std::shared_ptr<RigidBody> rigidBody = std::dynamic_pointer_cast<RigidBody>(componentPointer);
+		std::shared_ptr<AABBCollider> collider = std::dynamic_pointer_cast<AABBCollider>(componentPointer);
 
+		if(rigidBody || collider)
+			physicsComponents.push_back(componentPointer);
+		else
+			components.push_back(componentPointer);
+		
 		return componentPointer;
 	}
 
@@ -59,6 +72,11 @@ public:
 			if (pOut = std::dynamic_pointer_cast<T>(component))
 				return true;
 		}
+		for (std::shared_ptr<Component>& component : physicsComponents)
+		{
+			if (pOut = std::dynamic_pointer_cast<T>(component))
+				return true;
+		}
 		return false;
 	}
 
@@ -66,6 +84,11 @@ public:
 	std::shared_ptr<T> GetComponent()
 	{
 		for (std::shared_ptr<Component> component : components)
+		{
+			if (std::shared_ptr<T> castedComponent = std::dynamic_pointer_cast<T>(component))
+				return castedComponent;
+		}
+		for (std::shared_ptr<Component> component : physicsComponents)
 		{
 			if (std::shared_ptr<T> castedComponent = std::dynamic_pointer_cast<T>(component))
 				return castedComponent;
@@ -91,6 +114,7 @@ public:
 
 protected:
 	std::vector<std::shared_ptr<Component>> components;
+	std::vector<std::shared_ptr<Component>> physicsComponents;
 
 	Scene* scene;
 
