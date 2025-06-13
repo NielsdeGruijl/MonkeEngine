@@ -56,6 +56,11 @@ void GameObject::Start()
 
 void GameObject::FixedUpdate()
 {
+	//if (GetID() == "Object25")
+	//	std::cout << position.printVector();
+
+	previousPosition = position;
+
 	for (std::shared_ptr<Component> component : physicsComponents)
 	{
 		if (!component->IsActive())
@@ -114,7 +119,6 @@ void GameObject::SetScale(const float pScale)
 void GameObject::SetPosition(const Vector2 pPosition)
 {
 	position = pPosition;
-	previousPosition = pPosition;
 }
 
 void GameObject::SetOrigin(const Vector2 pOrigin)

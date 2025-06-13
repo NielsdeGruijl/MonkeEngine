@@ -1,4 +1,8 @@
 ﻿  PerformanceTestScene.cpp
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(32,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(32,43): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(18,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(20,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(21,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(37,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(37,43): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(56,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   CPP_Framework.vcxproj -> C:\School\Tools\CPP_Framework_Repo\CPP_Framework\Debug\CPP_Framework.exe

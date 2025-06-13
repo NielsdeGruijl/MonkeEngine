@@ -8,7 +8,7 @@ PerformanceTestScene::PerformanceTestScene()
 	int totalObjects = 10;
 
 	int rows = 10;
-	int columns = 50;
+	int columns = 40;
 
 	float scale = .3f;
 
@@ -30,13 +30,17 @@ PerformanceTestScene::PerformanceTestScene()
 		{
 			std::ostringstream oss;
 			objectId++;
-			oss << "LeftObject" << objectId;
+			oss << "Object" << objectId;
 			moveDirection *= -1;
 
 			std::shared_ptr<LeftObject> leftObject = std::make_shared<LeftObject>(this, oss.str());
 			leftObject->SetPosition(Vector2(xStart + (j * xOffset), yStart + (i * yOffset)));
 			leftObject->moveDirection = moveDirection;
 			leftObject->SetScale(scale);
+			std::shared_ptr<SpriteRenderer> sprite = leftObject->GetComponent<SpriteRenderer>();
+			sprite->SetPosition(leftObject->position);
+
+			std::cout << leftObject->position.printVector();
 
 			objects.push_back(leftObject);
 
@@ -72,12 +76,12 @@ void PerformanceTestScene::Update()
 		Timer timer;
 		for (std::shared_ptr<LeftObject> rb : objects)
 		{
-			rb->moveSpeed = 3;
+			rb->moveSpeed = 1.5f;
 		}
 	}
 
-	for (std::shared_ptr<LeftObject> rb : objects)
-	{
-		//std::cout << rb->position.printVector();
-	}
+	//for (std::shared_ptr<LeftObject> rb : objects)
+	//{
+	//	std::cout << rb->position.printVector();
+	//}
 }

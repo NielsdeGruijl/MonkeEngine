@@ -1,13 +1,30 @@
-﻿  PerformanceTestScene.cpp
+﻿  TwoDimensionalSAP.cpp
+  Game.cpp
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\TestData.h(62,24): warning C4018: '<': signed/unsigned mismatch
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\TestData.h(80,24): warning C4018: '<': signed/unsigned mismatch
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Core\Game.cpp(22,54): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Core\Game.cpp(47,54): warning C4244: 'argument': conversion from 'sf::Int64' to 'int', possible loss of data
+  Scene.cpp
+  SceneManager.cpp
+  Main.cpp
+  GameObject.cpp
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Objects\GameObject.cpp(11,27): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Objects\GameObject.cpp(11,17): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+  CollisionTestScene.cpp
+  PerformanceTestScene.cpp
 C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(18,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
 C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(20,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(21,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(37,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(37,43): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(52,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(56,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Generating code
-  1 of 1820 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+  42 of 1824 functions ( 2.3%) were compiled, the rest were copied from previous compilation.
+    3 functions were new in current compilation
+    63 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   CPP_Framework.vcxproj -> C:\School\Tools\CPP_Framework_Repo\CPP_Framework\Release\CPP_Framework.exe

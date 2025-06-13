@@ -70,11 +70,13 @@ void Game::Run()
 		{
 			scene->CleanUpObjects();
 			
+			int fixedUpdateCalls = 0;
 			accumulator += deltaTime;
-			if (accumulator >= fixedDeltaTime)
+			while (accumulator >= fixedDeltaTime)
 			{
 				scene->FixedUpdate();
 				accumulator -= fixedDeltaTime;
+				fixedUpdateCalls++;
 			}
 
 			scene->Update();
