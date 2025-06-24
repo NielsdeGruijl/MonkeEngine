@@ -1,8 +1,13 @@
-﻿  PerformanceTestScene.cpp
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(18,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(20,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(21,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(37,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(37,43): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Testing\PerformanceTestScene.cpp(56,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+﻿  SpatialGrid.cpp
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(8,47): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(11,48): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(13,60): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(13,57): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(22,19): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(22,32): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(55,20): warning C4018: '<': signed/unsigned mismatch
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(68,16): warning C4018: '>': signed/unsigned mismatch
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(68,44): warning C4018: '>': signed/unsigned mismatch
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(100,20): warning C4018: '<': signed/unsigned mismatch
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(102,21): warning C4018: '<': signed/unsigned mismatch
   CPP_Framework.vcxproj -> C:\School\Tools\CPP_Framework_Repo\CPP_Framework\Debug\CPP_Framework.exe

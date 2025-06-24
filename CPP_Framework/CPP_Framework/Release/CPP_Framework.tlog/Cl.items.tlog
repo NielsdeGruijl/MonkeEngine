@@ -3,6 +3,8 @@ C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisi
 C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\CollisionChecker.cpp;C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\CollisionChecker.obj
 C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\CollisionPair.cpp;C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\CollisionPair.obj
 C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\EdgePoint.cpp;C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\EdgePoint.obj
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp;C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\SpatialGrid.obj
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialNode.cpp;C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\SpatialNode.obj
 C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SweepAndPrune.cpp;C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\SweepAndPrune.obj
 C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\TwoDimensionalSAP.cpp;C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\TwoDimensionalSAP.obj
 C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Components\Component.cpp;C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\Component.obj

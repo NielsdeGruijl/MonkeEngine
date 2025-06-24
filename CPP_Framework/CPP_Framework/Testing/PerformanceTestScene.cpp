@@ -8,7 +8,7 @@ PerformanceTestScene::PerformanceTestScene()
 	int totalObjects = 10;
 
 	int rows = 10;
-	int columns = 40;
+	int columns = 20;
 
 	float scale = .3f;
 

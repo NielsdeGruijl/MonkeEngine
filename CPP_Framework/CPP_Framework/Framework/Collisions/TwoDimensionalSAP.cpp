@@ -12,6 +12,27 @@ void TwoDimensionalSAP::RegisterCollider(std::shared_ptr<AABBCollider> pCollider
 	colliderId++;
 }
 
+void TwoDimensionalSAP::RegisterColliders(std::vector<std::shared_ptr<AABBCollider>> pColliders)
+{
+	xEdges.clear();
+	yEdges.clear();
+	colliders.clear();
+
+	colliderId = 0;
+	for (std::shared_ptr<AABBCollider> collider : pColliders)
+	{
+		xEdges.push_back(EdgePoint(colliderId, &collider->left, true));
+		xEdges.push_back(EdgePoint(colliderId, &collider->right, false));
+		yEdges.push_back(EdgePoint(colliderId, &collider->top, true));
+		yEdges.push_back(EdgePoint(colliderId, &collider->bottom, false));
+		colliders.push_back(collider);
+
+		colliderId++;
+	}
+
+	Sweep();
+}
+
 void TwoDimensionalSAP::Sweep()
 {
 	xCollisions.clear();

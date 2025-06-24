@@ -10,6 +10,7 @@ GameObject::GameObject(Scene* pScene, std::string ID)
 {
 	size = Vector2(unitSize, unitSize);
 	SetOrigin(Vector2(0.5f, 0.5f));
+	grid = &scene->grid;
 }
 
 GameObject::~GameObject()
@@ -56,9 +57,6 @@ void GameObject::Start()
 
 void GameObject::FixedUpdate()
 {
-	//if (GetID() == "Object25")
-	//	std::cout << position.printVector();
-
 	previousPosition = position;
 
 	for (std::shared_ptr<Component> component : physicsComponents)
@@ -124,6 +122,10 @@ void GameObject::SetPosition(const Vector2 pPosition)
 void GameObject::SetOrigin(const Vector2 pOrigin)
 {
 	origin = size * pOrigin;
+}
+
+void GameObject::UpdateGridCell()
+{
 }
 
 void GameObject::SetCollisionEvents()

@@ -3,7 +3,6 @@
 #include "../Math/Vector2.h"
 #include "../Components/Component.h"
 #include "../Events/Event.h"
-//#include "../Objects/GameObject.h"
 
 class GameObject;
 

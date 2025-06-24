@@ -1,3 +1,4 @@
+#pragma once
 #include "EdgePoint.h"
 #include "CollisionChecker.h"
 
@@ -15,6 +16,7 @@ public:
 	CollisionChecker collisionChecker;
 
 	void RegisterCollider(std::shared_ptr<AABBCollider> pCollider);
+	void RegisterColliders(std::vector<std::shared_ptr<AABBCollider>> pColliders);
 	void Sweep();
 
 	void SweepX();

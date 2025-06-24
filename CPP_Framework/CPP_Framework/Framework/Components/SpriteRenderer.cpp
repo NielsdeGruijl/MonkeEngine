@@ -38,12 +38,12 @@ void SpriteRenderer::Update()
 		//Vector2 renderPosition = object->previousPosition.Lerp(object->position, lerpTime);
 		SetPosition(renderPosition);
 
-		if (object->GetID() == "Object25")
-		{
-			//std::cout << "sprite: " << (object->position - renderPosition).printVector();
-			//std::cout << "object: " << object->position.printVector();
-			std::cout << accumulator << "\n";
-		}
+		//if (object->GetID() == "Object25")
+		//{
+		//	//std::cout << "sprite: " << (object->position - renderPosition).printVector();
+		//	//std::cout << "object: " << object->position.printVector();
+		//	std::cout << accumulator << "\n";
+		//}
 	}
 
 

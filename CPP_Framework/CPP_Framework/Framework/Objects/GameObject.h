@@ -10,6 +10,7 @@
 
 #include "../Components/Component.h"
 #include "../Components/RigidBody.h"
+#include "../Collisions/SpatialGrid.h"
 
 
 class Scene;
@@ -18,6 +19,7 @@ class AABBCollider;
 class GameObject : public std::enable_shared_from_this<GameObject>
 {
 public:
+
 	Vector2 origin;
 	Vector2 previousPosition;
 	Vector2 position;
@@ -39,6 +41,8 @@ public:
 	void SetScale(const float pScale);
 	void SetPosition(const Vector2 pPosition);
 	void SetOrigin(const Vector2 pOrigin);
+
+	void UpdateGridCell();
 
 	void SetCollisionEvents();
 
@@ -117,6 +121,7 @@ protected:
 	std::vector<std::shared_ptr<Component>> physicsComponents;
 
 	Scene* scene;
+	SpatialGrid* grid;
 
 protected:
 	virtual void OnCollisionEnter(GameObject* object);

@@ -159,8 +159,8 @@ void RigidBody::Move()
 	if (yConstraint)
 		velocity = Vector2(velocity.x, 0);
 
-	object->previousPosition = object->position;
 	object->position = object->position + velocity * fixedDeltaTime * (float)unitSize;
+	object->UpdateGridCell();
 }
 
 void RigidBody::CalculateDrag()

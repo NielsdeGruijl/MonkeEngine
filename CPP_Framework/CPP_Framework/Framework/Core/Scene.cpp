@@ -25,7 +25,11 @@ void Scene::FixedUpdate()
 
 	//sweepAndPrune.Sweep();
 
-	twoDimensionalSAP.Sweep();
+	//twoDimensionalSAP.Sweep();
+
+	grid.UpdateGridCell();
+
+	grid.CheckCollisions(&twoDimensionalSAP);
 }
 
 void Scene::Update()
@@ -51,11 +55,14 @@ void Scene::Load()
 {
 	isLoaded = true;
 
+	grid.GenerateGrid();
+
 	for (std::shared_ptr<GameObject> object : sharedObjects)
 	{
 		object->OnLoad();
 		
-		RegisterCollider(object.get());
+		grid.SetGridCell(object->GetComponent<AABBCollider>(), Vector2(int(object->position.x / grid.nodeSize.x), int(object->position.y / grid.nodeSize.y)));
+		//RegisterCollider(object.get());
 
 		object->Start();
 	}

@@ -24,6 +24,8 @@
     <ClCompile Include="Framework\Collisions\CollisionChecker.cpp" />
     <ClCompile Include="Framework\Collisions\CollisionPair.cpp" />
     <ClCompile Include="Framework\Collisions\EdgePoint.cpp" />
+    <ClCompile Include="Framework\Collisions\SpatialGrid.cpp" />
+    <ClCompile Include="Framework\Collisions\SpatialNode.cpp" />
     <ClCompile Include="Framework\Collisions\SweepAndPrune.cpp" />
     <ClCompile Include="Framework\Collisions\TwoDimensionalSAP.cpp" />
     <ClCompile Include="Framework\Components\Component.cpp" />
@@ -51,6 +53,8 @@
     <ClInclude Include="Framework\Collisions\CollisionChecker.h" />
     <ClInclude Include="Framework\Collisions\CollisionPair.h" />
     <ClInclude Include="Framework\Collisions\EdgePoint.h" />
+    <ClInclude Include="Framework\Collisions\SpatialGrid.h" />
+    <ClInclude Include="Framework\Collisions\SpatialNode.h" />
     <ClInclude Include="Framework\Collisions\SweepAndPrune.h" />
     <ClInclude Include="Framework\Collisions\TwoDimensionalSAP.h" />
     <ClInclude Include="Framework\Components\Component.h" />
