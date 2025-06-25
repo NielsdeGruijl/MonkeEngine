@@ -11,12 +11,12 @@
 #include "../Collisions/BruteForce.h"
 #include "../Collisions/SweepAndPrune.h"
 #include "../Collisions/TwoDimensionalSAP.h"
-#include "../Collisions/SpatialGrid.h"
+//#include "../Collisions/SpatialGrid.h"
 
 class Scene
 {
 public:
-	SpatialGrid grid;
+	//SpatialGrid grid;
 
 public:
 	Scene();

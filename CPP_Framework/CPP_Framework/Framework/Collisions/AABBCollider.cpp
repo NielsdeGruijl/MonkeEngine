@@ -20,6 +20,14 @@ AABBCollider::~AABBCollider()
 	Component::~Component();
 }
 
+void AABBCollider::OnLoad()
+{
+	Component::OnLoad();
+	Vector2 size = object->GetSize();
+	circleRadius = 0.5f * sqrt(size.x * size.x + size.y * size.y) - 10;
+	std::cout << circleRadius << "\n";
+}
+
 void AABBCollider::Update()
 {
 	Component::Update();

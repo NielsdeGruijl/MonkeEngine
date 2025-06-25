@@ -121,7 +121,6 @@ protected:
 	std::vector<std::shared_ptr<Component>> physicsComponents;
 
 	Scene* scene;
-	SpatialGrid* grid;
 
 protected:
 	virtual void OnCollisionEnter(GameObject* object);

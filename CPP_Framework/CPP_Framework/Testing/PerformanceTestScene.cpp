@@ -8,7 +8,7 @@ PerformanceTestScene::PerformanceTestScene()
 	int totalObjects = 10;
 
 	int rows = 10;
-	int columns = 20;
+	int columns = 80;
 
 	float scale = .3f;
 
@@ -20,8 +20,8 @@ PerformanceTestScene::PerformanceTestScene()
 	int xStart = 960 - (gridWidth * 0.5f);
 	int yStart = yOffset * 0.5f;
 
-	std::cout << xStart << "\n";
-	std::cout << gridWidth << "\n";
+	//std::cout << xStart << "\n";
+	//std::cout << gridWidth << "\n";
 
 	for (int i = 0; i < rows; i++)
 	{
@@ -40,8 +40,6 @@ PerformanceTestScene::PerformanceTestScene()
 			std::shared_ptr<SpriteRenderer> sprite = leftObject->GetComponent<SpriteRenderer>();
 			sprite->SetPosition(leftObject->position);
 
-			std::cout << leftObject->position.printVector();
-
 			objects.push_back(leftObject);
 
 			if(j % 2 == 0)
@@ -52,15 +50,15 @@ PerformanceTestScene::PerformanceTestScene()
 	}
 
 	std::shared_ptr<GameObject> leftBoundary = std::make_shared<GameObject>(this, "LeftBoundary");
-	leftBoundary->SetScale(Vector2(10, 100));
-	leftBoundary->SetPosition(Vector2(xStart - 499 - xOffset, 540));
+	leftBoundary->SetScale(Vector2(1, 11));
+	leftBoundary->SetPosition(Vector2(xStart - 49 - xOffset, 540));
 	leftBoundary->AddComponent<AABBCollider>(leftBoundary.get(), &leftBoundary->position);
 	leftBoundary->AddComponent<SpriteRenderer>(leftBoundary.get(), "Cat.jpg", 236);
 	AddObject(leftBoundary);
 
 	std::shared_ptr<GameObject> rightBoundary = std::make_shared<GameObject>(this, "RightBoundary");
-	rightBoundary->SetScale(Vector2(10, 100));
-	rightBoundary->SetPosition(Vector2(xStart + gridWidth + 499, 540));
+	rightBoundary->SetScale(Vector2(1, 11));
+	rightBoundary->SetPosition(Vector2(xStart + gridWidth + 49, 540));
 	rightBoundary->AddComponent<AABBCollider>(rightBoundary.get(), &rightBoundary->position);
 	rightBoundary->AddComponent<SpriteRenderer>(rightBoundary.get(), "Cat.jpg", 236);
 	AddObject(rightBoundary);
@@ -76,7 +74,7 @@ void PerformanceTestScene::Update()
 		Timer timer;
 		for (std::shared_ptr<LeftObject> rb : objects)
 		{
-			rb->moveSpeed = 1.5f;
+			//rb->moveSpeed = 1.5f;
 		}
 	}
 

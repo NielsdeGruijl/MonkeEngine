@@ -9,6 +9,7 @@ class LeftObject : public GameObject
 public:
 	LeftObject(Scene* pScene, std::string pObjectId);
 
+	void OnLoad() override;
 	void Update() override;
 	void FixedUpdate() override;
 

@@ -1,13 +1,6 @@
-﻿  SpatialGrid.cpp
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(8,47): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(11,48): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(13,60): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(13,57): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(22,19): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(22,32): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(55,20): warning C4018: '<': signed/unsigned mismatch
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(68,16): warning C4018: '>': signed/unsigned mismatch
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(68,44): warning C4018: '>': signed/unsigned mismatch
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(100,20): warning C4018: '<': signed/unsigned mismatch
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\SpatialGrid.cpp(102,21): warning C4018: '<': signed/unsigned mismatch
+﻿  AABBCollider.cpp
+  TwoDimensionalSAP.cpp
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\TwoDimensionalSAP.cpp(27,20): warning C4018: '<': signed/unsigned mismatch
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\TwoDimensionalSAP.cpp(33,26): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
   CPP_Framework.vcxproj -> C:\School\Tools\CPP_Framework_Repo\CPP_Framework\Debug\CPP_Framework.exe

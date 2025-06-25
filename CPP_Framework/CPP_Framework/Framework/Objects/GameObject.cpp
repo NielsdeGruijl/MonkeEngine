@@ -10,7 +10,6 @@ GameObject::GameObject(Scene* pScene, std::string ID)
 {
 	size = Vector2(unitSize, unitSize);
 	SetOrigin(Vector2(0.5f, 0.5f));
-	grid = &scene->grid;
 }
 
 GameObject::~GameObject()

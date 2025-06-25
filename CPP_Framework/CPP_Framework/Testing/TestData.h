@@ -24,32 +24,39 @@ public:
 		//	outData << i << "ms" << ",";
 		//}
 
-		outData << GetAverage() << "us,";
-		outData << GetOnePercentLow() << "us,";
-		outData << GetOnePercentHigh() << "us,";
-		outData << data.size() << " sample size";
+		outData << GetAverage() << "fps,";
+		outData << GetOnePercentLow() << "fps,";
+		outData << GetOnePercentHigh() << "fps";
+		//outData << data.size() << " sample size";
 
 		outData.close();
 	}
 
-	void AddData(int pData)
+	void AddData(float pData)
 	{
 		data.push_back(pData);
 	}
 
-	int GetAverage()
+	float GetAverage()
 	{
-		int total = 0;
+		float total = 0;
 
-		for (int i : data)
+		for (float i : data)
 		{
 			total += i;
+			//std::cout << i << "\n";
 		}
 
-		return total / data.size();
+		//std::cout << total << ", " << data.size() << "\n";
+
+		float frameTime = total / data.size();
+
+		std::cout << frameTime << "\n";
+
+		return 1 / frameTime;
 	}
 
-	int GetOnePercentLow()
+	float GetOnePercentLow()
 	{
 		std::sort(data.begin(), data.end());
 
@@ -58,34 +65,42 @@ public:
 		if (onePercent == 0)
 			onePercent = 1;
 
-		int total = 0;
-		for (size_t i = 0; i < onePercent; i++)
+		float total = 0;
+
+		for (size_t i = data.size() - 1; i > data.size() - onePercent; i--)
 		{
 			total += data[i];
 		}
 
-		return total / onePercent;
+		float frameTime = total / onePercent;
+
+		std::cout << frameTime << "\n";
+
+		return 1 / frameTime;
 	}
 
-	int GetOnePercentHigh()
+	float GetOnePercentHigh()
 	{
-		std::sort(data.begin(), data.end(), std::greater<int>());
-
-		int onePercent = int(data.size() / 100);
+		std::sort(data.begin(), data.end());
+		int onePercent = int(data.size() / 1000);
 
 		if (onePercent == 0)
 			onePercent = 1;
 
-		int total = 0;
-		for (size_t i = 0; i < onePercent; i++)
+		float total = 0;
+		for (size_t i = data.size() - 1; i > data.size() - onePercent - 1; i--)
 		{
 			total += data[i];
 		}
 
-		return total / onePercent;
+		float frameTime = total / onePercent;
+
+		std::cout << frameTime << "\n";
+
+		return 1 / frameTime;
 	}
 
 private:
-	std::vector<int> data;
+	std::vector<float> data;
 	std::ofstream outData;
 };

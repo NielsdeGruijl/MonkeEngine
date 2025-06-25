@@ -37,14 +37,22 @@ void Game::Run()
 	sf::Clock timeClock;
 	sf::Clock gameTime;
 
+	int framesRendered = 0;
+
 	//renderWindow.setFramerateLimit(144);
 	renderWindow.setVerticalSyncEnabled(false);
 	while (renderWindow.isOpen())
 	{
-		if (gameTime.getElapsedTime().asSeconds() > 30)
+		if (framesRendered >= 1000)
+		{
+			std::cout << framesRendered << "\n";
 			renderWindow.close();
+		}
 
-		testData.AddData(timeClock.restart().asMicroseconds());
+		float time = timeClock.restart().asSeconds();
+		//std::cout << time << "\n";
+
+		testData.AddData(time);
 
 		while (renderWindow.pollEvent(event))
 		{
@@ -72,11 +80,13 @@ void Game::Run()
 			
 			int fixedUpdateCalls = 0;
 			accumulator += deltaTime;
-			while (accumulator >= fixedDeltaTime)
+
+			while (accumulator >= fixedDeltaTime && fixedUpdateCalls < 3)
 			{
 				scene->FixedUpdate();
 				accumulator -= fixedDeltaTime;
 				fixedUpdateCalls++;
+				framesRendered++;
 			}
 
 			scene->Update();

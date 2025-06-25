@@ -25,11 +25,15 @@ void Scene::FixedUpdate()
 
 	//sweepAndPrune.Sweep();
 
+	sweepAndPrune.SweepPhase();
+
 	//twoDimensionalSAP.Sweep();
 
-	grid.UpdateGridCell();
+	//twoDimensionalSAP.RegisterColliders();
 
-	grid.CheckCollisions(&twoDimensionalSAP);
+	//grid.UpdateGridCell();
+	//
+	//grid.CheckCollisions(&twoDimensionalSAP);
 }
 
 void Scene::Update()
@@ -55,14 +59,14 @@ void Scene::Load()
 {
 	isLoaded = true;
 
-	grid.GenerateGrid();
+	//grid.GenerateGrid();
 
 	for (std::shared_ptr<GameObject> object : sharedObjects)
 	{
 		object->OnLoad();
 		
-		grid.SetGridCell(object->GetComponent<AABBCollider>(), Vector2(int(object->position.x / grid.nodeSize.x), int(object->position.y / grid.nodeSize.y)));
-		//RegisterCollider(object.get());
+		//grid.SetGridCell(object->GetComponent<AABBCollider>(), Vector2(int(object->position.x / grid.nodeSize.x), int(object->position.y / grid.nodeSize.y)));
+		RegisterCollider(object.get());
 
 		object->Start();
 	}
@@ -96,14 +100,14 @@ void Scene::RegisterCollider(GameObject* object)
 	//	bruteForce.RegisterCollider(collider);
 	
 	// ======== Sweep and prune system ==========
-	//std::shared_ptr<AABBCollider> collider;
-	//if (object->TryGetComponent<AABBCollider>(collider))
-	//	sweepAndPrune.RegisterCollider(collider);
-
-	// ======== 2D Sweep and prune system ==========
 	std::shared_ptr<AABBCollider> collider;
 	if (object->TryGetComponent<AABBCollider>(collider))
-		twoDimensionalSAP.RegisterCollider(collider);
+		sweepAndPrune.RegisterCollider(collider);
+
+	// ======== 2D Sweep and prune system ==========
+	//std::shared_ptr<AABBCollider> collider;
+	//if (object->TryGetComponent<AABBCollider>(collider))
+	//	twoDimensionalSAP.RegisterCollider(collider);
 }
 
 void Scene::RegisterSprite(GameObject* pObject)

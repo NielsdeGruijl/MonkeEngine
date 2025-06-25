@@ -58,8 +58,8 @@ void SpatialGrid::UpdateGridCell()
 		{
 			for (int j = node.colliders.size(); j > 0; j--)
 			{
-				if (node == columns[2][0])
-					std::cout << node.colliders.size() << ", " << "\n";
+				//if (node == columns[2][0])
+					//std::cout << node.colliders.size() << ", " << "\n";
 
 				std::shared_ptr<AABBCollider> collider = node.colliders[j - 1].lock();
 				int column = int(collider->position->x / nodeSize.x);
@@ -67,7 +67,7 @@ void SpatialGrid::UpdateGridCell()
 
 				if (column > columns.size() - 1 || row > columns[column].size() - 1)
 				{
-					std::cout << column << ", " << row << "\n";
+					//std::cout << column << ", " << row << "\n";
 					continue;
 				}
 
@@ -77,7 +77,7 @@ void SpatialGrid::UpdateGridCell()
 				}
 				else
 				{
-					std::cout << node.colliders.size() << ", ";
+					//std::cout << node.colliders.size() << ", ";
 					node.colliders.erase(
 						std::find_if(node.colliders.begin(), node.colliders.end(), [collider](std::weak_ptr<AABBCollider> other)
 							{
@@ -85,7 +85,7 @@ void SpatialGrid::UpdateGridCell()
 							}),
 						node.colliders.end());
 
-					std::cout << node.colliders.size() << "\n";
+					//std::cout << node.colliders.size() << "\n";
 
 					columns[column][row].colliders.push_back(collider);
 				}
@@ -101,7 +101,7 @@ void SpatialGrid::CheckCollisions(TwoDimensionalSAP* pSap)
 	{
 		for (int j = 0; j < columns[i].size(); j += 2)
 		{
-			pSap->RegisterColliders(SweepGridCell(i, j));
+			//pSap->RegisterColliders(SweepGridCell(i, j));
 		}
 	}
 }

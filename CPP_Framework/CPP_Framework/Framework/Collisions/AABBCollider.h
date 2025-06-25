@@ -29,11 +29,13 @@ public:
 	bool isDynamic;
 
 	float left, right, top, bottom;
+	float circleRadius;
 
 public:
 	AABBCollider(GameObject* pObject, Vector2* pPosition);
 	~AABBCollider();
 
+	void OnLoad() override;
 	void Update() override;
 
 	void UpdateBounds();

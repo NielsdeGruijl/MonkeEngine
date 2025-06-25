@@ -4,13 +4,19 @@
 LeftObject::LeftObject(Scene* pScene, std::string pObjectId)
 	: GameObject(pScene, pObjectId)
 {
-	moveSpeed = 0;
+	moveSpeed = 1.5f;
 
 	rigidBody = AddComponent<RigidBody>(this);
 	rigidBody->gravity = 0;
 	rigidBody->bounciness = 1;
 
 	AddComponent<SpriteRenderer>(this, "BlueSlime.png");
+}
+
+void LeftObject::OnLoad()
+{
+	GameObject::OnLoad();
+
 }
 
 void LeftObject::Update()
