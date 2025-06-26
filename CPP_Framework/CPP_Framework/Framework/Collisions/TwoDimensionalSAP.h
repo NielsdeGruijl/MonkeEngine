@@ -20,11 +20,10 @@ public:
 	CollisionChecker collisionChecker;
 
 	void RegisterCollider(std::shared_ptr<AABBCollider> pCollider);
-	void RegisterColliders();
-	void Sweep();
+	void Sweep(std::vector<int> pColliderIds);
 
-	void SweepX();
-	void SweepY();
+	void SweepX(std::vector<int> pColliderIds);
+	void SweepY(std::vector<int> pColliderIds);
 
 	int colliderId;
 };

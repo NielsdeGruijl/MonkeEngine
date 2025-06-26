@@ -11,13 +11,10 @@
 #include "../Collisions/BruteForce.h"
 #include "../Collisions/SweepAndPrune.h"
 #include "../Collisions/TwoDimensionalSAP.h"
-//#include "../Collisions/SpatialGrid.h"
+#include "../Collisions/CoarseProximityTest.h"
 
 class Scene
 {
-public:
-	//SpatialGrid grid;
-
 public:
 	Scene();
 	~Scene();
@@ -44,6 +41,7 @@ protected:
 	std::vector<std::shared_ptr<GameObject>> sharedObjects;
 	std::vector<std::shared_ptr<GameObject>> sharedObjectsToDelete;
 
+	CoarseProximityTest coarseProximityTest;
 	BruteForce bruteForce;
 	SweepAndPrune sweepAndPrune;
 	TwoDimensionalSAP twoDimensionalSAP;

@@ -1,5 +1,6 @@
 C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\AABBCollider.cpp;C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\AABBCollider.obj
 C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\BruteForce.cpp;C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\BruteForce.obj
+C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\CoarseProximityTest.cpp;C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\CoarseProximityTest.obj
 C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\CollisionChecker.cpp;C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\CollisionChecker.obj
 C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\CollisionPair.cpp;C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\CollisionPair.obj
 C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\EdgePoint.cpp;C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Release\EdgePoint.obj

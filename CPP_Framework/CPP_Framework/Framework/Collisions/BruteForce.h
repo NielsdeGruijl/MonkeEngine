@@ -1,15 +1,12 @@
+#pragma once
 #include "AABBCollider.h"
 #include "CollisionChecker.h"
 
 class BruteForce
 {
 public:
-	void RegisterCollider(std::shared_ptr<AABBCollider> pCollider);
-	void CheckCollisions();
-
-private:
-	void SortColliders();
-	void RemoveExpiredReferences();
+	void RegisterCollider(std::weak_ptr<AABBCollider> pCollider);
+	void CheckCollisions(std::vector<int> pColliderIndexes);
 
 public:
 	CollisionChecker collisionChecker;

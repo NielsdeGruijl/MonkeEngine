@@ -1,3 +1,4 @@
+#pragma once
 #include "CollisionChecker.h"
 #include "AABBCollider.h"
 #include "../Components/RigidBody.h"
@@ -7,10 +8,9 @@
 class SweepAndPrune
 {
 public:
-	void Sweep();
+	void Sweep(std::vector<int> pColliderIndexes);
 	void Prune(int pColliderId);
 	void RegisterCollider(std::shared_ptr<AABBCollider> pCollider);
-	void SweepPhase();
 	void SortEdgePoints();
 	void RemoveTouchingCollider(int pColliderId);
 

@@ -5,10 +5,8 @@ PerformanceTestScene::PerformanceTestScene()
 {
 	int objectId = 0;
 
-	int totalObjects = 10;
-
 	int rows = 10;
-	int columns = 80;
+	int columns = 50;
 
 	float scale = .3f;
 
@@ -19,9 +17,6 @@ PerformanceTestScene::PerformanceTestScene()
 
 	int xStart = 960 - (gridWidth * 0.5f);
 	int yStart = yOffset * 0.5f;
-
-	//std::cout << xStart << "\n";
-	//std::cout << gridWidth << "\n";
 
 	for (int i = 0; i < rows; i++)
 	{
@@ -62,24 +57,4 @@ PerformanceTestScene::PerformanceTestScene()
 	rightBoundary->AddComponent<AABBCollider>(rightBoundary.get(), &rightBoundary->position);
 	rightBoundary->AddComponent<SpriteRenderer>(rightBoundary.get(), "Cat.jpg", 236);
 	AddObject(rightBoundary);
-}
-
-void PerformanceTestScene::Update()
-{
-	Scene::Update();
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !started)
-	{
-		started = true;
-		Timer timer;
-		for (std::shared_ptr<LeftObject> rb : objects)
-		{
-			//rb->moveSpeed = 1.5f;
-		}
-	}
-
-	//for (std::shared_ptr<LeftObject> rb : objects)
-	//{
-	//	std::cout << rb->position.printVector();
-	//}
 }

@@ -12,8 +12,6 @@ struct Collision
 
 		remainingTime = 1 + collisionTime;
 
-		//std::cout << normal.printVector();
-
 		if (isnan(pCollisionTime))
 		{
 			collisionTime = 0;

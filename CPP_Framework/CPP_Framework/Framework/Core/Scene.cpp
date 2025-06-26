@@ -21,19 +21,11 @@ void Scene::FixedUpdate()
 		sharedObjects[i]->FixedUpdate();
 	}
 
-	//bruteForce.CheckCollisions();
+	coarseProximityTest.MSAP();
 
-	//sweepAndPrune.Sweep();
+	//coarseProximityTest.SAP();
 
-	sweepAndPrune.SweepPhase();
-
-	//twoDimensionalSAP.Sweep();
-
-	//twoDimensionalSAP.RegisterColliders();
-
-	//grid.UpdateGridCell();
-	//
-	//grid.CheckCollisions(&twoDimensionalSAP);
+	//coarseProximityTest.BruteForce();
 }
 
 void Scene::Update()
@@ -59,13 +51,14 @@ void Scene::Load()
 {
 	isLoaded = true;
 
-	//grid.GenerateGrid();
+	coarseProximityTest.bruteForce = &bruteForce;
+	coarseProximityTest.sweepAndPrune = &sweepAndPrune;
+	coarseProximityTest.multiSweepAndPrune = &twoDimensionalSAP;
 
 	for (std::shared_ptr<GameObject> object : sharedObjects)
 	{
 		object->OnLoad();
 		
-		//grid.SetGridCell(object->GetComponent<AABBCollider>(), Vector2(int(object->position.x / grid.nodeSize.x), int(object->position.y / grid.nodeSize.y)));
 		RegisterCollider(object.get());
 
 		object->Start();
@@ -85,29 +78,15 @@ void Scene::CleanUpObjects()
 
 void Scene::RegisterCollider(GameObject* object)
 {
-	// ======== OLD collisionChecker system ==========
-	//std::shared_ptr<RigidBody> rigidBody;
-	//std::shared_ptr<AABBCollider> collider;
-
-	//if(object->TryGetComponent(rigidBody))
-	//	collisionChecker.AddRigidBody(rigidBody);
-	//else if (object->TryGetComponent(collider))
-	//	collisionChecker.AddCollider(collider);
-
-	// ======== Brute force system ==========
-	//std::shared_ptr<AABBCollider> collider;
-	//if (object->TryGetComponent<AABBCollider>(collider))
-	//	bruteForce.RegisterCollider(collider);
-	
-	// ======== Sweep and prune system ==========
+	// ======== Coarse proximity pest ==========
 	std::shared_ptr<AABBCollider> collider;
 	if (object->TryGetComponent<AABBCollider>(collider))
+	{
+		coarseProximityTest.RegisterCollider(collider);
+		bruteForce.RegisterCollider(collider);
 		sweepAndPrune.RegisterCollider(collider);
-
-	// ======== 2D Sweep and prune system ==========
-	//std::shared_ptr<AABBCollider> collider;
-	//if (object->TryGetComponent<AABBCollider>(collider))
-	//	twoDimensionalSAP.RegisterCollider(collider);
+		twoDimensionalSAP.RegisterCollider(collider);
+	}
 }
 
 void Scene::RegisterSprite(GameObject* pObject)

@@ -81,7 +81,7 @@ void Game::Run()
 			int fixedUpdateCalls = 0;
 			accumulator += deltaTime;
 
-			while (accumulator >= fixedDeltaTime && fixedUpdateCalls < 3)
+			while (accumulator >= fixedDeltaTime /*&& fixedUpdateCalls < 3*/)
 			{
 				scene->FixedUpdate();
 				accumulator -= fixedDeltaTime;

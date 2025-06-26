@@ -1,6 +1,1 @@
-﻿  AABBCollider.cpp
-  TwoDimensionalSAP.cpp
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\TwoDimensionalSAP.cpp(27,20): warning C4018: '<': signed/unsigned mismatch
-C:\School\Tools\CPP_Framework_Repo\CPP_Framework\CPP_Framework\Framework\Collisions\TwoDimensionalSAP.cpp(33,26): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-  CPP_Framework.vcxproj -> C:\School\Tools\CPP_Framework_Repo\CPP_Framework\Debug\CPP_Framework.exe
+﻿  CPP_Framework.vcxproj -> C:\School\Tools\CPP_Framework_Repo\CPP_Framework\Debug\CPP_Framework.exe
