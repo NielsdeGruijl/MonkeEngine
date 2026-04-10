@@ -3,6 +3,7 @@
 
 #pragma once
 #include <iostream>
+#include <memory>
 #include <SFML/Graphics.hpp>
 
 #include "../Math/Vector2.h"

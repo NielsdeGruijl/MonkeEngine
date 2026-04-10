@@ -38,6 +38,4 @@ struct Vector2
 	Vector2 operator=(const Vector2 v2);
 	bool operator==(const Vector2 v2);
 	bool operator!=(const Vector2 v2);
-
-	__declspec(property(get = Normalized)) Vector2 normalized;
 };

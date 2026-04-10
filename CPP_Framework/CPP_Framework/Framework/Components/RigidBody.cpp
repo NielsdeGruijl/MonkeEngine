@@ -74,7 +74,7 @@ void RigidBody::HandleCollision(Collision collision)
 
 	if (velocity.GetLength() > 0)
 	{
-		Vector2 positionAdjustment = velocity.normalized * collision.collisionTime;
+		Vector2 positionAdjustment = velocity.Normalized() * collision.collisionTime;
 		Vector2 newPos = object->position + positionAdjustment;
 		object->SetPosition(newPos);
 	}
@@ -88,7 +88,7 @@ void RigidBody::HandleCollision(Collision collision)
 	if (friction > 0 && velocity.GetLength() > 0)
 	{
 		float tFriction = (velocity.GetLength() * velocity.GetLength()) * friction;
-		Vector2 frictionVector = velocity.normalized * tFriction * deltaTime;
+		Vector2 frictionVector = velocity.Normalized() * tFriction * deltaTime;
 		AddForce(frictionVector * -1);
 	}
 }
@@ -141,7 +141,7 @@ void RigidBody::Move()
 void RigidBody::CalculateDrag()
 {
 	float tDrag = velocity.GetLength() * drag;
-	dragForce = velocity.normalized * tDrag * deltaTime;
+	dragForce = velocity.Normalized() * tDrag * deltaTime;
 
 	if (velocity.GetLength() <= 0.001f)
 		velocity = Vector2(0, 0);

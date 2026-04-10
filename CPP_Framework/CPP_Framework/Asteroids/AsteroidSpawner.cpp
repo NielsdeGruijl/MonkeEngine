@@ -1,4 +1,5 @@
 #pragma once
+#include <random>
 #include "AsteroidSpawner.h"
 #include "../Framework/Core/Scene.h"
 
@@ -28,7 +29,11 @@ void AsteroidSpawner::Update()
 	
 	if (cooldownTimer.getElapsedTime().asSeconds() > cooldown)
 	{
-		if (std::rand() % 100 < 10)
+		int random = std::rand() % 101;
+
+		std::cout << random << std::endl;
+
+		if (random < 25)
 			SpawnPowerup();
 		else
 			SpawnAsteroid();

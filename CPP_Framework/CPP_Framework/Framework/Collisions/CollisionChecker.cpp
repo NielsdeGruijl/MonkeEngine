@@ -1,5 +1,7 @@
 #include "CollisionChecker.h"
 
+#include <limits>
+
 #include "../Math/Timer.h"
 #include "Collision.h"
 

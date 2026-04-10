@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../Framework/Components/SpriteRenderer.h"
-#include "../../Framework/objects/GameObject.h"
+#include "../../Framework/Objects/GameObject.h"
 
 class BasePowerup : public Component
 {

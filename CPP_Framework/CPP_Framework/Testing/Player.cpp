@@ -38,7 +38,7 @@ void Player::Update()
 	inputMoveDirection = Vector2((float)input.GetHorizontalAxis(), (float)input.GetVerticalAxis());
 
 	if (inputMoveDirection.GetLength() > 0)
-		rigidBody->AddForce(inputMoveDirection.normalized * moveSpeed);
+		rigidBody->AddForce(inputMoveDirection.Normalized() * moveSpeed);
 	
 	if (input.GetKeyDown("dash"))
 	{
