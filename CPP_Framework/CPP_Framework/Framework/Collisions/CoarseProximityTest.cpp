@@ -98,7 +98,7 @@ void CoarseProximityTest::SAP()
 	}
 }
 
-void CoarseProximityTest::BruteForce()
+void CoarseProximityTest::BruteForceExecution()
 {
 	SortColliders();
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../FrameWork/Objects/GameObject.h"
+#include "../Framework/Objects/GameObject.h"
 #include "../Framework/Components/RigidBody.h"
 #include "../Framework/Components/SpriteRenderer.h"
 

@@ -79,7 +79,7 @@ void RigidBody::HandleCollision(const Collision& collision)
 
 	if (velocity.GetLength() > 0)
 	{
-		Vector2 normalizedVelocity = velocity.normalized;
+		Vector2 normalizedVelocity = velocity.Normalized();
 		Vector2 positionAdjustment = normalizedVelocity * collision.collisionTime;
 		Vector2 newPos = object->position + positionAdjustment;
 		object->position = newPos;
@@ -88,7 +88,6 @@ void RigidBody::HandleCollision(const Collision& collision)
 		//{
 		//	std::cout << "nan\n";
 		//}
-
 	}
 
 	if (collision.rigidBody == nullptr)
@@ -98,17 +97,15 @@ void RigidBody::HandleCollision(const Collision& collision)
 			velocity *= bounciness * -1;
 			return;
 		}
-		else
-		{
-			float dotProduct = (velocity.x * collision.normal.y + velocity.y * collision.normal.x) * collision.remainingTime;
-			velocity = Vector2(dotProduct * collision.normal.y, dotProduct * collision.normal.x);
-		}
+
+		float dotProduct = (velocity.x * collision.normal.y + velocity.y * collision.normal.x) * collision.remainingTime;
+		velocity = Vector2(dotProduct * collision.normal.y, dotProduct * collision.normal.x);
 	}
 
 	if (friction > 0 && velocity.GetLength() > 0)
 	{
 		float tFriction = (velocity.GetLength() * velocity.GetLength()) * friction;
-		Vector2 frictionVector = velocity.normalized * tFriction * fixedDeltaTime;
+		Vector2 frictionVector = velocity.Normalized() * tFriction * fixedDeltaTime;
 		AddForce(frictionVector * -1);
 	}
 
@@ -166,7 +163,7 @@ void RigidBody::Move()
 void RigidBody::CalculateDrag()
 {
 	float tDrag = velocity.GetLength() * drag;
-	dragForce = velocity.normalized * tDrag * fixedDeltaTime;
+	dragForce = velocity.Normalized() * tDrag * fixedDeltaTime;
 
 	if (velocity.GetLength() <= 0.001f)
 		velocity = Vector2(0, 0);

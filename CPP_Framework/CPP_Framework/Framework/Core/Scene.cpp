@@ -25,7 +25,7 @@ void Scene::FixedUpdate()
 
 	//coarseProximityTest.SAP();
 
-	//coarseProximityTest.BruteForce();
+	//coarseProximityTest.BruteForceExecution();
 }
 
 void Scene::Update()

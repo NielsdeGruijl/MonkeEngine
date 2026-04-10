@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math.h>
+
 #include "../Objects/GameObject.h"
 #include "../Components/RigidBody.h"
 
@@ -12,7 +14,7 @@ struct Collision
 
 		remainingTime = 1 + collisionTime;
 
-		if (isnan(pCollisionTime))
+		if (std::isnan(pCollisionTime))
 		{
 			collisionTime = 0;
 			std::cout << object->GetID() << "\n";

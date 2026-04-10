@@ -19,13 +19,16 @@ void TwoDimensionalSAP::Sweep(std::vector<int> pColliderIds)
 	xCollisions.clear();
 	yCollisions.clear();
 
+	// First "sweeps" to check for collisions on the X-axis
 	SweepX(pColliderIds);
+	// Then "sweeps" to check for collisions on the Y-axis
 	SweepY(pColliderIds);
 
 	for (std::pair<int, int> xCollision : xCollisions)
 	{
 		for (std::pair<int, int> yCollision : yCollisions)
 		{
+			// If a collision "pair" from the X-axis collisions also exists on the Y-axis collisions, it's a full collision
 			if ((xCollision.first == yCollision.first && xCollision.second == yCollision.second) ||
 				(xCollision.second == yCollision.first && xCollision.first == yCollision.second))
 			{
@@ -62,18 +65,21 @@ void TwoDimensionalSAP::SweepX(std::vector<int> pColliderIds)
 			continue;
 		}
 
-		for (int colliderId : touchingColliders)
+		for (int id : touchingColliders)
 		{
-			if (colliderId == edge.colliderId)
+			if (colliders.size() <= id || colliders.size() <= edge.colliderId)
 				continue;
 
-			if (auto colliderA = colliders.at(colliderId).lock())
+			if (id == edge.colliderId)
+				continue;
+
+			if (auto colliderA = colliders.at(id).lock())
 			{
 				if (auto colliderB = colliders.at(edge.colliderId).lock())
 				{
 					if (colliderA->isDynamic || colliderB->isDynamic)
 					{
-						xCollisions.push_back(std::make_pair(colliderId, edge.colliderId));
+						xCollisions.push_back(std::make_pair(id, edge.colliderId));
 					}
 				}
 			}
@@ -107,9 +113,12 @@ void TwoDimensionalSAP::SweepY(std::vector<int> pColliderIds)
 			continue;
 		}
 
-		for (int colliderId : touchingColliders)
+		for (int id : touchingColliders)
 		{
-			if (auto colliderA = colliders.at(colliderId).lock())
+			if (colliders.size() <= id || colliders.size() <= edge.colliderId)
+				continue;
+
+			if (auto colliderA = colliders.at(id).lock())
 			{
 				if (auto colliderB = colliders.at(edge.colliderId).lock())
 				{
@@ -118,7 +127,7 @@ void TwoDimensionalSAP::SweepY(std::vector<int> pColliderIds)
 
 					if (colliderA->isDynamic || colliderB->isDynamic)
 					{
-						yCollisions.push_back(std::make_pair(colliderId, edge.colliderId));
+						yCollisions.push_back(std::make_pair(id, edge.colliderId));
 					}
 				}
 			}

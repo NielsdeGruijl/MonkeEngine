@@ -25,6 +25,6 @@ public:
 	void SweepX(std::vector<int> pColliderIds);
 	void SweepY(std::vector<int> pColliderIds);
 
-	int colliderId;
+	int colliderId = 0;
 };
 

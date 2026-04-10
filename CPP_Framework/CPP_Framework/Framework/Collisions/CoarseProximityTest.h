@@ -21,7 +21,7 @@ public:
 public:
 	void MSAP();
 	void SAP();
-	void BruteForce();
+	void BruteForceExecution();
 	void RegisterCollider(std::weak_ptr<AABBCollider> pCollider);
 	void SortColliders();
 };

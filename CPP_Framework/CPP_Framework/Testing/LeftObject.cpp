@@ -4,7 +4,7 @@
 LeftObject::LeftObject(Scene* pScene, std::string pObjectId)
 	: GameObject(pScene, pObjectId)
 {
-	moveSpeed = 1.5f;
+	moveSpeed = 0.5f;
 
 	rigidBody = AddComponent<RigidBody>(this);
 	rigidBody->gravity = 0;

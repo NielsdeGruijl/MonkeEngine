@@ -90,7 +90,7 @@ void CollisionChecker::AddCollisionPair(CollisionPair pCollisionPair)
 	{
 		if (auto colliderB = pCollisionPair.colliderB.lock())
 		{
-			if (colliderA->CheckCollision(colliderB))
+			if (colliderA->CheckOverlap(colliderB))
 			{
 				collisionPairs.push_back(pCollisionPair);
 				pCollisionPair.OnEnter();
@@ -202,7 +202,7 @@ void CollisionChecker::CheckCollision(CollisionPair pCollisionPair)
 
 	//std::cout << " ==============================\n";
 
-	if (colliderA->CheckCollision(colliderB))
+	if (colliderA->CheckOverlap(colliderB))
 	{
 		std::shared_ptr<RigidBody> rigidBodyA, rigidBodyB;
 		if (colliderA->object->TryGetComponent<RigidBody>(rigidBodyA))
@@ -440,15 +440,14 @@ void CollisionChecker::VerticalRigidBodyCollision(std::shared_ptr<RigidBody> pRi
 	}
 
 	CollisionVelocityHandling(pRigidBodyA, pRigidBodyB, normal);
-	topRigidBody->HandleCollision(Collision(bottomRigidBody->object, normal, std::move(velocityAdjustmentA)));
-	bottomRigidBody->HandleCollision(Collision(topRigidBody->object, otherNormal, std::move(velocityAdjustmentB)));
+	//topRigidBody->HandleCollision(Collision(bottomRigidBody->object, normal, std::move(velocityAdjustmentA)));
+	//bottomRigidBody->HandleCollision(Collision(topRigidBody->object, otherNormal, std::move(velocityAdjustmentB)));
 }
 
 void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB, Vector2 pNormal)
 {
 	if (pRigidBodyA->bounciness > 0 || pRigidBodyB->bounciness > 0)
 	{
-		//std::cout << pRigidBodyA->velocity.printVector();
 		pRigidBodyA->HandleBounce(pRigidBodyB);
 		//std::cout << pRigidBodyA->velocity.printVector();
 		pRigidBodyB->HandleBounce(pRigidBodyA);

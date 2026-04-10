@@ -10,8 +10,8 @@ public:
 	GameObject* object;
 
 public:
-	Component(GameObject* pObject);
-	~Component();
+	explicit Component(GameObject* pObject);
+	virtual ~Component();
 
 	virtual void Update();
 

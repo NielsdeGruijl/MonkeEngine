@@ -1,7 +1,11 @@
-#include <iostream>
+#include <cmath>
 
 #include "AABBCollider.h"
+
+#include <complex>
+
 #include "../Objects/GameObject.h"
+#include "../Components/Component.h"
 
 AABBCollider::AABBCollider(GameObject* pObject, Vector2* pPosition)
 	: Component(pObject)
@@ -24,7 +28,7 @@ void AABBCollider::OnLoad()
 {
 	Component::OnLoad();
 	Vector2 size = object->GetSize();
-	circleRadius = 0.5f * sqrt(size.x * size.x + size.y * size.y);
+	circleRadius = 0.5f * std::sqrt(size.x * size.x + size.y * size.y);
 	//circleRadius -= circleRadius f;
 }
 
@@ -44,7 +48,7 @@ void AABBCollider::UpdateBounds()
 	bottom = position->y + radius.y;
 }
 
-bool AABBCollider::CheckCollision(std::shared_ptr<AABBCollider> pCollider)
+bool AABBCollider::CheckOverlap(std::shared_ptr<AABBCollider> pCollider)
 {
 	UpdateBounds();
 	pCollider->UpdateBounds();
@@ -54,7 +58,7 @@ bool AABBCollider::CheckCollision(std::shared_ptr<AABBCollider> pCollider)
 	float bottomToTopDistance = bottom - pCollider->top;
 	Vector2 totalSize = object->GetSize() + pCollider->object->GetSize();
 
-	if (rightToLeftDistance < 0 && abs(rightToLeftDistance) < totalSize.x)
+	if (rightToLeftDistance < 0 && std::abs(rightToLeftDistance) < totalSize.x)
 	{
 		if (topToBottomDistance < 0 && bottomToTopDistance > 0)
 		{
