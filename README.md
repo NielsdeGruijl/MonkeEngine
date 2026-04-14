@@ -4,6 +4,6 @@ The engine is currently still in its early stages of development, currently feat
 
 # GIF
 
-![](https://github.com/NielsdeGruijl/MonkeEngine/blob/main/ReadMeAssets/RigidBodyShowcase_720p.gif)
+![](https://github.com/NielsdeGruijl/MonkeEngine/blob/main/ReadMeAssets/Untitled%20Project.gif)
 
 ![](https://github.com/NielsdeGruijl/MonkeEngine/blob/main/ReadMeAssets/RigidBodyShowcase1.gif)
