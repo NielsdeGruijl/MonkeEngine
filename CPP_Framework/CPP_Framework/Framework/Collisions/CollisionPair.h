@@ -10,6 +10,7 @@ public:
 
 	bool DoesCollisionPairExist(std::weak_ptr<AABBCollider> pColliderA, std::weak_ptr<AABBCollider> pColliderB);
 
+	bool operator==(std::shared_ptr<CollisionPair> pCollisionPair);
 	bool operator==(CollisionPair* pCollisionPair);
 	bool operator==(CollisionPair pCollisionPair);
 

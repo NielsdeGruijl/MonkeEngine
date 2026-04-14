@@ -3,14 +3,13 @@
 #include "../../Testing/TestData.h"
 
 extern const int unitSize = 100;
-float deltaTime;
-float fixedDeltaTime = 0.02f;
 float accumulator;
 
 Game::Game(int horizontalResolution, int verticalResolution)
 	: renderWindow(sf::VideoMode(horizontalResolution, verticalResolution), "CPP_Framework")
 {
 	fps = 0;
+
 
 	if (!font.loadFromFile("Assets/Arial.ttf"))
 	{
@@ -20,7 +19,6 @@ Game::Game(int horizontalResolution, int verticalResolution)
 	fpsCounterText.setFont(font);
 	fpsCounterText.setFillColor(sf::Color::White);
 	fpsCounterText.setPosition(renderWindow.getSize().x - 100, 10);
-
 }
 
 Game::~Game()
@@ -43,14 +41,13 @@ void Game::Run()
 	renderWindow.setVerticalSyncEnabled(false);
 	while (renderWindow.isOpen())
 	{
-		if (framesRendered >= 1000)
+		/*if (framesRendered >= 1000)
 		{
 			std::cout << framesRendered << "\n";
 			renderWindow.close();
-		}
+		}*/
 
 		float time = timeClock.restart().asSeconds();
-		//std::cout << time << "\n";
 
 		testData.AddData(time);
 
@@ -83,13 +80,13 @@ void Game::Run()
 
 			while (accumulator >= fixedDeltaTime /*&& fixedUpdateCalls < 3*/)
 			{
-				scene->FixedUpdate();
+				scene->FixedUpdate(fixedDeltaTime);
 				accumulator -= fixedDeltaTime;
 				fixedUpdateCalls++;
 				framesRendered++;
 			}
 
-			scene->Update();
+			scene->Update(deltaTime);
 			scene->RenderScene(&renderWindow);
 		}
 

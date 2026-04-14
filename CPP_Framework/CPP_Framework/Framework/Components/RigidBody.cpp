@@ -7,8 +7,6 @@
 #include "../Objects/GameObject.h"
 
 extern const int unitSize;
-extern float deltaTime;
-extern float fixedDeltaTime;
 
 RigidBody::RigidBody(GameObject* pObject)
 	: Component(pObject)
@@ -40,9 +38,11 @@ void RigidBody::OnLoad()
 	Component::OnLoad();
 }
 	
-void RigidBody::Update()
+void RigidBody::Update(float deltaTime)
 {
-	Component::Update();
+	Component::Update(deltaTime);
+
+	fixedDeltaTime = deltaTime;
 
 	if (gravity > 0)
 		ApplyGravity();
@@ -61,13 +61,13 @@ void RigidBody::AddForce(Vector2 pForce, VelocityType pVelocityType)
 	switch (pVelocityType)
 	{
 	case continuous:
-		velocity += tForce * fixedDeltaTime;
+		velocity += tForce * (float)unitSize * fixedDeltaTime;
 		break;
 	case instant:
 		velocity += tForce;
 		break;
 	case velocityChange:
-		velocity = tForce;
+		velocity = tForce * (float)unitSize;
 		break;
 	}
 }
@@ -83,11 +83,6 @@ void RigidBody::HandleCollision(const Collision& collision)
 		Vector2 positionAdjustment = normalizedVelocity * collision.collisionTime;
 		Vector2 newPos = object->position + positionAdjustment;
 		object->position = newPos;
-
-		//if (isnan(object->position.x))
-		//{
-		//	std::cout << "nan\n";
-		//}
 	}
 
 	if (collision.rigidBody == nullptr)
@@ -108,12 +103,12 @@ void RigidBody::HandleCollision(const Collision& collision)
 		Vector2 frictionVector = velocity.Normalized() * tFriction * fixedDeltaTime;
 		AddForce(frictionVector * -1);
 	}
-
-
 }
 
 void RigidBody::HandleBounce(std::shared_ptr<RigidBody> pRigidBody)
 {
+	/*// ===== Attempt at elastic collisions, to be explored further =================
+
 	//float bounce = this->bounciness;
 	//if (bounce < pRigidBody->bounciness)
 	//	bounce = pRigidBody->bounciness;
@@ -142,9 +137,9 @@ void RigidBody::HandleBounce(std::shared_ptr<RigidBody> pRigidBody)
 	//AddForce(v1p * bounce * mass1, velocityChange);
 	//pRigidBody->AddForce(v2p * bounce * mass2, velocityChange);
 
-	AddForce(velocity * bounciness * -2, instant);
+	// ==========================================================================================*/
 
-	return;
+	AddForce(velocity * bounciness * -2, instant);
 }
 
 void RigidBody::Move()
@@ -156,7 +151,7 @@ void RigidBody::Move()
 	if (yConstraint)
 		velocity = Vector2(velocity.x, 0);
 
-	object->position = object->position + velocity * fixedDeltaTime * (float)unitSize;
+	object->position = object->position + velocity;
 	object->UpdateGridCell();
 }
 
@@ -166,7 +161,9 @@ void RigidBody::CalculateDrag()
 	dragForce = velocity.Normalized() * tDrag * fixedDeltaTime;
 
 	if (velocity.GetLength() <= 0.001f)
+	{
 		velocity = Vector2(0, 0);
+	}
 }
 
 void RigidBody::ApplyGravity()

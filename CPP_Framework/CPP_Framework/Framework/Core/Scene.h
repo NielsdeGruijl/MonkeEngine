@@ -19,8 +19,8 @@ public:
 	Scene();
 	~Scene();
 	 
-	virtual void FixedUpdate();
-	virtual void Update();
+	virtual void FixedUpdate(float fixedDeltaTime);
+	virtual void Update(float deltaTime);
 	virtual void RenderScene(sf::RenderWindow* renderWindow);
 
 	virtual void Load();

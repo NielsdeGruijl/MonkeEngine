@@ -3,7 +3,6 @@
 #include "../Objects/GameObject.h"
 #include <cmath>
 
-extern float fixedDeltaTime;
 extern float accumulator;
 
 SpriteRenderer::SpriteRenderer(GameObject* pObject, std::string pFileName, int pPixelsPerUnit)
@@ -26,13 +25,13 @@ void SpriteRenderer::OnLoad()
 	Component::OnLoad();
 }
 
-void SpriteRenderer::Update()
+void SpriteRenderer::Update(float deltaTime)
 {
-	Component::Update();
+	Component::Update(deltaTime);
 
 	if (accumulator > 0)
 	{
-		float lerpTime = Clamp(0, 1, accumulator / fixedDeltaTime);
+		float lerpTime = Clamp(0, 1, accumulator / deltaTime);
 		//Vector2 lastPosition = Vector2(sprite.getPosition().x, sprite.getPosition().y);
 		Vector2 renderPosition = object->previousPosition + (object->position - object->previousPosition) * lerpTime;
 		//Vector2 renderPosition = object->previousPosition.Lerp(object->position, lerpTime);

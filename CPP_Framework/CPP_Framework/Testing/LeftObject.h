@@ -10,8 +10,8 @@ public:
 	LeftObject(Scene* pScene, std::string pObjectId);
 
 	void OnLoad() override;
-	void Update() override;
-	void FixedUpdate() override;
+	void Update(float deltaTime) override;
+	void FixedUpdate(float fixedDeltaTime) override;
 
 	void OnCollisionEnter(GameObject* object) override;
 

@@ -32,8 +32,8 @@ public:
 	virtual void OnLoad();
 	virtual void Start();
 
-	virtual void FixedUpdate();
-	virtual void Update();
+	virtual void FixedUpdate(float fixedDeltaTime);
+	virtual void Update(float deltaTime);
 
 	virtual void Destroy();
 

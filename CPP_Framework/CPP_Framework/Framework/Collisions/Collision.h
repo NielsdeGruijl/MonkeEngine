@@ -10,7 +10,7 @@ struct Collision
 	Collision(GameObject* pObject, Vector2 pNormal, float pCollisionTime)
 		: object(pObject), normal(pNormal)
 	{
-		//object->TryGetComponent<RigidBody>(rigidBody);
+		object->TryGetComponent<RigidBody>(rigidBody);
 
 		remainingTime = 1 + collisionTime;
 

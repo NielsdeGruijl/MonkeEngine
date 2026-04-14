@@ -13,7 +13,7 @@ public:
 
 	void OnLoad() override;
 	void Start() override;
-	void Update() override;
+	void Update(float deltaTime) override;
 
 	void SetActionMap(InputActionMap* pMap);
 

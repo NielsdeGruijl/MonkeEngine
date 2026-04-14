@@ -1,4 +1,4 @@
-#pragma once
+//#pragma once
 #include "CoarseProximityTest.h"
 #include "../Objects/GameObject.h"
 

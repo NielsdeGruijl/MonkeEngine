@@ -32,7 +32,8 @@ CPP_Framework/Testing/CollisionTestScene.cpp
 CPP_Framework/Testing/Enemy.cpp
 CPP_Framework/Testing/LeftObject.cpp
 CPP_Framework/Testing/PerformanceTestScene.cpp
-CPP_Framework/Testing/Player.cpp)
+CPP_Framework/Testing/Player.cpp
+        CPP_Framework/Framework/Math/Time.h)
 
 add_executable(MyProject ${SOURCES})
 

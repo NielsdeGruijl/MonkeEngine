@@ -38,7 +38,7 @@ public:
 
 	void OnLoad() override;
 
-	void Update() override;
+	void Update(float deltaTime) override;
 
 	void AddForce(Vector2 pVelocity, VelocityType pVelocityType = continuous);
 
@@ -49,6 +49,8 @@ public:
 private:
 	Vector2 dragForce;
 	Vector2 gravityForce;
+
+	float fixedDeltaTime;
 
 private:
 	void Move();

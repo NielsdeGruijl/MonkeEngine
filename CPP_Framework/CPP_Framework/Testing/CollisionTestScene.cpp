@@ -11,10 +11,10 @@ CollisionTestScene::CollisionTestScene()
 	//obstacle2.SetScale(1);
 	//obstacle2.AddComponent<AABBCollider>(obstacle2.GetSize(), obstacle2.position);
 
-	std::shared_ptr<Player> player = std::make_shared<Player>(this, "Player");
+	player = std::make_shared<Player>(this, "Player");
 	player->SetPosition(Vector2(120, 360));
 
-	std::shared_ptr<Enemy> enemy = std::make_shared<Enemy>(this, "Enemy");
+	enemy = std::make_shared<Enemy>(this, "Enemy");
 	enemy->SetPosition(Vector2(840, 360));
 
 	AddObject(player);
@@ -27,7 +27,7 @@ CollisionTestScene::~CollisionTestScene()
 {
 }
 
-void CollisionTestScene::Update()
+void CollisionTestScene::Update(float deltaTime)
 {
-	Scene::Update();
+	Scene::Update(deltaTime);
 }

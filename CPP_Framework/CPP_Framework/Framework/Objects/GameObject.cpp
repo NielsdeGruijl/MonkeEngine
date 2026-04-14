@@ -54,7 +54,7 @@ void GameObject::Start()
 {
 }
 
-void GameObject::FixedUpdate()
+void GameObject::FixedUpdate(float fixedDeltaTime)
 {
 	previousPosition = position;
 
@@ -63,18 +63,18 @@ void GameObject::FixedUpdate()
 		if (!component->IsActive())
 			continue;
 
-		component->Update();
+		component->Update(fixedDeltaTime);
 	}
 }
 
-void GameObject::Update()
+void GameObject::Update(float deltaTime)
 {
 	for (std::shared_ptr<Component> component : components)
 	{
 		if (!component->IsActive())
 			continue;
 
-		component->Update();
+		component->Update(deltaTime);
 	}
 }
 

@@ -19,7 +19,7 @@ public:
 
 	void OnLoad() override;
 
-	void Update() override;
+	void Update(float deltaTime) override;
 
 	void SetColor(sf::Color pColor);
 	void SetPosition(const Vector2 pPosition);

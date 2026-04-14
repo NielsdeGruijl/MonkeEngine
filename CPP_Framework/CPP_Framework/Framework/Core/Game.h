@@ -28,4 +28,7 @@ private:
 	float fps;
 	sf::Text fpsCounterText;
 	sf::Font font;
+
+	float deltaTime = 0;
+	float fixedDeltaTime = 0.02f;
 };

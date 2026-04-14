@@ -32,7 +32,7 @@ void TwoDimensionalSAP::Sweep(std::vector<int> pColliderIds)
 			if ((xCollision.first == yCollision.first && xCollision.second == yCollision.second) ||
 				(xCollision.second == yCollision.first && xCollision.first == yCollision.second))
 			{
-				collisionChecker.AddCollisionPair(std::move(CollisionPair(colliders.at(xCollision.first), colliders.at(xCollision.second))));
+				collisionChecker.AddCollisionPair(colliders.at(xCollision.first), colliders.at(xCollision.second));
 			}
 		}
 	}

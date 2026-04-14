@@ -1,5 +1,5 @@
 #include "LeftObject.h"
-#pragma once
+//#pragma once
 
 LeftObject::LeftObject(Scene* pScene, std::string pObjectId)
 	: GameObject(pScene, pObjectId)
@@ -19,15 +19,15 @@ void LeftObject::OnLoad()
 
 }
 
-void LeftObject::Update()
+void LeftObject::Update(float deltaTime)
 {
-	GameObject::Update();
+	GameObject::Update(deltaTime);
 }
 
-void LeftObject::FixedUpdate()
+void LeftObject::FixedUpdate(float fixedDeltaTime)
 {
-	rigidBody->AddForce(Vector2(moveSpeed * moveDirection, 0), RigidBody::velocityChange);
-	GameObject::FixedUpdate();
+	rigidBody->AddForce(Vector2(moveSpeed * moveDirection, 0) * fixedDeltaTime, RigidBody::velocityChange);
+	GameObject::FixedUpdate(fixedDeltaTime);
 }
 
 void LeftObject::OnCollisionEnter(GameObject* object)

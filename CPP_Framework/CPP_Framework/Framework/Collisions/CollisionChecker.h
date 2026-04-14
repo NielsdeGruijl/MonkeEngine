@@ -21,7 +21,7 @@ public:
 
 	//void CheckCollisions();
 	//void CheckCollision(std::weak_ptr<AABBCollider> pCollider, std::weak_ptr<AABBCollider> pColliderB);
-	void CheckCollision(CollisionPair pCollisionPair);
+	void CheckCollision(std::shared_ptr<CollisionPair> pCollisionPair);
 
 	void ObjectCollision(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<AABBCollider> pCollider);
 	void ObjectCollision(std::shared_ptr<AABBCollider> pCollider, std::shared_ptr<RigidBody> pRigidBody);
@@ -40,6 +40,6 @@ public:
 private:
 	std::vector<std::weak_ptr<RigidBody>> rigidBodies;
 	std::vector<std::weak_ptr<AABBCollider>> objectColliders;
-	std::vector<CollisionPair> collisionPairs;
+	std::vector<std::shared_ptr<CollisionPair>> collisionPairs;
 	int amountOfExpiredRigidBodies;
 };

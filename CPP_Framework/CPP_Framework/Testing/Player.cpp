@@ -10,12 +10,13 @@ Player::Player(Scene* pScene, std::string objectId)
 
 	AddComponent<SpriteRenderer>(this, "BlueSlime.png");
 
-	moveSpeed = 6;
+	moveSpeed = 5;
 	dashSpeed = 10;
 
 	rigidBody->drag = 1;
 	rigidBody->mass = 1;
 	rigidBody->gravity = 0;
+	rigidBody->bounciness = 0;
 }
 
 Player::~Player() 
@@ -32,20 +33,20 @@ void Player::Start()
 	GameObject::Start();
 }
 
-void Player::Update()
+void Player::Update(float deltaTime)
 {
 	std::shared_ptr<AABBCollider> col;
 
-	GameObject::Update();
+	GameObject::Update(deltaTime);
 
 	inputMoveDirection = Vector2((float)input.GetHorizontalAxis(), (float)input.GetVerticalAxis());
 
 	if (inputMoveDirection.GetLength() > 0)
-		rigidBody->AddForce(inputMoveDirection.Normalized() * moveSpeed);
+		rigidBody->AddForce(inputMoveDirection.Normalized() * moveSpeed * deltaTime);
 	
 	if (input.GetKeyDown("dash"))
 	{
-		rigidBody->AddForce(Vector2(1,0) * dashSpeed, RigidBody::instant);
+		rigidBody->AddForce(Vector2(0.1f,0) * dashSpeed, RigidBody::instant);
 	}
 
 	if (input.GetKeyDown("test"))

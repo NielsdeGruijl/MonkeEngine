@@ -10,9 +10,12 @@ public:
 	CollisionTestScene();
 	~CollisionTestScene();
 
-	void Update() override;
+	void Update(float deltaTime) override;
 
 private:
 	GameObject obstacle;
 	GameObject obstacle2;
+
+	std::shared_ptr<Player> player;
+	std::shared_ptr<Enemy> enemy;
 };

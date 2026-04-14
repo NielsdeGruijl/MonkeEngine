@@ -11,14 +11,14 @@ Scene::~Scene()
 {
 }
 
-void Scene::FixedUpdate()
+void Scene::FixedUpdate(float fixedDeltaTime)
 {
 	if (!isLoaded)
 		return;
 
 	for (size_t i = 0; i < sharedObjects.size(); i++)
 	{
-		sharedObjects[i]->FixedUpdate();
+		sharedObjects[i]->FixedUpdate(fixedDeltaTime);
 	}
 
 	coarseProximityTest.MSAP();
@@ -28,14 +28,14 @@ void Scene::FixedUpdate()
 	//coarseProximityTest.BruteForceExecution();
 }
 
-void Scene::Update()
+void Scene::Update(float deltaTime)
 {
 	if (!isLoaded)
 		return;
 
 	for (size_t i = 0; i < sharedObjects.size(); i++)
 	{
-		sharedObjects[i]->Update();
+		sharedObjects[i]->Update(deltaTime);
 	}
 }
 

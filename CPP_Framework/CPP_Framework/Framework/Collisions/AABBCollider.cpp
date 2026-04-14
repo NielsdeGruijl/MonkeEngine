@@ -32,9 +32,9 @@ void AABBCollider::OnLoad()
 	//circleRadius -= circleRadius f;
 }
 
-void AABBCollider::Update()
+void AABBCollider::Update(float deltaTime)
 {
-	Component::Update();
+	Component::Update(deltaTime);
 	UpdateBounds();
 }
 
@@ -58,13 +58,13 @@ bool AABBCollider::CheckOverlap(std::shared_ptr<AABBCollider> pCollider)
 	float bottomToTopDistance = bottom - pCollider->top;
 	Vector2 totalSize = object->GetSize() + pCollider->object->GetSize();
 
+	if (isTrigger || pCollider->isTrigger)
+		return false;
+
 	if (rightToLeftDistance < 0 && std::abs(rightToLeftDistance) < totalSize.x)
 	{
-		if (topToBottomDistance < 0 && bottomToTopDistance > 0)
+		if (topToBottomDistance <=0 && bottomToTopDistance > 0)
 		{
-			if (isTrigger || pCollider->isTrigger)
-				return false;
-
 			return true;
 		}
 	}
@@ -87,7 +87,7 @@ bool AABBCollider::HasExitedCollision(std::shared_ptr<AABBCollider> pCollider)
 		//if (currentCollisionState != exit)
 			return true;
 	}
-	if (rightToLeftDistance <= 0 && abs(rightToLeftDistance) < totalSize.x)
+	if (rightToLeftDistance < 0 && std::abs(rightToLeftDistance) < totalSize.x)
 	{
 		if (abs(topToBottomDistance) > 0.5f && abs(bottomToTopDistance) > 0.5f)
 		{

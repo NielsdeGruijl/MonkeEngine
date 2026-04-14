@@ -9,7 +9,7 @@ public:
 	Enemy(Scene* pScene, std::string pObjectId);
 	~Enemy();
 
-	void Update() override;
+	void Update(float deltaTime) override;
 
 private:
 	std::shared_ptr<RigidBody> rigidBody;

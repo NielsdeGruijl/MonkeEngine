@@ -60,27 +60,27 @@ void CollisionChecker::SortColliders()
 
 void CollisionChecker::AddCollisionPair(std::weak_ptr<AABBCollider> pColliderA, std::weak_ptr<AABBCollider> pColliderB)
 {
-	//if (auto colliderA = pColliderA.lock())
-	//{
-	//	if (auto colliderB = pColliderB.lock())
-	//	{
-	//		for (size_t i = 0; i < collisionPairs.size(); i++)
-	//		{
-	//			if (collisionPairs[i]->DoesCollisionPairExist(colliderA, colliderB))
-	//				return;
-	//		}
+	if (auto colliderA = pColliderA.lock())
+	{
+		if (auto colliderB = pColliderB.lock())
+		{
+			for (size_t i = 0; i < collisionPairs.size(); i++)
+			{
+				if (collisionPairs[i]->DoesCollisionPairExist(pColliderA, pColliderB))
+					return;
+			}
 
-	//		if (colliderA->CheckCollision(colliderB))
-	//			collisionPairs.push_back(new CollisionPair(colliderA, colliderB));
-	//	}
-	//}
+			std::shared_ptr<CollisionPair> newPair = std::make_shared<CollisionPair>(colliderA, colliderB);
 
-	//std::cout << collisionPairs.size() << "\n";
+			if (colliderA->CheckOverlap(colliderB))
+				collisionPairs.push_back(newPair);
+		}
+	}
 }
 
 void CollisionChecker::AddCollisionPair(CollisionPair pCollisionPair)
 {
-	for (size_t i = 0; i < collisionPairs.size(); i++)
+	/*for (size_t i = 0; i < collisionPairs.size(); i++)
 	{
 		if (collisionPairs[i] == pCollisionPair)
 			return;
@@ -96,7 +96,7 @@ void CollisionChecker::AddCollisionPair(CollisionPair pCollisionPair)
 				pCollisionPair.OnEnter();
 			}
 		}
-	}
+	}*/
 }
 
 void CollisionChecker::CheckCollisionPairs()
@@ -104,101 +104,22 @@ void CollisionChecker::CheckCollisionPairs()
 	if (collisionPairs.size() <= 0)
 		return;
 
+	std::cout << "collisionPair count before: " << collisionPairs.size() << std::endl;
+
+	for (size_t i = 0; i < collisionPairs.size(); i++)
+
 	for (size_t i = 0; i < collisionPairs.size(); i++)
 	{
 		CheckCollision(collisionPairs[i]);
 	}
+
+	std::cout << "collisionPair count after: " << collisionPairs.size() << std::endl;
 }
 
-//void CollisionChecker::CheckCollisions()
-//{
-//	SortColliders();
-//
-//	for (size_t i = 0; i < rigidBodies.size(); i++)
-//	{
-//		// Rigidbody vs static objects
-//		for (size_t j = 0; j < objectColliders.size(); j++)
-//		{
-//			if (auto rigidBodyA = rigidBodies[i].lock())
-//			{
-//				if (auto collider = objectColliders[j].lock())
-//				{
-//					if (rigidBodyA->collider->CheckCollision(collider))
-//					{
-//						//ObjectCollision(rigidBodyA, collider);
-//					}
-//				}
-//				else
-//				{
-//					continue;
-//				}
-//			}
-//			else
-//			{
-//				break;
-//			}
-//		}
-//		
-//		// Rigidbody vs other rigidbody
-//		for (size_t j = i + 1; j < rigidBodies.size(); j++)
-//		{
-//			if (auto rigidBodyA = rigidBodies[i].lock())
-//			{
-//				if (auto rigidBodyB = rigidBodies[j].lock())
-//				{
-//					if (rigidBodyA == rigidBodyB)
-//						continue;
-//			
-//					if (rigidBodyB->collider->left > rigidBodyA->collider->right + 1)
-//						break;
-//			
-//					if (rigidBodyA->collider->CheckCollision(rigidBodyB->collider))
-//					{
-//						RigidBodyCollision(rigidBodyA, rigidBodyB);
-//					}
-//				}
-//				else
-//				{
-//					continue;
-//				}
-//			}
-//			else
-//			{
-//				break;
-//			}
-//		}
-//	}
-//}
-
-//void CollisionChecker::CheckCollision(std::weak_ptr<AABBCollider> pCollider, std::weak_ptr<AABBCollider> pColliderB)
-//{
-//	std::shared_ptr<AABBCollider> colliderA = pCollider.lock();
-//	std::shared_ptr<AABBCollider> colliderB = pColliderB.lock();
-//
-//	if (colliderA->CheckCollision(colliderB))
-//	{
-//		std::shared_ptr<RigidBody> rigidBodyA, rigidBodyB;
-//		if (colliderA->object->TryGetComponent<RigidBody>(rigidBodyA))
-//		{
-//			if (colliderB->object->TryGetComponent<RigidBody>(rigidBodyB))
-//			{
-//				RigidBodyCollision(rigidBodyA, rigidBodyB);
-//				return;
-//			}
-//			ObjectCollision(rigidBodyA, colliderB);
-//			return;
-//		}
-//		else
-//		{
-//			ObjectCollision(colliderA, colliderB->object->GetComponent<RigidBody>());
-//		}
-//	}
-//}
-
-void CollisionChecker::CheckCollision(CollisionPair pCollisionPair)
+void CollisionChecker::CheckCollision(std::shared_ptr<CollisionPair> pCollisionPair)
 {
-	std::shared_ptr<AABBCollider> colliderA = pCollisionPair.colliderA.lock();
-	std::shared_ptr<AABBCollider> colliderB = pCollisionPair.colliderB.lock();
+	std::shared_ptr<AABBCollider> colliderA = pCollisionPair->colliderA.lock();
+	std::shared_ptr<AABBCollider> colliderB = pCollisionPair->colliderB.lock();
 
 	//std::cout << " ==============================\n";
 
@@ -225,6 +146,7 @@ void CollisionChecker::CheckCollision(CollisionPair pCollisionPair)
 	{
 		auto it = std::find(collisionPairs.begin(), collisionPairs.end(), pCollisionPair);
 		collisionPairs.erase(it);
+		std::cout << "Has exited collision\n";
 		return;
 	}
 }
@@ -376,11 +298,12 @@ void CollisionChecker::HorizontalRigidBodyCollision(std::shared_ptr<RigidBody> p
 		velocityAdjustmentB = 0;
 	}
 
-	CollisionVelocityHandling(pRigidBodyA, pRigidBodyB, normal);
 	Collision aCollision = Collision(pRigidBodyB->object, normal, velocityAdjustmentA);
-	//pRigidBodyA->HandleCollision(aCollision);
+	pRigidBodyA->HandleCollision(aCollision);
 	Collision bCollision = Collision(pRigidBodyA->object, otherNormal, velocityAdjustmentB);
-	//pRigidBodyB->HandleCollision(bCollision);
+	pRigidBodyB->HandleCollision(bCollision);
+
+	CollisionVelocityHandling(pRigidBodyA, pRigidBodyB, normal);
 }
 
 void CollisionChecker::VerticalRigidBodyCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB, float pCollisionDistance)
@@ -439,9 +362,9 @@ void CollisionChecker::VerticalRigidBodyCollision(std::shared_ptr<RigidBody> pRi
 		velocityAdjustmentB = 0;
 	}
 
+	topRigidBody->HandleCollision(Collision(bottomRigidBody->object, normal, velocityAdjustmentA));
+	bottomRigidBody->HandleCollision(Collision(topRigidBody->object, otherNormal, velocityAdjustmentB));
 	CollisionVelocityHandling(pRigidBodyA, pRigidBodyB, normal);
-	//topRigidBody->HandleCollision(Collision(bottomRigidBody->object, normal, std::move(velocityAdjustmentA)));
-	//bottomRigidBody->HandleCollision(Collision(topRigidBody->object, otherNormal, std::move(velocityAdjustmentB)));
 }
 
 void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB, Vector2 pNormal)
@@ -477,7 +400,20 @@ void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRig
 
 	if (pNormal.x == 0)
 	{
-		float xVelocity = (impactingRigidBody->velocity.x * (0.4f / receivingRigidBody->mass) - receivingRigidBody->velocity.x) * totalMass;
+		float maxXVelocity ,minXVelocity;
+
+		if (std::abs(impactingRigidBody->velocity.x)  > std::abs(receivingRigidBody->velocity.x))
+		{
+			maxXVelocity = impactingRigidBody->velocity.x;
+			minXVelocity = receivingRigidBody->velocity.x;
+		}
+		else
+		{
+			maxXVelocity = receivingRigidBody->velocity.x;
+			minXVelocity = impactingRigidBody->velocity.x;
+		}
+
+		float xVelocity = (maxXVelocity * (0.4f / receivingRigidBody->mass) - minXVelocity) * totalMass;
 		float yVelocity = (impactingRigidBody->velocity.y - receivingRigidBody->velocity.y) * totalMass;
 	
 		bImpulse = Vector2(xVelocity, yVelocity);
@@ -485,8 +421,21 @@ void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRig
 	}
 	if (pNormal.y == 0)
 	{
+		float maxYVelocity ,minYVelocity;
+
+		if (std::abs(impactingRigidBody->velocity.y)  > std::abs(receivingRigidBody->velocity.y))
+		{
+			maxYVelocity = impactingRigidBody->velocity.y;
+			minYVelocity = receivingRigidBody->velocity.y;
+		}
+		else
+		{
+			maxYVelocity = receivingRigidBody->velocity.y;
+			minYVelocity = impactingRigidBody->velocity.y;
+		}
+
 		float xVelocityDifference = (impactingRigidBody->velocity.x - receivingRigidBody->velocity.x) * totalMass;
-		float yVelocity = (impactingRigidBody->velocity.y * (0.4f / receivingRigidBody->mass) - receivingRigidBody->velocity.y) * totalMass;
+		float yVelocity = (maxYVelocity * (0.4f / receivingRigidBody->mass) - minYVelocity) * totalMass;
 	
 		bImpulse = Vector2(xVelocityDifference, yVelocity);
 		aImpulse = Vector2(xVelocityDifference * receivingRigidBody->mass, yVelocity) * -1;
@@ -494,6 +443,8 @@ void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRig
 	
 	impactingRigidBody->AddForce(aImpulse, RigidBody::instant);
 	receivingRigidBody->AddForce(bImpulse, RigidBody::instant);
+
+	std::cout << "Applying impusle forces ================================================================\n";
 }	
 
 Vector2 CollisionChecker::CalculateCollisionDistance(std::shared_ptr<AABBCollider> pColliderA, std::shared_ptr<AABBCollider> pColliderB)
