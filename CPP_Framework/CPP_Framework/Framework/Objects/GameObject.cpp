@@ -123,10 +123,6 @@ void GameObject::SetOrigin(const Vector2 pOrigin)
 	origin = size * pOrigin;
 }
 
-void GameObject::UpdateGridCell()
-{
-}
-
 void GameObject::SetCollisionEvents()
 {
 }

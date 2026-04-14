@@ -42,8 +42,6 @@ public:
 	void SetPosition(const Vector2 pPosition);
 	void SetOrigin(const Vector2 pOrigin);
 
-	void UpdateGridCell();
-
 	void SetCollisionEvents();
 
 	std::string GetID() const;

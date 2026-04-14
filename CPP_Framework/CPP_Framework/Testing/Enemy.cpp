@@ -7,6 +7,8 @@ Enemy::Enemy(Scene* pScene, std::string pObjectId)
 	rigidBody->gravity = 0;
 	rigidBody->bounciness = 0;
 
+	moveSpeed = -2;
+
 	sprite = AddComponent<SpriteRenderer>(this, "BlueSlime.png");
 	sprite->SetColor(sf::Color::Red);
 }
@@ -19,11 +21,6 @@ void Enemy::Update(float deltaTime)
 {
 	GameObject::Update(deltaTime);
 
-	Vector2 tempVelocity = Vector2(-2, 0) * deltaTime;
+	Vector2 tempVelocity = Vector2(moveSpeed, 0) * deltaTime;
 	rigidBody->AddForce(tempVelocity);
-
-	/*
-	std::cout << rigidBody->velocity.printVector();*/
-	/*std::cout << "==";
-	std::cout << tempVelocity.printVector();*/
 }

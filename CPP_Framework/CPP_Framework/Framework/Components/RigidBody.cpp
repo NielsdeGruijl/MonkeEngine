@@ -152,7 +152,6 @@ void RigidBody::Move()
 		velocity = Vector2(velocity.x, 0);
 
 	object->position = object->position + velocity;
-	object->UpdateGridCell();
 }
 
 void RigidBody::CalculateDrag()

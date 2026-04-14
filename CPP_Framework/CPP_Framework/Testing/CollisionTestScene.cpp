@@ -12,10 +12,10 @@ CollisionTestScene::CollisionTestScene()
 	//obstacle2.AddComponent<AABBCollider>(obstacle2.GetSize(), obstacle2.position);
 
 	player = std::make_shared<Player>(this, "Player");
-	player->SetPosition(Vector2(120, 360));
+	player->SetPosition(Vector2(2560,720));
 
 	enemy = std::make_shared<Enemy>(this, "Enemy");
-	enemy->SetPosition(Vector2(840, 360));
+	enemy->SetPosition(Vector2(2440, 720));
 
 	AddObject(player);
 	AddObject(enemy);

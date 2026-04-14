@@ -372,7 +372,6 @@ void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRig
 	if (pRigidBodyA->bounciness > 0 || pRigidBodyB->bounciness > 0)
 	{
 		pRigidBodyA->HandleBounce(pRigidBodyB);
-		//std::cout << pRigidBodyA->velocity.printVector();
 		pRigidBodyB->HandleBounce(pRigidBodyA);
 		return;
 	}
@@ -443,9 +442,7 @@ void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRig
 	
 	impactingRigidBody->AddForce(aImpulse, RigidBody::instant);
 	receivingRigidBody->AddForce(bImpulse, RigidBody::instant);
-
-	std::cout << "Applying impusle forces ================================================================\n";
-}	
+}
 
 Vector2 CollisionChecker::CalculateCollisionDistance(std::shared_ptr<AABBCollider> pColliderA, std::shared_ptr<AABBCollider> pColliderB)
 {

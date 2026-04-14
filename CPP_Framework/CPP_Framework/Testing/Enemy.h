@@ -14,4 +14,6 @@ public:
 private:
 	std::shared_ptr<RigidBody> rigidBody;
 	std::shared_ptr<SpriteRenderer> sprite;
+
+	float moveSpeed;
 };

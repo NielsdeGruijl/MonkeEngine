@@ -4,7 +4,7 @@
 
 int main()
 {
-    Game game(1920, 1080);
+    Game game(2560, 1440);
     
     CollisionTestScene testScene;
 
