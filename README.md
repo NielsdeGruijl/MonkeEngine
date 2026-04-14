@@ -9,3 +9,6 @@ Rigid bodies are physics components that enable physics like velocity, drag, mas
 
 Dynamic rigid body through player input (blue) versus rigid body receiving no input (red).
 ![](https://github.com/NielsdeGruijl/MonkeEngine/blob/main/ReadMeAssets/Untitled%20Project.gif)
+
+Sweep and prune demo showing hundreds of objects moving and colliding at the same time.
+![](https://github.com/NielsdeGruijl/MonkeEngine/blob/main/ReadMeAssets/SAPShowcase.gif)
