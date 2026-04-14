@@ -4,4 +4,4 @@ The engine is currently still in its early stages of development, currently feat
 
 # GIF
 
-![](ReadMeAssets/StaticRigidBodyShowcase.gif)
+![](https://github.com/NielsdeGruijl/MonkeEngine/blob/main/ReadMeAssets/%20StaticRigidBodyShowcase.gif)
