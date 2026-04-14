@@ -29,7 +29,6 @@ void AABBCollider::OnLoad()
 	Component::OnLoad();
 	Vector2 size = object->GetSize();
 	circleRadius = 0.5f * std::sqrt(size.x * size.x + size.y * size.y);
-	//circleRadius -= circleRadius f;
 }
 
 void AABBCollider::Update(float deltaTime)
@@ -38,6 +37,7 @@ void AABBCollider::Update(float deltaTime)
 	UpdateBounds();
 }
 
+// Update world-space bounds for calculating overlaps
 void AABBCollider::UpdateBounds()
 {
 	radius = object->GetSize() * 0.5f;
@@ -48,11 +48,15 @@ void AABBCollider::UpdateBounds()
 	bottom = position->y + radius.y;
 }
 
+// Check if this collider is overlapping other collider
 bool AABBCollider::CheckOverlap(std::shared_ptr<AABBCollider> pCollider)
 {
 	UpdateBounds();
 	pCollider->UpdateBounds();
 
+	// During the broad phase all collisions are sorted and checked from left to right
+	// Therefore only the right to left distance needs to be calculated
+	// There is no top to bottom sorting so we need to check both of those
 	float rightToLeftDistance = pCollider->left - right;
 	float topToBottomDistance = top - pCollider->bottom;
 	float bottomToTopDistance = bottom - pCollider->top;
@@ -63,7 +67,7 @@ bool AABBCollider::CheckOverlap(std::shared_ptr<AABBCollider> pCollider)
 
 	if (rightToLeftDistance < 0 && std::abs(rightToLeftDistance) < totalSize.x)
 	{
-		if (topToBottomDistance <=0 && bottomToTopDistance > 0)
+		if (topToBottomDistance <= 0 && bottomToTopDistance > 0)
 		{
 			return true;
 		}
@@ -72,6 +76,7 @@ bool AABBCollider::CheckOverlap(std::shared_ptr<AABBCollider> pCollider)
 	return false;
 }
 
+// Check if the other collider is sufficiently far away to "disconnect" the collision
 bool AABBCollider::HasExitedCollision(std::shared_ptr<AABBCollider> pCollider)
 {
 	UpdateBounds();
@@ -82,23 +87,22 @@ bool AABBCollider::HasExitedCollision(std::shared_ptr<AABBCollider> pCollider)
 	float bottomToTopDistance = bottom - pCollider->top;
 	Vector2 totalSize = object->GetSize() + pCollider->object->GetSize();
 
+	// if horizontally distant, no longer colliding
 	if (rightToLeftDistance > 0.5f)
 	{
-		//if (currentCollisionState != exit)
-			return true;
+		return true;
 	}
-	if (rightToLeftDistance < 0 && std::abs(rightToLeftDistance) < totalSize.x)
+
+	// if vertically distant, no longer colliding
+	if (abs(topToBottomDistance) > 0.5f && abs(bottomToTopDistance) > 0.5f)
 	{
-		if (abs(topToBottomDistance) > 0.5f && abs(bottomToTopDistance) > 0.5f)
-		{
-			//if (currentCollisionState != exit)
-				return true;
-		}
+		return true;
 	}
 
 	return false;
 }
 
+// Invoke collision events for the owning object based on the current collision state
 void AABBCollider::SetCollisionState(std::shared_ptr<AABBCollider> pOtherCollider, collisionState pCollisionState)
 {
 	currentCollisionState = pCollisionState;

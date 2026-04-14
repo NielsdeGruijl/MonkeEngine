@@ -28,7 +28,7 @@ void TwoDimensionalSAP::Sweep(std::vector<int> pColliderIds)
 	{
 		for (std::pair<int, int> yCollision : yCollisions)
 		{
-			// If a collision "pair" from the X-axis collisions also exists on the Y-axis collisions, it's a full collision
+			// If a collision "pair" from the X-axis collisions also exists on the Y-axis collisions, mark it as a potential collision
 			if ((xCollision.first == yCollision.first && xCollision.second == yCollision.second) ||
 				(xCollision.second == yCollision.first && xCollision.first == yCollision.second))
 			{
@@ -42,34 +42,37 @@ void TwoDimensionalSAP::Sweep(std::vector<int> pColliderIds)
 
 void TwoDimensionalSAP::SweepX(std::vector<int> pColliderIds)
 {
+	// sort colliders left to right
 	std::sort(pColliderIds.begin(), pColliderIds.end(), [this](int a, int b)
 		{
 			return *(xEdges[a].position) < *(xEdges[b].position);
 		});
 
+	// Go through all collider edges from left to right and every time a left edge is found, add it to touchingColliders
+	// When a right edge is found, remove the left edge from touchingColliders
+	// This way, all colliders with a left edge in touchingColliders, are overlapping on the X-axis
 	std::vector<int> touchingColliders;
 	for (int i : pColliderIds)
 	{
 		const EdgePoint& edge = xEdges[i];
 
+		// If the current edge is the right edge of a collider, look for it's sibling (left edge) and remove it from the touching colliders
 		if (!edge.isEntry)
 		{
 			auto it = std::find_if(touchingColliders.begin(), touchingColliders.end(), [edge](int colliderId)
 				{
 					return colliderId == edge.colliderId;
 				});
-			
+
 			if(it != touchingColliders.end())
 				touchingColliders.erase(it);
 
 			continue;
 		}
 
+		// Compare the current edge to all edges in touchingColliders, and mark them as overlapping on the x-axis
 		for (int id : touchingColliders)
 		{
-			if (colliders.size() <= id || colliders.size() <= edge.colliderId)
-				continue;
-
 			if (id == edge.colliderId)
 				continue;
 
@@ -85,10 +88,13 @@ void TwoDimensionalSAP::SweepX(std::vector<int> pColliderIds)
 			}
 		}
 
+		// Add the current (left) edge to touching colliders
 		touchingColliders.push_back(edge.colliderId);
 	}
 }
 
+// Sweep Y axis for possible overlapping colliders.
+// Refer to SweepX for more explanation
 void TwoDimensionalSAP::SweepY(std::vector<int> pColliderIds)
 {
 	std::sort(pColliderIds.begin(), pColliderIds.end(), [this](int a, int b)
@@ -115,9 +121,6 @@ void TwoDimensionalSAP::SweepY(std::vector<int> pColliderIds)
 
 		for (int id : touchingColliders)
 		{
-			if (colliders.size() <= id || colliders.size() <= edge.colliderId)
-				continue;
-
 			if (auto colliderA = colliders.at(id).lock())
 			{
 				if (auto colliderB = colliders.at(edge.colliderId).lock())

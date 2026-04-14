@@ -9,7 +9,7 @@ int main()
     CollisionTestScene testScene;
 
     PerformanceTestScene pTestScene;
-    game.AddScene("asteroidsScene", &testScene);
+    game.AddScene("asteroidsScene", &pTestScene);
 
     game.Run();
 

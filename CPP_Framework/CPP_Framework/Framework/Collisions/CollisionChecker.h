@@ -15,19 +15,16 @@ public:
 	void RemoveExpiredReferences();
 	void SortColliders();
 
-	void AddCollisionPair(CollisionPair pCollisionPair);
 	void AddCollisionPair(std::weak_ptr<AABBCollider> pColliderA, std::weak_ptr<AABBCollider> pColliderB);
 	void CheckCollisionPairs();
 
-	//void CheckCollisions();
-	//void CheckCollision(std::weak_ptr<AABBCollider> pCollider, std::weak_ptr<AABBCollider> pColliderB);
 	void CheckCollision(std::shared_ptr<CollisionPair> pCollisionPair);
 
 	void ObjectCollision(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<AABBCollider> pCollider);
 	void ObjectCollision(std::shared_ptr<AABBCollider> pCollider, std::shared_ptr<RigidBody> pRigidBody);
 
-	void RigidBodyCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB);
-	void HorizontalRigidBodyCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB, float pCollisionDistance);
+	void RigidBodyCollision(const std::shared_ptr<RigidBody> pRigidBodyA, const std::shared_ptr<RigidBody> pRigidBodyB);
+	void HorizontalRigidBodyCollision(std::shared_ptr<RigidBody> pRigidBodyA, const std::shared_ptr<RigidBody> pRigidBodyB, float pCollisionDistance);
 	void VerticalRigidBodyCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB, float pCollisionDistance);
 
 	Vector2 CalculateCollisionDistance(std::shared_ptr<AABBCollider> pColliderA, std::shared_ptr<AABBCollider> pColliderB);

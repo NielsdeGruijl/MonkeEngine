@@ -48,16 +48,19 @@ public:
 	Vector2 GetSize();
 
 public:
+	// Create a new component with the provided parameters
+	// Components are stored as shared_ptrs and shared to other functions as weak_ptrs to prevent dangling pointers
 	template <typename T, typename... ConstructorArgs>
 	std::shared_ptr<T> AddComponent(ConstructorArgs&&... pConstructorArgs)
 	{
 		std::shared_ptr<T> componentPointer = std::make_shared<T>(std::forward<ConstructorArgs>(pConstructorArgs)...);
 
-		//if (std::shared_ptr<AABBCollider> collider = std::dynamic_pointer_cast<AABBCollider>(componentPointer))
-		//	physicsComponents.push_back(collider);
 		std::shared_ptr<RigidBody> rigidBody = std::dynamic_pointer_cast<RigidBody>(componentPointer);
 		std::shared_ptr<AABBCollider> collider = std::dynamic_pointer_cast<AABBCollider>(componentPointer);
 
+		// If an added component is a rigidBody or an AABBCollider, add it to physics components instead.
+		// "Physics components" run on fixedUpdate instead of the normal Update
+		// Todo: improve physics components system
 		if(rigidBody || collider)
 			physicsComponents.push_back(componentPointer);
 		else

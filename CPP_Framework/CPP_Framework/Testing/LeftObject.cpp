@@ -33,5 +33,6 @@ void LeftObject::FixedUpdate(float fixedDeltaTime)
 void LeftObject::OnCollisionEnter(GameObject* object)
 {
 	GameObject::OnCollisionEnter(object);
+
 	moveDirection *= -1;
 }

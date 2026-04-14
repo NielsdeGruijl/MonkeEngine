@@ -45,7 +45,7 @@ void SweepAndPrune::Prune(int pColliderId)
 				// If on of the objects is dynamic (AKA can collide), proceed to narrow phase
 				if (colliderA->isDynamic || colliderB->isDynamic)
 				{
-					collisionChecker.AddCollisionPair(std::move(CollisionPair(colliderA, colliderB)));
+					collisionChecker.AddCollisionPair(colliderA, colliderB);
 				}
 			}
 		}

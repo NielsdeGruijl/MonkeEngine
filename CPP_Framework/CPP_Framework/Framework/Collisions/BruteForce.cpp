@@ -19,9 +19,9 @@ void BruteForce::CheckCollisions(std::vector<int> pColliderIndexes)
 					if (colliderA->isDynamic || colliderB->isDynamic)
 					{
 						if(colliderA->left < colliderB->left)
-							collisionChecker.AddCollisionPair(std::move(CollisionPair(colliderA, colliderB)));
+							collisionChecker.AddCollisionPair(colliderA, colliderB);
 						else
-							collisionChecker.AddCollisionPair(std::move(CollisionPair(colliderB, colliderA)));
+							collisionChecker.AddCollisionPair(colliderB, colliderA);
 					}
 				}
 			}

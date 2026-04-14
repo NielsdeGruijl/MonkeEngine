@@ -6,21 +6,29 @@ PerformanceTestScene::PerformanceTestScene()
 	int objectId = 0;
 
 	int rows = 10;
-	int columns = 20;
+	int columns = 40;
 
 	float scale = .3f;
 
 	int xOffset = 50;
-	int yOffset = 1080 / rows;
+	int yOffset = 1440 / rows;
 
 	float gridWidth = columns * xOffset;
 
-	int xStart = 960 - (gridWidth * 0.5f);
+	int xStart = 1280 - (gridWidth * 0.5f);
 	int yStart = yOffset * 0.5f;
+
+	float moveDirection = 1;
 
 	for (int i = 0; i < rows; i++)
 	{
-		float moveDirection = 1;
+		if (i % 3 == 0)
+			moveDirection = 0.5f;
+		else if (i % 2 == 0)
+			moveDirection = 0.33f;
+		else
+			moveDirection = 1;
+
 		for (int j = 0; j < columns; j++)
 		{
 			std::ostringstream oss;
@@ -45,15 +53,15 @@ PerformanceTestScene::PerformanceTestScene()
 	}
 
 	std::shared_ptr<GameObject> leftBoundary = std::make_shared<GameObject>(this, "LeftBoundary");
-	leftBoundary->SetScale(Vector2(1, 11));
-	leftBoundary->SetPosition(Vector2(xStart - 49 - xOffset, 540));
+	leftBoundary->SetScale(Vector2(1, 15));
+	leftBoundary->SetPosition(Vector2(xStart - 49 - xOffset, 720));
 	leftBoundary->AddComponent<AABBCollider>(leftBoundary.get(), &leftBoundary->position);
 	leftBoundary->AddComponent<SpriteRenderer>(leftBoundary.get(), "TransparentSquare.png", 160);
 	AddObject(leftBoundary);
 
 	std::shared_ptr<GameObject> rightBoundary = std::make_shared<GameObject>(this, "RightBoundary");
-	rightBoundary->SetScale(Vector2(1, 11));
-	rightBoundary->SetPosition(Vector2(xStart + gridWidth + 49, 540));
+	rightBoundary->SetScale(Vector2(1, 15));
+	rightBoundary->SetPosition(Vector2(xStart + gridWidth + 49, 720));
 	rightBoundary->AddComponent<AABBCollider>(rightBoundary.get(), &rightBoundary->position);
 	rightBoundary->AddComponent<SpriteRenderer>(rightBoundary.get(), "TransparentSquare.png", 160);
 	AddObject(rightBoundary);

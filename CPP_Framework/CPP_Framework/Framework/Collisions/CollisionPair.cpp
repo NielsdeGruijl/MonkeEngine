@@ -7,7 +7,7 @@ CollisionPair::CollisionPair(std::weak_ptr<AABBCollider> pColliderA, std::weak_p
 	colliderA = pColliderA;
 	colliderB = pColliderB;
 
-	std::cout << "Collision pair created " << colliderA.lock()->object->GetID() << std::endl;
+	//std::cout << "Collision pair created " << colliderA.lock()->object->GetID() << std::endl;
 }
 
 CollisionPair::~CollisionPair()
@@ -19,7 +19,7 @@ CollisionPair::~CollisionPair()
 			tColliderA->SetCollisionState(tColliderB, AABBCollider::exit);
 		}
 	}
-	std::cout << "Collision pair destroyed " << colliderA.lock()->object->GetID() << std::endl;
+	//std::cout << "Collision pair destroyed " << colliderA.lock()->object->GetID() << std::endl;
 }
 
 void CollisionPair::OnEnter()
