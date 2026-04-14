@@ -20,3 +20,4 @@ The most recent addition to the project has been the implementation of Sweep and
 Furthermore, the engine features a dynamic component system, which enables easy setup for custom logic.
 
 ### Very basic "asteroids" demo, showing a "powerup" increasing bullet size, made possible by the component system.
+![](https://github.com/NielsdeGruijl/MonkeEngine/blob/main/ReadMeAssets/AsteroidsShowcase.gif)
