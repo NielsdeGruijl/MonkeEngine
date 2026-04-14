@@ -2,7 +2,6 @@
 MonkeEngine is a 2D physics engine developed using C++, and SFML 2.5.1 for rendering. 
 This engine is being developed as a learning experience, but the dream is to someday develop a (small) game with it!
 
-
 ## Physics
 The engine has a robust collision system, being able to solve for rigidibody vs static object and rigidbody vs rigidbody collisions.
 Rigid bodies are physics components that enable physics like velocity, drag, mass, friction and collisions on game objects.
