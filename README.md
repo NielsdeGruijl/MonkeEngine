@@ -8,7 +8,7 @@ The engine has a robust collision system, being able to solve for rigidibody vs 
 Rigid bodies are physics components that enable physics like velocity, drag, mass, friction and collisions on game objects.
 
 Dynamic rigid body through player input (blue) versus rigid body receiving no input (red).
-![](https://github.com/NielsdeGruijl/MonkeEngine/blob/main/ReadMeAssets/Untitled%20Project.gif)
+![](https://github.com/NielsdeGruijl/MonkeEngine/blob/main/ReadMeAssets/RigidBody_Static_Showcase.gif)
 
 Sweep and prune demo showing hundreds of objects moving and colliding at the same time.
 ![](https://github.com/NielsdeGruijl/MonkeEngine/blob/main/ReadMeAssets/SAPShowcase.gif)
