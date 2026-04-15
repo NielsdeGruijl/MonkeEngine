@@ -1,4 +1,4 @@
-# [WIP] MonkeEngine
+# MonkeEngine
 MonkeEngine is a 2D physics engine developed using C++, and SFML 2.5.1 for rendering. 
 This engine is being developed as a learning experience, but the dream is to someday develop a (small) game with it!
 
