@@ -15,6 +15,7 @@ void CollisionChecker::AddRigidBody(std::shared_ptr<RigidBody> pRigidBody)
 	rigidBodies.push_back(pRigidBody);
 }
 
+// Clearing out expired rigid body weak_ptrs
 void CollisionChecker::RemoveExpiredReferences()
 {
 	for (std::weak_ptr<RigidBody> rigidBody : rigidBodies)
@@ -25,6 +26,7 @@ void CollisionChecker::RemoveExpiredReferences()
 	
 	while (amountOfExpiredRigidBodies > 0)
 	{
+		// If rigidbody weak_ptr is expired, remove it from the rigidbody references
 		rigidBodies.erase(
 			std::remove_if(rigidBodies.begin(), rigidBodies.end(),
 				[](std::weak_ptr<RigidBody> rb)
@@ -37,6 +39,7 @@ void CollisionChecker::RemoveExpiredReferences()
 	}
 }
 
+// Sort colliders left to right
 void CollisionChecker::SortColliders()
 {
 	RemoveExpiredReferences();
@@ -58,6 +61,7 @@ void CollisionChecker::SortColliders()
 		});
 }
 
+// Check if a collision pair already exists, if not, add it to the list.
 void CollisionChecker::AddCollisionPair(std::weak_ptr<AABBCollider> pColliderA, std::weak_ptr<AABBCollider> pColliderB)
 {
 	for (size_t i = 0; i < collisionPairs.size(); i++)
@@ -81,9 +85,10 @@ void CollisionChecker::AddCollisionPair(std::weak_ptr<AABBCollider> pColliderA, 
 	}
 }
 
+// Check collisions for all stored collision pairs
 void CollisionChecker::CheckCollisionPairs()
 {
-	if (collisionPairs.size() <= 0)
+	if (collisionPairs.empty())
 		return;
 
 	for (size_t i = 0; i < collisionPairs.size(); i++)
@@ -92,7 +97,7 @@ void CollisionChecker::CheckCollisionPairs()
 	}
 }
 
-void CollisionChecker::CheckCollision(std::shared_ptr<CollisionPair> pCollisionPair)
+void CollisionChecker::CheckCollision(const std::shared_ptr<CollisionPair> pCollisionPair)
 {
 	std::shared_ptr<AABBCollider> colliderA = pCollisionPair->colliderA.lock();
 	std::shared_ptr<AABBCollider> colliderB = pCollisionPair->colliderB.lock();
@@ -104,33 +109,42 @@ void CollisionChecker::CheckCollision(std::shared_ptr<CollisionPair> pCollisionP
 		{
 			if (colliderB->object->TryGetComponent<RigidBody>(rigidBodyB))
 			{
+				// If both objects havea rigid body, resolve rigidbody vs rigidbody collision
 				RigidBodyCollision(rigidBodyA, rigidBodyB);
 			}
 			else
 			{
+				// If object B does not have a rigidbody, resolve rigidbody vs object
 				ObjectCollision(rigidBodyA, colliderB);
 			}
 		}
 		else
 		{
+			// If object A does not have a rigidbody, resolve object vs rigidbody
+			// We can assume that object B has a rigidbody, because the collision would be impossible otherwise
 			ObjectCollision(colliderA, colliderB->object->GetComponent<RigidBody>());
 		}
 	}
 	else if (colliderA->HasExitedCollision(colliderB))
 	{
+		// If the colliders are too far apart, remove their pair from the list
 		auto it = std::find(collisionPairs.begin(), collisionPairs.end(), pCollisionPair);
 		collisionPairs.erase(it);
 	}
 }
 
-void CollisionChecker::ObjectCollision(std::shared_ptr<RigidBody> pRigidBody, std::shared_ptr<AABBCollider> pCollider)
+// Todo: combine both ObjectCollision functions into one
+
+void CollisionChecker::ObjectCollision(const std::shared_ptr<RigidBody> pRigidBody, const std::shared_ptr<AABBCollider> pCollider)
 {
+	// Calculate how far the rigidbody has penetrated the object
 	Vector2 collisionDistance = CalculateCollisionDistance(pRigidBody->collider, pCollider);
 	Vector2 normal;
 
 	float shortestCollisionDistance = 0;
 	if (collisionDistance.x > collisionDistance.y)
 	{
+		// Because the objects are sorted left to right, if the rigidbody is moving left the collision is impossible
 		if (pRigidBody->velocity.x < 0)
 			return;
 	
@@ -142,6 +156,7 @@ void CollisionChecker::ObjectCollision(std::shared_ptr<RigidBody> pRigidBody, st
 	{
 		if (pRigidBody->collider->top < pCollider->top)
 		{
+			// because the rigidbody is above the collider, if the rigidbody is moving up the collision is impossible
 			if (pRigidBody->velocity.y < 0)
 				return;
 	
@@ -149,6 +164,7 @@ void CollisionChecker::ObjectCollision(std::shared_ptr<RigidBody> pRigidBody, st
 		}
 		else
 		{
+			// Vice versa
 			if (pRigidBody->velocity.y > 0)
 				return;
 	
@@ -157,11 +173,11 @@ void CollisionChecker::ObjectCollision(std::shared_ptr<RigidBody> pRigidBody, st
 	
 		shortestCollisionDistance = collisionDistance.y;
 	}
-	
+
 	pRigidBody->HandleCollision(Collision(pCollider->object, normal, shortestCollisionDistance));
 }
 
-void CollisionChecker::ObjectCollision(std::shared_ptr<AABBCollider> pCollider, std::shared_ptr<RigidBody> pRigidBody)
+void CollisionChecker::ObjectCollision(const std::shared_ptr<AABBCollider> pCollider, const std::shared_ptr<RigidBody> pRigidBody)
 {
 	Vector2 collisionDistance = CalculateCollisionDistance(pCollider, pRigidBody->collider);
 	Vector2 normal;
@@ -199,7 +215,9 @@ void CollisionChecker::ObjectCollision(std::shared_ptr<AABBCollider> pCollider, 
 	pRigidBody->HandleCollision(Collision(pCollider->object, normal, std::move(shortestCollisionDistance)));
 }
 
-void CollisionChecker::RigidBodyCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB)
+// Todo: find way to incorporate both vertical and horizontal collision into one function
+
+void CollisionChecker::RigidBodyCollision(const std::shared_ptr<RigidBody> pRigidBodyA, const std::shared_ptr<RigidBody> pRigidBodyB)
 {
 	Vector2 collisionDistance = CalculateCollisionDistance(pRigidBodyA->collider, pRigidBodyB->collider);
 
@@ -223,6 +241,7 @@ void CollisionChecker::HorizontalRigidBodyCollision(const std::shared_ptr<RigidB
 {
 	Vector2 normal, otherNormal;
 
+	// If rigid body B is moving away from A, skip
 	if (pRigidBodyB->velocity.x > pRigidBodyA->velocity.x)
 		return;
 
@@ -233,14 +252,16 @@ void CollisionChecker::HorizontalRigidBodyCollision(const std::shared_ptr<RigidB
 
 	otherNormal = normal * -1;
 
+	// calculate total velocity of the collision
 	float totalVelocity = abs(pRigidBodyA->velocity.x) + abs(pRigidBodyB->velocity.x);
 
+	// Calculate the velocity for rigid body A as the percentage of the total velocity
+	// Multiply that by the collision distance (penetration depth) to get the amount rigid body A's position needs to be adjusted by
 	float aVelocityX = pRigidBodyA->velocity.x;
 	float velocityPercentageA = 0;
 	if (pRigidBodyA->velocity.x != 0)
 		velocityPercentageA = aVelocityX / totalVelocity;
 	float velocityAdjustmentA = 0.0f;
-
 
 	if (velocityPercentageA != 0)
 	{
@@ -252,6 +273,7 @@ void CollisionChecker::HorizontalRigidBodyCollision(const std::shared_ptr<RigidB
 		velocityAdjustmentA = 0;
 	}
 
+	// Same but for rigid body B
 	float velocityPercentageB = 0;
 	float bVelocityX = pRigidBodyB->velocity.x;
 
@@ -278,6 +300,7 @@ void CollisionChecker::HorizontalRigidBodyCollision(const std::shared_ptr<RigidB
 	CollisionVelocityHandling(pRigidBodyA, pRigidBodyB, normal);
 }
 
+// Same logic as HorizontalRigidBodyCollision, but applied to the Y axis
 void CollisionChecker::VerticalRigidBodyCollision(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB, float pCollisionDistance)
 {
 	Vector2 normal, otherNormal;
@@ -339,8 +362,10 @@ void CollisionChecker::VerticalRigidBodyCollision(std::shared_ptr<RigidBody> pRi
 	CollisionVelocityHandling(pRigidBodyA, pRigidBodyB, normal);
 }
 
+// Calculate the adjustments in velocity for both rigidbodies
 void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRigidBodyA, std::shared_ptr<RigidBody> pRigidBodyB, Vector2 pNormal)
 {
+	// Crude "bounce" implementation
 	if (pRigidBodyA->bounciness > 0 || pRigidBodyB->bounciness > 0)
 	{
 		pRigidBodyA->HandleBounce(pRigidBodyB);
@@ -348,11 +373,13 @@ void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRig
 		return;
 	}
 
+	// Get the totalmass of the collision as multiplier
 	float totalMass = pRigidBodyA->mass + pRigidBodyB->mass;
 	totalMass = 1 / totalMass;
 
 	std::shared_ptr<RigidBody> impactingRigidBody, receivingRigidBody;
 
+	// Determine the rigidbody with the most momentum as the "instigator" of the collision
 	float momentumA = pRigidBodyA->velocity.GetLength() * pRigidBodyA->mass;
 	float momentumB = pRigidBodyB->velocity.GetLength() * pRigidBodyB->mass;
 	
@@ -369,6 +396,7 @@ void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRig
 
 	Vector2 aImpulse, bImpulse;
 
+	// Calculate the velocities in case of a Y-axis collision
 	if (pNormal.x == 0)
 	{
 		float maxXVelocity ,minXVelocity;
@@ -384,12 +412,19 @@ void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRig
 			minXVelocity = impactingRigidBody->velocity.x;
 		}
 
+		// Apply a basic "friction" calculation to the "unimpacted" velocity axis to simulate friction between the two rigid bodies
 		float xVelocity = (maxXVelocity * (0.4f / receivingRigidBody->mass) - minXVelocity) * totalMass;
+
+		// Get the difference in velocity between the two rigid bodies and apply the total collision mass to it
 		float yVelocity = (impactingRigidBody->velocity.y - receivingRigidBody->velocity.y) * totalMass;
-	
+
+		// Set the velocity correction for "receiving" rigid body
 		bImpulse = Vector2(xVelocity, yVelocity);
+		// Set the velocity Correction for the instigating rigid body
 		aImpulse = Vector2(xVelocity, yVelocity * receivingRigidBody->mass) * -1;
 	}
+
+	// Calculate the velocities in case of an X-axis collision
 	if (pNormal.y == 0)
 	{
 		float maxYVelocity ,minYVelocity;
@@ -411,7 +446,8 @@ void CollisionChecker::CollisionVelocityHandling(std::shared_ptr<RigidBody> pRig
 		bImpulse = Vector2(xVelocityDifference, yVelocity);
 		aImpulse = Vector2(xVelocityDifference * receivingRigidBody->mass, yVelocity) * -1;
 	}
-	
+
+	// Apply the velocity corrections as instant forces
 	impactingRigidBody->AddForce(aImpulse, RigidBody::instant);
 	receivingRigidBody->AddForce(bImpulse, RigidBody::instant);
 }
