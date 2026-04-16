@@ -7,7 +7,7 @@ Enemy::Enemy(Scene* pScene, std::string pObjectId)
 	rigidBody->gravity = 0;
 	rigidBody->bounciness = 0;
 
-	moveSpeed = -2;
+	moveSpeed = 0;
 
 	sprite = AddComponent<SpriteRenderer>(this, "BlueSlime.png");
 	sprite->SetColor(sf::Color::Red);

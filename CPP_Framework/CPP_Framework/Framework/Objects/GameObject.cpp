@@ -14,6 +14,8 @@ GameObject::GameObject(Scene* pScene, std::string ID)
 
 GameObject::~GameObject()
 {
+	std::cout << "Destroying " << objectId << std::endl;
+
 	components.clear();
 }
 

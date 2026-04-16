@@ -33,7 +33,11 @@ CPP_Framework/Testing/Enemy.cpp
 CPP_Framework/Testing/LeftObject.cpp
 CPP_Framework/Testing/PerformanceTestScene.cpp
 CPP_Framework/Testing/Player.cpp
-        CPP_Framework/Framework/Math/Time.h)
+        CPP_Framework/Framework/Math/Time.h
+        CPP_Framework/Testing/ShootingCollisionScene.cpp
+        CPP_Framework/Testing/ShootingCollisionScene.h
+        CPP_Framework/Testing/Projectile.cpp
+        CPP_Framework/Testing/Projectile.h)
 
 add_executable(MyProject ${SOURCES})
 

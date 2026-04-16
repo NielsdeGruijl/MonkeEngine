@@ -5,6 +5,8 @@
 
 extern float deltaTime;
 
+// ========= Deprecated =================
+/*
 void CollisionChecker::AddCollider(std::shared_ptr<AABBCollider> pCollider)
 {
 	objectColliders.push_back(pCollider);
@@ -15,34 +17,9 @@ void CollisionChecker::AddRigidBody(std::shared_ptr<RigidBody> pRigidBody)
 	rigidBodies.push_back(pRigidBody);
 }
 
-// Clearing out expired rigid body weak_ptrs
-void CollisionChecker::RemoveExpiredReferences()
-{
-	for (std::weak_ptr<RigidBody> rigidBody : rigidBodies)
-	{
-		if (rigidBody.expired())
-			amountOfExpiredRigidBodies++;
-	}
-	
-	while (amountOfExpiredRigidBodies > 0)
-	{
-		// If rigidbody weak_ptr is expired, remove it from the rigidbody references
-		rigidBodies.erase(
-			std::remove_if(rigidBodies.begin(), rigidBodies.end(),
-				[](std::weak_ptr<RigidBody> rb)
-				{
-					return rb.expired();
-				}),
-			rigidBodies.end());
-	
-		amountOfExpiredRigidBodies--;
-	}
-}
-
 // Sort colliders left to right
 void CollisionChecker::SortColliders()
 {
-	RemoveExpiredReferences();
 
 	std::sort(rigidBodies.begin(), rigidBodies.end(), [](std::weak_ptr<RigidBody> pRigidBodyA, std::weak_ptr<RigidBody> pRigidBodyB)
 		{
@@ -60,12 +37,32 @@ void CollisionChecker::SortColliders()
 			return colliderA->left < colliderB->left;
 		});
 }
+*/
+// ===============================
+
+
+// Clearing out expired collisionpairs
+void CollisionChecker::RemoveExpiredReferences()
+{
+	// If any rigidbody in the collisionpair is expired, remove it from the collisionpair references
+	std::erase_if(collisionPairs,
+	              [](const std::shared_ptr<CollisionPair>& collisionPair)
+	              {
+		              return collisionPair->HasExpired();
+	              });
+
+	//std::cout << "rigidbody count: " << collisionPairs.size() << std::endl;
+}
+
 
 // Check if a collision pair already exists, if not, add it to the list.
 void CollisionChecker::AddCollisionPair(std::weak_ptr<AABBCollider> pColliderA, std::weak_ptr<AABBCollider> pColliderB)
 {
 	for (size_t i = 0; i < collisionPairs.size(); i++)
 	{
+		if (collisionPairs[i]->HasExpired())
+			continue;
+
 		if (collisionPairs[i]->DoesCollisionPairExist(pColliderA, pColliderB))
 			return;
 	}
@@ -80,6 +77,8 @@ void CollisionChecker::AddCollisionPair(std::weak_ptr<AABBCollider> pColliderA, 
 			{
 				collisionPairs.push_back(newPair);
 				newPair->OnEnter();
+
+				std::cout <<"Adding collision pair " << colliderA->object->GetID() << " and " << colliderB->object->GetID() << std::endl;
 			}
 		}
 	}
@@ -88,6 +87,8 @@ void CollisionChecker::AddCollisionPair(std::weak_ptr<AABBCollider> pColliderA, 
 // Check collisions for all stored collision pairs
 void CollisionChecker::CheckCollisionPairs()
 {
+	RemoveExpiredReferences();
+
 	if (collisionPairs.empty())
 		return;
 

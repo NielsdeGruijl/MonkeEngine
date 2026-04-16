@@ -44,6 +44,11 @@ bool CollisionPair::DoesCollisionPairExist(std::weak_ptr<AABBCollider> pCollider
 	return false;
 }
 
+bool CollisionPair::HasExpired()
+{
+	return colliderA.expired() || colliderB.expired();
+}
+
 bool CollisionPair::operator==(std::shared_ptr<CollisionPair> pCollisionPair)
 {
 	if (colliderA.lock().get() == pCollisionPair->colliderA.lock().get() && colliderB.lock().get() == pCollisionPair->colliderB.lock().get())

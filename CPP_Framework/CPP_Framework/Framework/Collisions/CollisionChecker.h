@@ -9,11 +9,14 @@
 class CollisionChecker
 {
 public:
+	// ===== Deprecated ======
 	void AddCollider(std::shared_ptr<AABBCollider> pCollider);
 	void AddRigidBody(std::shared_ptr<RigidBody> pRigidBody);
 
-	void RemoveExpiredReferences();
 	void SortColliders();
+	// =======================
+
+	void RemoveExpiredReferences();
 
 	void AddCollisionPair(std::weak_ptr<AABBCollider> pColliderA, std::weak_ptr<AABBCollider> pColliderB);
 	void CheckCollisionPairs();

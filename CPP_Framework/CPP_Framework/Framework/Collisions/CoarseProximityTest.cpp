@@ -148,6 +148,13 @@ void CoarseProximityTest::RegisterCollider(std::weak_ptr<AABBCollider> pCollider
 
 void CoarseProximityTest::SortColliders()
 {
+	int colliderCount = colliders.size();
+	for (int i = 0; i < colliderCount; i++)
+	{
+		if (colliders[i].collider.expired())
+			colliders.erase(colliders.begin() + i);
+	}
+
 	std::sort(colliders.begin(), colliders.end(), [](ColliderIdContainer a, ColliderIdContainer b)
 		{
 			return (a.collider.lock()->object->position.x < b.collider.lock()->object->position.x);

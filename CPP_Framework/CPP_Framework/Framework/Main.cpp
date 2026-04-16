@@ -1,15 +1,18 @@
 #include "Core/Game.h"
 #include "../Testing/CollisionTestScene.h"
 #include "../Testing/PerformanceTestScene.h"
+#include "../Testing/ShootingCollisionScene.h"
 
 int main()
 {
-    Game game(2560, 1440);
+    Game game(1920, 1080);
     
-    CollisionTestScene testScene;
+    //CollisionTestScene testScene;
 
-    PerformanceTestScene pTestScene;
-    game.AddScene("asteroidsScene", &pTestScene);
+    ShootingCollisionScene shootingScene;
+
+    //PerformanceTestScene pTestScene;
+    game.AddScene("asteroidsScene", &shootingScene);
 
     game.Run();
 
