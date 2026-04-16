@@ -83,8 +83,8 @@ void Scene::RegisterCollider(GameObject* object)
 	if (object->TryGetComponent<AABBCollider>(collider))
 	{
 		coarseProximityTest.RegisterCollider(collider);
-		bruteForce.RegisterCollider(collider);
-		sweepAndPrune.RegisterCollider(collider);
+		//bruteForce.RegisterCollider(collider);
+		//sweepAndPrune.RegisterCollider(collider);
 		twoDimensionalSAP.RegisterCollider(collider);
 	}
 }

@@ -54,8 +54,9 @@ void SweepAndPrune::Prune(int pColliderId)
 
 void SweepAndPrune::RegisterCollider(std::shared_ptr<AABBCollider> pCollider)
 {
-	edgePoints.push_back(EdgePoint(colliderId, &pCollider->left, true));
-	edgePoints.push_back(EdgePoint(colliderId, &pCollider->right, false));
+	// ================= Add edge ids ================
+	//edgePoints.push_back(EdgePoint(colliderId, &pCollider->left, true));
+	//edgePoints.push_back(EdgePoint(colliderId, &pCollider->right, false));
 	//tColliders.push_back(ColliderIdContainer(pCollider, colliderId));
 	colliders.push_back(pCollider);
 

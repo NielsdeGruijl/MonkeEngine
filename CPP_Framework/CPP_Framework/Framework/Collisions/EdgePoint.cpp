@@ -2,7 +2,7 @@
 
 #include "AABBCollider.h"
 
-EdgePoint::EdgePoint(int pColliderId, float* position, bool isEntry)
-	: colliderId(pColliderId), position(position), isEntry(isEntry)
+EdgePoint::EdgePoint(int pColliderId, int pEdgeId, float* pPosition, bool pIsEntry)
+	: colliderId(pColliderId), edgeId(pEdgeId), position(pPosition), isEntry(pIsEntry)
 {
 }

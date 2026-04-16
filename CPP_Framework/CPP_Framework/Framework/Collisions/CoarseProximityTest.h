@@ -24,4 +24,6 @@ public:
 	void BruteForceExecution();
 	void RegisterCollider(std::weak_ptr<AABBCollider> pCollider);
 	void SortColliders();
+
+	std::weak_ptr<AABBCollider> GetCollider(int id);
 };

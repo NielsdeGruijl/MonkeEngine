@@ -26,21 +26,21 @@ void CoarseProximityTest::MSAP()
 					{
 						if (!addedColliderA)
 						{
-							int id = colliders[i].colliderId * 2;
+							int id = colliders[i].colliderId;
 							if (std::find(colliderIndexes.begin(), colliderIndexes.end(), id) == colliderIndexes.end())
 							{
 								colliderIndexes.push_back(id);
-								colliderIndexes.push_back(id + 1);
+								//colliderIndexes.push_back(id + 1);
 							}
 
 							addedColliderA = true;
 						}
 
-						int id = colliders[j].colliderId * 2;
+						int id = colliders[j].colliderId;
 						if (std::find(colliderIndexes.begin(), colliderIndexes.end(), id) == colliderIndexes.end())
 						{
 							colliderIndexes.push_back(id);
-							colliderIndexes.push_back(id + 1);
+							//colliderIndexes.push_back(id + 1);
 						}
 					}
 				}
@@ -148,15 +148,24 @@ void CoarseProximityTest::RegisterCollider(std::weak_ptr<AABBCollider> pCollider
 
 void CoarseProximityTest::SortColliders()
 {
-	int colliderCount = colliders.size();
-	for (int i = 0; i < colliderCount; i++)
+	std::erase_if(colliders, [](ColliderIdContainer pCollider)
 	{
-		if (colliders[i].collider.expired())
-			colliders.erase(colliders.begin() + i);
-	}
+		return pCollider.collider.expired();
+	});
+
 
 	std::sort(colliders.begin(), colliders.end(), [](ColliderIdContainer a, ColliderIdContainer b)
 		{
 			return (a.collider.lock()->object->position.x < b.collider.lock()->object->position.x);
 		});
+}
+
+std::weak_ptr<AABBCollider> CoarseProximityTest::GetCollider(int id)
+{
+	auto it = std::find_if(colliders.begin(), colliders.end(), [id](ColliderIdContainer pCollider)
+	{
+		return pCollider.colliderId == id;
+	});
+
+	return it->collider;
 }
