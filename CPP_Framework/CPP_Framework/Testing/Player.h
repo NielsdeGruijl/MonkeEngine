@@ -20,9 +20,9 @@ public:
 	std::shared_ptr<RigidBody> rigidBody;
 
 protected:
-	void OnCollisionEnter(GameObject* pObject) override;
-	void OnCollisionStay(GameObject* pObject) override;
-	void OnCollisionExit(GameObject* pObject) override;
+	void OnCollisionEnter(std::weak_ptr<AABBCollider> pOtherCollider) override;
+	void OnCollisionStay(std::weak_ptr<AABBCollider> pOtherCollider) override;
+	void OnCollisionExit(std::weak_ptr<AABBCollider> pOtherCollider) override;
 
 private:
 	InputActionMap defaultInputActionMap;

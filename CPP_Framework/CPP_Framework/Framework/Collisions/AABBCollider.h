@@ -14,9 +14,9 @@ public:
 	Vector2* position;
 	Vector2 radius;
 
-	Event<GameObject*> collisionEnterEvent;
-	Event<GameObject*> collisionStayEvent;
-	Event<GameObject*> collisionExitEvent;
+	Event<std::weak_ptr<AABBCollider>> collisionEnterEvent;
+	Event<std::weak_ptr<AABBCollider>> collisionStayEvent;
+	Event<std::weak_ptr<AABBCollider>> collisionExitEvent;
 	
 	enum collisionState
 	{
@@ -45,6 +45,6 @@ public:
 	bool CheckOverlap(std::shared_ptr<AABBCollider> pCollider);
 	bool HasExitedCollision(std::shared_ptr<AABBCollider> pCollider);
 
-	void SetCollisionState(std::shared_ptr<AABBCollider> pOtherCollider, collisionState pCollisionState);
+	void SetCollisionState(std::weak_ptr<AABBCollider> pOtherCollider, collisionState pCollisionState);
 private:
 };

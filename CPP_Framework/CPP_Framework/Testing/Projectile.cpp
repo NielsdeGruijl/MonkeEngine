@@ -37,9 +37,9 @@ void Projectile::Start()
     rigidbody->AddForce(velocity, RigidBody::instant);
 }
 
-void Projectile::OnCollisionEnter(GameObject *object)
+void Projectile::OnCollisionEnter(std::weak_ptr<AABBCollider> pOtherCollider)
 {
-    GameObject::OnCollisionEnter(object);
+    GameObject::OnCollisionEnter(pOtherCollider);
 
     Destroy();
 }

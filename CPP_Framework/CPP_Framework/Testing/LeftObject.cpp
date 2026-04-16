@@ -30,9 +30,9 @@ void LeftObject::FixedUpdate(float fixedDeltaTime)
 	GameObject::FixedUpdate(fixedDeltaTime);
 }
 
-void LeftObject::OnCollisionEnter(GameObject* object)
+void LeftObject::OnCollisionEnter(std::weak_ptr<AABBCollider> pOtherCollider)
 {
-	GameObject::OnCollisionEnter(object);
+	GameObject::OnCollisionEnter(pOtherCollider);
 
 	moveDirection *= -1;
 }

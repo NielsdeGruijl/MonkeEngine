@@ -19,6 +19,17 @@ void TwoDimensionalSAP::Sweep(std::vector<int> pColliderIds)
 	xCollisions.clear();
 	yCollisions.clear();
 
+	for (auto collider : colliders)
+	{
+		if (collider.expired())
+		{
+			std::cout << "collider expired\n";
+			continue;
+		}
+
+		std::cout << collider.lock()->object->GetID() << std::endl;
+	}
+
 	// First "sweeps" to check for collisions on the X-axis
 	SweepX(pColliderIds);
 	// Then "sweeps" to check for collisions on the Y-axis
@@ -34,6 +45,9 @@ void TwoDimensionalSAP::Sweep(std::vector<int> pColliderIds)
 			{
 				if (colliders.at(xCollision.first).expired() || colliders.at(xCollision.second).expired())
 					break;
+
+				std::cout << colliders.at(xCollision.first).lock()->object->GetID() << std::endl;
+				std::cout << colliders.at(xCollision.second).lock()->object->GetID() << std::endl;
 
 				collisionChecker.AddCollisionPair(colliders.at(xCollision.first), colliders.at(xCollision.second));
 

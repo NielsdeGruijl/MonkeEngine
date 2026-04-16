@@ -13,7 +13,7 @@ public:
 	void Update(float deltaTime) override;
 	void FixedUpdate(float fixedDeltaTime) override;
 
-	void OnCollisionEnter(GameObject* object) override;
+	void OnCollisionEnter(std::weak_ptr<AABBCollider> pOtherCollider) override;
 
 public:
 	float moveDirection;

@@ -103,28 +103,23 @@ bool AABBCollider::HasExitedCollision(std::shared_ptr<AABBCollider> pCollider)
 }
 
 // Invoke collision events for the owning object based on the current collision state
-void AABBCollider::SetCollisionState(std::shared_ptr<AABBCollider> pOtherCollider, collisionState pCollisionState)
+void AABBCollider::SetCollisionState(std::weak_ptr<AABBCollider> pOtherCollider, collisionState pCollisionState)
 {
 	currentCollisionState = pCollisionState;
-	pOtherCollider->currentCollisionState = pCollisionState;
 
 	switch (pCollisionState)
 	{
 	case enter:
-		collisionEnterEvent.Invoke(pOtherCollider->object);
-		pOtherCollider->collisionEnterEvent.Invoke(object);
+		collisionEnterEvent.Invoke(pOtherCollider);
 		break;
 	case stay:
-		collisionStayEvent.Invoke(pOtherCollider->object);
-		pOtherCollider->collisionStayEvent.Invoke(object);
+		collisionStayEvent.Invoke(pOtherCollider);
 		break;
 	case exit:
-		collisionExitEvent.Invoke(pOtherCollider->object);
-		pOtherCollider->collisionExitEvent.Invoke(object);
+		collisionExitEvent.Invoke(pOtherCollider);
 		break;
 	default:
-		collisionExitEvent.Invoke(pOtherCollider->object);
-		pOtherCollider->collisionExitEvent.Invoke(object);
+		collisionExitEvent.Invoke(pOtherCollider);
 		break;
 	}
 }

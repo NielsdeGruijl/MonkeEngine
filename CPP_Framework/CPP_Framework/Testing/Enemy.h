@@ -11,6 +11,10 @@ public:
 
 	void Update(float deltaTime) override;
 
+protected:
+	void OnCollisionEnter(std::weak_ptr<AABBCollider> pOtherCollider) override;
+	void OnCollisionExit(std::weak_ptr<AABBCollider> pOtherCollider) override;
+
 private:
 	std::shared_ptr<RigidBody> rigidBody;
 	std::shared_ptr<SpriteRenderer> sprite;

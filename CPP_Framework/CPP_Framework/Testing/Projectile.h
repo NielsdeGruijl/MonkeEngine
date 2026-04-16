@@ -16,7 +16,7 @@ public:
     void Start() override;
 
 protected:
-    void OnCollisionEnter(GameObject *object) override;
+    void OnCollisionEnter(std::weak_ptr<AABBCollider> pOtherCollider) override;
 
 private:
     std::shared_ptr<RigidBody> rigidbody;

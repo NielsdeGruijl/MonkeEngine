@@ -24,3 +24,16 @@ void Enemy::Update(float deltaTime)
 	Vector2 tempVelocity = Vector2(moveSpeed, 0) * deltaTime;
 	rigidBody->AddForce(tempVelocity);
 }
+
+void Enemy::OnCollisionEnter(std::weak_ptr<AABBCollider> pOtherCollider)
+{
+	GameObject::OnCollisionEnter(pOtherCollider);
+
+	std::cout << "enemy entering collision\n";
+}
+
+void Enemy::OnCollisionExit(std::weak_ptr<AABBCollider> pOtherCollider)
+{
+	GameObject::OnCollisionExit(pOtherCollider);
+	std::cout << "enemy exiting collision\n";
+}

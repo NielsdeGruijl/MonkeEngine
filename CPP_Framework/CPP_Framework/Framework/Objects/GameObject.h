@@ -124,9 +124,9 @@ protected:
 	Scene* scene;
 
 protected:
-	virtual void OnCollisionEnter(GameObject* object);
-	virtual void OnCollisionStay(GameObject* object);
-	virtual void OnCollisionExit(GameObject* object);
+	virtual void OnCollisionEnter(std::weak_ptr<AABBCollider> pOtherCollider);
+	virtual void OnCollisionStay(std::weak_ptr<AABBCollider> pOtherCollider);
+	virtual void OnCollisionExit(std::weak_ptr<AABBCollider> pOtherCollider);
 
 private:
 	const std::string objectId;

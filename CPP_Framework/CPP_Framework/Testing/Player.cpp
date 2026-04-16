@@ -60,17 +60,17 @@ void Player::SetActionMap(InputActionMap* playerInputActionMap)
 	input.SetInputActionMap(playerInputActionMap);
 }
 
-void Player::OnCollisionEnter(GameObject* pObject)
+void Player::OnCollisionEnter(std::weak_ptr<AABBCollider> pOtherCollider)
 {
 	std::cout << "enter\n";
 }
 
-void Player::OnCollisionStay(GameObject* pObject)
+void Player::OnCollisionStay(std::weak_ptr<AABBCollider> pOtherCollider)
 {
 	std::cout << "stay\n";
 }
 
-void Player::OnCollisionExit(GameObject* pObject)
+void Player::OnCollisionExit(std::weak_ptr<AABBCollider> pOtherCollider)
 {
 	std::cout << "exit\n";
 }

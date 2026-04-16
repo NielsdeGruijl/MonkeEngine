@@ -13,25 +13,20 @@ CollisionPair::CollisionPair(std::weak_ptr<AABBCollider> pColliderA, std::weak_p
 CollisionPair::~CollisionPair()
 {
 	if (auto tColliderA = colliderA.lock())
-	{
-		if (auto tColliderB = colliderB.lock())
-		{
-			tColliderA->SetCollisionState(tColliderB, AABBCollider::exit);
-		}
-	}
+		tColliderA->SetCollisionState(colliderB, AABBCollider::exit);
+	if (auto tColliderB = colliderB.lock())
+		tColliderB->SetCollisionState(colliderA, AABBCollider::exit);
+
 	//std::cout << "Collision pair destroyed " << colliderA.lock()->object->GetID() << std::endl;
 }
 
 void CollisionPair::OnEnter()
 {
 	if (auto tColliderA = colliderA.lock())
-	{
-		if (auto tColliderB = colliderB.lock())
-		{
-			//std::cout << "New collision pair created: " << tColliderA->object->GetID() << ", " << tColliderB->object->GetID() << "\n";
-			tColliderA->SetCollisionState(tColliderB, AABBCollider::enter);
-		}
-	}
+		tColliderA->SetCollisionState(colliderB, AABBCollider::enter);
+
+	if (auto tColliderB = colliderB.lock())
+		tColliderB->SetCollisionState(colliderA, AABBCollider::enter);
 }
 
 bool CollisionPair::DoesCollisionPairExist(std::weak_ptr<AABBCollider> pColliderA, std::weak_ptr<AABBCollider> pColliderB)

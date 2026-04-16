@@ -34,9 +34,9 @@ void GameObject::OnLoad()
 		{
 			std::shared_ptr<AABBCollider> tCol = std::static_pointer_cast<AABBCollider>(component);
 
-			tCol->collisionEnterEvent.AddListener([this](GameObject* pObject) {this->OnCollisionEnter(pObject); });
-			tCol->collisionStayEvent.AddListener([this](GameObject* pObject) {this->OnCollisionStay(pObject); });
-			tCol->collisionExitEvent.AddListener([this](GameObject* pObject) {this->OnCollisionExit(pObject); });
+			tCol->collisionEnterEvent.AddListener([this](std::weak_ptr<AABBCollider> pOtherCollider) {this->OnCollisionEnter(pOtherCollider); });
+			tCol->collisionStayEvent.AddListener([this](std::weak_ptr<AABBCollider> pOtherCollider) {this->OnCollisionStay(pOtherCollider); });
+			tCol->collisionExitEvent.AddListener([this](std::weak_ptr<AABBCollider> pOtherCollider) {this->OnCollisionExit(pOtherCollider); });
 		}
 	}
 }
@@ -74,15 +74,15 @@ void GameObject::Destroy()
 	scene->RemoveObject(shared_from_this());
 }
 
-void GameObject::OnCollisionStay(GameObject* object)
+void GameObject::OnCollisionStay(std::weak_ptr<AABBCollider> pOtherCollider)
 {
 }
 
-void GameObject::OnCollisionExit(GameObject* object)
+void GameObject::OnCollisionExit(std::weak_ptr<AABBCollider> pOtherCollider)
 {
 }
 
-void GameObject::OnCollisionEnter(GameObject* object)
+void GameObject::OnCollisionEnter(std::weak_ptr<AABBCollider> pOtherCollider)
 {
 
 }
