@@ -18,7 +18,7 @@ Game::Game(int horizontalResolution, int verticalResolution)
 
 	fpsCounterText.setFont(font);
 	fpsCounterText.setFillColor(sf::Color::White);
-	fpsCounterText.setPosition(renderWindow.getSize().x - 100, 10);
+	fpsCounterText.setPosition(renderWindow.getSize().x + 1000, 10);
 }
 
 Game::~Game()
@@ -78,7 +78,7 @@ void Game::Run()
 			int fixedUpdateCalls = 0;
 			accumulator += deltaTime;
 
-			while (accumulator >= fixedDeltaTime /*&& fixedUpdateCalls < 3*/)
+			while (accumulator >= fixedDeltaTime /*&& fixedUpdateCalls < 1*/)
 			{
 				scene->FixedUpdate(fixedDeltaTime);
 				accumulator -= fixedDeltaTime;
@@ -88,7 +88,11 @@ void Game::Run()
 
 			scene->Update(deltaTime);
 			scene->RenderScene(&renderWindow);
+
+			std::cout << "fixed update calls: " << fixedUpdateCalls << std::endl;
 		}
+
+
 
 		renderWindow.draw(fpsCounterText);
 

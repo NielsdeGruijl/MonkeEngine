@@ -62,9 +62,6 @@ void TwoDimensionalSAP::Sweep(std::vector<int> pColliderIds)
 				if (GetCollider(xCollision.first).expired() || GetCollider(xCollision.second).expired())
 					break;
 
-				std::cout << GetCollider(xCollision.first).lock()->object->GetID() << std::endl;
-				std::cout << GetCollider(xCollision.second).lock()->object->GetID() << std::endl;
-
 				collisionChecker.AddCollisionPair(GetCollider(xCollision.first), GetCollider(xCollision.second));
 
 				break;

@@ -10,17 +10,13 @@
 class Projectile : public GameObject
 {
 public:
-    Projectile(Scene* pScene, std::string pName, std::weak_ptr<GameObject> pTarget);
+    Projectile(Scene* pScene, std::string pName);
     ~Projectile();
 
-    void Start() override;
-
-protected:
-    void OnCollisionEnter(std::weak_ptr<AABBCollider> pOtherCollider) override;
+    void Fire(Vector2 targetPosition);
 
 private:
     std::shared_ptr<RigidBody> rigidbody;
-    std::weak_ptr<GameObject> target;
 
     float moveSpeed = 0;
 };

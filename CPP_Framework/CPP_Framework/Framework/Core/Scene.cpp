@@ -13,6 +13,7 @@ Scene::~Scene()
 
 void Scene::FixedUpdate(float fixedDeltaTime)
 {
+	Timer timer;
 	if (!isLoaded)
 		return;
 

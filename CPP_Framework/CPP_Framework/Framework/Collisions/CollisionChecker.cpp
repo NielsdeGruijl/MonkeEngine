@@ -78,7 +78,7 @@ void CollisionChecker::AddCollisionPair(std::weak_ptr<AABBCollider> pColliderA, 
 				collisionPairs.push_back(newPair);
 				newPair->OnEnter();
 
-				std::cout <<"Adding collision pair " << colliderA->object->GetID() << " and " << colliderB->object->GetID() << std::endl;
+				//std::cout <<"Adding collision pair " << colliderA->object->GetID() << " and " << colliderB->object->GetID() << std::endl;
 			}
 		}
 	}

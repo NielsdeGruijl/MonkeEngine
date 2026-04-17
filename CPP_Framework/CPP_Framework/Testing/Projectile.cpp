@@ -6,40 +6,26 @@
 
 #include "../Framework/Components/SpriteRenderer.h"
 
-Projectile::Projectile(Scene *pScene, std::string pName, std::weak_ptr<GameObject> pTarget)
-    : GameObject(pScene, pName), target(pTarget)
+Projectile::Projectile(Scene *pScene, std::string pName)
+    : GameObject(pScene, pName)
 {
     rigidbody = AddComponent<RigidBody>(this);
     rigidbody->gravity = 0;
 
     AddComponent<SpriteRenderer>(this, "Purple.png", 160);
-    SetScale(0.25f);
+    SetScale(0.5f);
 
-    moveSpeed = 30;
+    moveSpeed = 20;
 }
 
 Projectile::~Projectile()
 {
 }
 
-void Projectile::Start()
+void Projectile::Fire(Vector2 targetPosition)
 {
-    GameObject::Start();
-
-    if (target.expired())
-        return;
-
-    auto targetObject = target.lock();
-
-    Vector2 velocity = (targetObject->position - position).Normalized();
+    Vector2 velocity = (targetPosition - position).Normalized();
     velocity *= moveSpeed;
 
     rigidbody->AddForce(velocity, RigidBody::instant);
-}
-
-void Projectile::OnCollisionEnter(std::weak_ptr<AABBCollider> pOtherCollider)
-{
-    GameObject::OnCollisionEnter(pOtherCollider);
-
-    Destroy();
 }

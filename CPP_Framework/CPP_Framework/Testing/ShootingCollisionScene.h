@@ -21,7 +21,15 @@ private:
 
     sf::Clock bulletDelayClock;
 
+    sf::Clock clock;
+
+    bool canSpawn = true;;
+
+    std::vector<Vector2> bulletSpawnPositions;
+
     float bulletDelay = 0;
+
+    float totalBullets = 0;
 };
 
 
