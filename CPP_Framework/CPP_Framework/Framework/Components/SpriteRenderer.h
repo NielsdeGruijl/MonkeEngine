@@ -17,7 +17,9 @@ public:
 	SpriteRenderer(GameObject* pObject, std::string pFileName, int pPixelsPerUnit = 160);
 	~SpriteRenderer();
 
-	void Update() override;
+	void OnLoad() override;
+
+	void Update(float deltaTime) override;
 
 	void SetColor(sf::Color pColor);
 	void SetPosition(const Vector2 pPosition);
@@ -33,4 +35,7 @@ private:
 	Vector2 scale;
 
 	const float spriteScale;
+
+private:
+	float Clamp(float min, float max, float a);
 };

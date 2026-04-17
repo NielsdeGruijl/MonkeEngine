@@ -1,6 +1,11 @@
-#include <iostream>
+#include <cmath>
 
 #include "AABBCollider.h"
+
+#include <complex>
+
+#include "../Objects/GameObject.h"
+#include "../Components/Component.h"
 
 AABBCollider::AABBCollider(GameObject* pObject, Vector2* pPosition)
 	: Component(pObject)
@@ -9,6 +14,7 @@ AABBCollider::AABBCollider(GameObject* pObject, Vector2* pPosition)
 	position = &pObject->position;
 
 	isTrigger = false;
+	isDynamic = false;
 
 	currentCollisionState = exit;
 }
@@ -18,12 +24,20 @@ AABBCollider::~AABBCollider()
 	Component::~Component();
 }
 
-void AABBCollider::Update()
+void AABBCollider::OnLoad()
 {
-	Component::Update();
+	Component::OnLoad();
+	Vector2 size = object->GetSize();
+	circleRadius = 0.5f * std::sqrt(size.x * size.x + size.y * size.y);
+}
+
+void AABBCollider::Update(float deltaTime)
+{
+	Component::Update(deltaTime);
 	UpdateBounds();
 }
 
+// Update world-space bounds for calculating overlaps
 void AABBCollider::UpdateBounds()
 {
 	radius = object->GetSize() * 0.5f;
@@ -34,7 +48,36 @@ void AABBCollider::UpdateBounds()
 	bottom = position->y + radius.y;
 }
 
-bool AABBCollider::CheckCollision(std::shared_ptr<AABBCollider> pCollider)
+// Check if this collider is overlapping other collider
+bool AABBCollider::CheckOverlap(std::shared_ptr<AABBCollider> pCollider)
+{
+	UpdateBounds();
+	pCollider->UpdateBounds();
+
+	// During the broad phase all collisions are sorted and checked from left to right
+	// Therefore only the right to left distance needs to be calculated
+	// There is no top to bottom sorting so we need to check both of those
+	float rightToLeftDistance = pCollider->left - right;
+	float topToBottomDistance = top - pCollider->bottom;
+	float bottomToTopDistance = bottom - pCollider->top;
+	Vector2 totalSize = object->GetSize() + pCollider->object->GetSize();
+
+	if (isTrigger || pCollider->isTrigger)
+		return false;
+
+	if (rightToLeftDistance < 0 && std::abs(rightToLeftDistance) < totalSize.x)
+	{
+		if (topToBottomDistance <= 0 && bottomToTopDistance > 0)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+// Check if the other collider is sufficiently far away to "disconnect" the collision
+bool AABBCollider::HasExitedCollision(std::shared_ptr<AABBCollider> pCollider)
 {
 	UpdateBounds();
 	pCollider->UpdateBounds();
@@ -44,57 +87,39 @@ bool AABBCollider::CheckCollision(std::shared_ptr<AABBCollider> pCollider)
 	float bottomToTopDistance = bottom - pCollider->top;
 	Vector2 totalSize = object->GetSize() + pCollider->object->GetSize();
 
-	if (rightToLeftDistance <= 0 && abs(rightToLeftDistance) < totalSize.x)
-	{
-		if (topToBottomDistance < 0 && bottomToTopDistance > 0)
-		{
-			if (currentCollisionState == exit)
-				SetCollisionState(pCollider, enter);
-
-			if (isTrigger || pCollider->isTrigger)
-				return false;
-
-			return true;
-		}
-		if (abs(topToBottomDistance) > 0.5f && abs(bottomToTopDistance) > 0.5f)
-		{
-				if (currentCollisionState != exit)
-					SetCollisionState(pCollider, exit);
-
-			return false;
-		}
-	}
+	// if horizontally distant, no longer colliding
 	if (rightToLeftDistance > 0.5f)
 	{
-		if (currentCollisionState != exit)
-			SetCollisionState(pCollider, exit);
+		return true;
+	}
+
+	// if vertically distant, no longer colliding
+	if (abs(topToBottomDistance) > 0.5f && abs(bottomToTopDistance) > 0.5f)
+	{
+		return true;
 	}
 
 	return false;
 }
 
-void AABBCollider::SetCollisionState(std::shared_ptr<AABBCollider> pOtherCollider, collisionState pCollisionState)
+// Invoke collision events for the owning object based on the current collision state
+void AABBCollider::SetCollisionState(std::weak_ptr<AABBCollider> pOtherCollider, collisionState pCollisionState)
 {
 	currentCollisionState = pCollisionState;
-	pOtherCollider->currentCollisionState = pCollisionState;
 
 	switch (pCollisionState)
 	{
 	case enter:
-		collisionEnterEvent.Invoke(pOtherCollider->object);
-		pOtherCollider->collisionEnterEvent.Invoke(object);
+		collisionEnterEvent.Invoke(pOtherCollider);
 		break;
 	case stay:
-		collisionStayEvent.Invoke(pOtherCollider->object);
-		pOtherCollider->collisionStayEvent.Invoke(object);
+		collisionStayEvent.Invoke(pOtherCollider);
 		break;
 	case exit:
-		collisionExitEvent.Invoke(pOtherCollider->object);
-		pOtherCollider->collisionExitEvent.Invoke(object);
+		collisionExitEvent.Invoke(pOtherCollider);
 		break;
 	default:
-		collisionExitEvent.Invoke(pOtherCollider->object);
-		pOtherCollider->collisionExitEvent.Invoke(object);
+		collisionExitEvent.Invoke(pOtherCollider);
 		break;
 	}
 }

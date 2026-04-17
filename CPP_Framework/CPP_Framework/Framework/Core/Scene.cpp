@@ -1,6 +1,6 @@
 #include "Scene.h"
 #include "../Math/Timer.h"
-#include "../../Asteroids/Bullet.h"
+
 
 Scene::Scene() 
 {
@@ -11,23 +11,33 @@ Scene::~Scene()
 {
 }
 
-void Scene::UpdateScene()
+void Scene::FixedUpdate(float fixedDeltaTime)
+{
+	Timer timer;
+	if (!isLoaded)
+		return;
+
+	for (size_t i = 0; i < sharedObjects.size(); i++)
+	{
+		sharedObjects[i]->FixedUpdate(fixedDeltaTime);
+	}
+
+	coarseProximityTest.MSAP();
+
+	//coarseProximityTest.SAP();
+
+	//coarseProximityTest.BruteForceExecution();
+}
+
+void Scene::Update(float deltaTime)
 {
 	if (!isLoaded)
 		return;
 
 	for (size_t i = 0; i < sharedObjects.size(); i++)
 	{
-		sharedObjects[i]->Update();
+		sharedObjects[i]->Update(deltaTime);
 	}
-
-	collisionChecker.CheckCollisions();
-}
-
-void Scene::CollisionUpdate()
-{
-	if (!isLoaded)
-		return;
 }
 
 void Scene::RenderScene(sf::RenderWindow* renderWindow)
@@ -41,6 +51,10 @@ void Scene::RenderScene(sf::RenderWindow* renderWindow)
 void Scene::Load()
 {
 	isLoaded = true;
+
+	coarseProximityTest.bruteForce = &bruteForce;
+	coarseProximityTest.sweepAndPrune = &sweepAndPrune;
+	coarseProximityTest.multiSweepAndPrune = &twoDimensionalSAP;
 
 	for (std::shared_ptr<GameObject> object : sharedObjects)
 	{
@@ -65,13 +79,15 @@ void Scene::CleanUpObjects()
 
 void Scene::RegisterCollider(GameObject* object)
 {
-	std::shared_ptr<RigidBody> rigidBody;
+	// ======== Coarse proximity pest ==========
 	std::shared_ptr<AABBCollider> collider;
-
-	if(object->TryGetComponent(rigidBody))
-		collisionChecker.AddRigidBody(rigidBody);
-	else if (object->TryGetComponent(collider))
-		collisionChecker.AddCollider(collider);
+	if (object->TryGetComponent<AABBCollider>(collider))
+	{
+		coarseProximityTest.RegisterCollider(collider);
+		//bruteForce.RegisterCollider(collider);
+		//sweepAndPrune.RegisterCollider(collider);
+		twoDimensionalSAP.RegisterCollider(collider);
+	}
 }
 
 void Scene::RegisterSprite(GameObject* pObject)

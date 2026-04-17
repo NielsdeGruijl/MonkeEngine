@@ -1,10 +1,12 @@
 #pragma once
 
+#include <memory>
+
 #include "../Math/Vector2.h"
 #include "../Components/Component.h"
 #include "../Events/Event.h"
-#include "../Objects/GameObject.h"
 
+class GameObject;
 
 class AABBCollider : public Component
 {
@@ -12,9 +14,9 @@ public:
 	Vector2* position;
 	Vector2 radius;
 
-	Event<GameObject*> collisionEnterEvent;
-	Event<GameObject*> collisionStayEvent;
-	Event<GameObject*> collisionExitEvent;
+	Event<std::weak_ptr<AABBCollider>> collisionEnterEvent;
+	Event<std::weak_ptr<AABBCollider>> collisionStayEvent;
+	Event<std::weak_ptr<AABBCollider>> collisionExitEvent;
 	
 	enum collisionState
 	{
@@ -26,19 +28,23 @@ public:
 	collisionState currentCollisionState;
 
 	bool isTrigger;
+	bool isDynamic;
 
 	float left, right, top, bottom;
+	float circleRadius;
 
 public:
 	AABBCollider(GameObject* pObject, Vector2* pPosition);
-	~AABBCollider();
+	~AABBCollider() override;
 
-	void Update() override;
+	void OnLoad() override;
+	void Update(float deltaTime) override;
 
 	void UpdateBounds();
 
-	bool CheckCollision(std::shared_ptr<AABBCollider> pCollider);
+	bool CheckOverlap(std::shared_ptr<AABBCollider> pCollider);
+	bool HasExitedCollision(std::shared_ptr<AABBCollider> pCollider);
 
+	void SetCollisionState(std::weak_ptr<AABBCollider> pOtherCollider, collisionState pCollisionState);
 private:
-	void SetCollisionState(std::shared_ptr<AABBCollider> pOtherCollider, collisionState pCollisionState);
 };

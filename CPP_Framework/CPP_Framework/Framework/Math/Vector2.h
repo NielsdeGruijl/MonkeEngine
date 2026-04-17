@@ -21,6 +21,8 @@ struct Vector2
 
 	float Dot(Vector2 v2);
 
+	Vector2 Lerp(const Vector2& v2, float t);
+
 	// Multiplication operators
 	Vector2 operator*(const float f1);
 	Vector2 operator*=(const float f1);
@@ -39,5 +41,5 @@ struct Vector2
 	bool operator==(const Vector2 v2);
 	bool operator!=(const Vector2 v2);
 
-	__declspec(property(get = Normalized)) Vector2 normalized;
+	//__attribute(property(get = Normalized)) Vector2 normalized;
 };

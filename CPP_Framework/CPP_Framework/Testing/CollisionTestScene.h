@@ -2,6 +2,7 @@
 
 #include "../Framework/Core/Scene.h"
 #include "Player.h"
+#include "Enemy.h"
 
 class CollisionTestScene : public Scene
 {
@@ -9,13 +10,12 @@ public:
 	CollisionTestScene();
 	~CollisionTestScene();
 
-	void UpdateScene() override;
+	void Update(float deltaTime) override;
 
 private:
 	GameObject obstacle;
 	GameObject obstacle2;
 
-	Player player;
-
-	GameObject enemy;
+	std::shared_ptr<Player> player;
+	std::shared_ptr<Enemy> enemy;
 };

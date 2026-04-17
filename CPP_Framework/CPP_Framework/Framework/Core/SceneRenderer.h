@@ -1,3 +1,4 @@
+#include <memory>
 #include <SFML/Graphics.hpp>
 #include "../Components/SpriteRenderer.h"
 

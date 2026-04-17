@@ -46,6 +46,11 @@ float Vector2::Dot(Vector2 v2)
 	return x * v2.x + y * v2.y;
 }
 
+Vector2 Vector2::Lerp(const Vector2& v2, float t)
+{
+	return Vector2(x, y) * (1.0f - t) + Vector2(v2.x, v2.y) * t;
+}
+
 sf::Vector2f Vector2::ToSfVector() const
 {
 	return sf::Vector2f(x, y);

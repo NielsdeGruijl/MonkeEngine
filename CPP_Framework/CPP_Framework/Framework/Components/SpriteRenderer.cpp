@@ -1,6 +1,9 @@
 #include "SpriteRenderer.h"
 
 #include "../Objects/GameObject.h"
+#include <cmath>
+
+extern float accumulator;
 
 SpriteRenderer::SpriteRenderer(GameObject* pObject, std::string pFileName, int pPixelsPerUnit)
 	: Component(pObject), spriteScale(CalculateSpriteScaleBasedOnPixelsPerUnit(pPixelsPerUnit))
@@ -17,10 +20,33 @@ SpriteRenderer::~SpriteRenderer()
 {
 }
 
-void SpriteRenderer::Update()
+void SpriteRenderer::OnLoad()
 {
-	Component::Update();
-	SetPosition(object->position);
+	Component::OnLoad();
+}
+
+void SpriteRenderer::Update(float deltaTime)
+{
+	Component::Update(deltaTime);
+
+	if (accumulator > 0)
+	{
+		float lerpTime = Clamp(0, 1, accumulator / deltaTime);
+		//Vector2 lastPosition = Vector2(sprite.getPosition().x, sprite.getPosition().y);
+		Vector2 renderPosition = object->previousPosition + (object->position - object->previousPosition) * lerpTime;
+		//Vector2 renderPosition = object->previousPosition.Lerp(object->position, lerpTime);
+		SetPosition(renderPosition);
+
+		//if (object->GetID() == "Object25")
+		//{
+		//	//std::cout << "sprite: " << (object->position - renderPosition).printVector();
+		//	//std::cout << "object: " << object->position.printVector();
+		//	std::cout << accumulator << "\n";
+		//}
+	}
+
+
+	//SetPosition(object->position);
 }
 
 void SpriteRenderer::SetColor(sf::Color pColor)
@@ -52,4 +78,14 @@ void SpriteRenderer::Move(const Vector2 pVelocity)
 float SpriteRenderer::CalculateSpriteScaleBasedOnPixelsPerUnit(int pPixelsPerUnit)
 {
 	return (float)unitSize / pPixelsPerUnit;
+}
+
+float SpriteRenderer::Clamp(float min, float max, float a)
+{
+	if (a < min)
+		return min;
+	if (a > max)
+		return max;
+
+	return a;
 }

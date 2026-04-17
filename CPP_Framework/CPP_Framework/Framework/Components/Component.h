@@ -10,10 +10,10 @@ public:
 	GameObject* object;
 
 public:
-	Component(GameObject* pObject);
-	~Component();
+	explicit Component(GameObject* pObject);
+	virtual ~Component();
 
-	virtual void Update();
+	virtual void Update(float deltaTime);
 
 	virtual void OnLoad();
 

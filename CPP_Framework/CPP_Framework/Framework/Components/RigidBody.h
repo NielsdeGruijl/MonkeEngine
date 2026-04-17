@@ -38,16 +38,19 @@ public:
 
 	void OnLoad() override;
 
-	void Update() override;
+	void Update(float deltaTime) override;
 
 	void AddForce(Vector2 pVelocity, VelocityType pVelocityType = continuous);
 
-	void HandleCollision(Collision collision);
+	void HandleCollision(const Collision& collision);
+
 	void HandleBounce(std::shared_ptr<RigidBody> pRigidBody);
 
 private:
 	Vector2 dragForce;
 	Vector2 gravityForce;
+
+	float fixedDeltaTime;
 
 private:
 	void Move();

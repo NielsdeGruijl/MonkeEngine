@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "../Framework/Components/SpriteRenderer.h"
 
 Player::Player(Scene* pScene, std::string objectId)
 	: GameObject(pScene, objectId), input()
@@ -7,12 +8,15 @@ Player::Player(Scene* pScene, std::string objectId)
 
 	rigidBody = AddComponent<RigidBody>(this);
 
-	moveSpeed = 6;
+	AddComponent<SpriteRenderer>(this, "BlueSlime.png");
+
+	moveSpeed = 5;
 	dashSpeed = 10;
 
 	rigidBody->drag = 1;
 	rigidBody->mass = 1;
 	rigidBody->gravity = 0;
+	rigidBody->bounciness = 0;
 }
 
 Player::~Player() 
@@ -29,20 +33,20 @@ void Player::Start()
 	GameObject::Start();
 }
 
-void Player::Update()
+void Player::Update(float deltaTime)
 {
 	std::shared_ptr<AABBCollider> col;
 
-	GameObject::Update();
+	GameObject::Update(deltaTime);
 
 	inputMoveDirection = Vector2((float)input.GetHorizontalAxis(), (float)input.GetVerticalAxis());
 
 	if (inputMoveDirection.GetLength() > 0)
-		rigidBody->AddForce(inputMoveDirection.normalized * moveSpeed);
+		rigidBody->AddForce(inputMoveDirection.Normalized() * moveSpeed * deltaTime);
 	
 	if (input.GetKeyDown("dash"))
 	{
-		rigidBody->AddForce(Vector2(1,0) * dashSpeed, RigidBody::instant);
+		rigidBody->AddForce(Vector2(0.1f,0) * dashSpeed, RigidBody::instant);
 	}
 
 	if (input.GetKeyDown("test"))
@@ -56,17 +60,17 @@ void Player::SetActionMap(InputActionMap* playerInputActionMap)
 	input.SetInputActionMap(playerInputActionMap);
 }
 
-void Player::OnCollisionEnter(GameObject* pObject)
+void Player::OnCollisionEnter(std::weak_ptr<AABBCollider> pOtherCollider)
 {
 	std::cout << "enter\n";
 }
 
-void Player::OnCollisionStay(GameObject* pObject)
+void Player::OnCollisionStay(std::weak_ptr<AABBCollider> pOtherCollider)
 {
 	std::cout << "stay\n";
 }
 
-void Player::OnCollisionExit(GameObject* pObject)
+void Player::OnCollisionExit(std::weak_ptr<AABBCollider> pOtherCollider)
 {
 	std::cout << "exit\n";
 }

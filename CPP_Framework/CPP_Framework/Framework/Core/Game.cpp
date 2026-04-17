@@ -1,13 +1,15 @@
 #include "Game.h"
 #include "../Math/Timer.h"
+#include "../../Testing/TestData.h"
 
 extern const int unitSize = 100;
-float deltaTime;
+float accumulator;
 
 Game::Game(int horizontalResolution, int verticalResolution)
 	: renderWindow(sf::VideoMode(horizontalResolution, verticalResolution), "CPP_Framework")
 {
 	fps = 0;
+
 
 	if (!font.loadFromFile("Assets/Arial.ttf"))
 	{
@@ -16,7 +18,7 @@ Game::Game(int horizontalResolution, int verticalResolution)
 
 	fpsCounterText.setFont(font);
 	fpsCounterText.setFillColor(sf::Color::White);
-	fpsCounterText.setPosition(1190, 10);
+	fpsCounterText.setPosition(renderWindow.getSize().x + 1000, 10);
 }
 
 Game::~Game()
@@ -26,10 +28,29 @@ Game::~Game()
 void Game::Run()
 {
 	sf::Event event;
+	TestData testData;
 
-	renderWindow.setFramerateLimit(360);
+	fpsClock.restart();
+
+	sf::Clock timeClock;
+	sf::Clock gameTime;
+
+	int framesRendered = 0;
+
+	//renderWindow.setFramerateLimit(144);
+	renderWindow.setVerticalSyncEnabled(false);
 	while (renderWindow.isOpen())
 	{
+		/*if (framesRendered >= 1000)
+		{
+			std::cout << framesRendered << "\n";
+			renderWindow.close();
+		}*/
+
+		float time = timeClock.restart().asSeconds();
+
+		testData.AddData(time);
+
 		while (renderWindow.pollEvent(event))
 		{
 			if(event.type == sf::Event::Closed)
@@ -39,17 +60,39 @@ void Game::Run()
 		deltaTime = clock.restart().asSeconds();
 
 		fps++;
-		std::string fpsCount = std::to_string((int)(fps / fpsClock.getElapsedTime().asSeconds()));
-		fpsCounterText.setString(sf::String(fpsCount.c_str()));
+		if (fpsClock.getElapsedTime().asSeconds() > 1)
+		{
+			//int averageFps = (int)fps / fpsClock.getElapsedTime().asSeconds();
+			std::string fpsCount = std::to_string((int)fps);
+			fpsCounterText.setString(sf::String(fpsCount.c_str()));
+			fps = 0;
+			fpsClock.restart();
+		}
 
 		renderWindow.clear();
 
 		if (Scene* scene = sceneManager.GetCurrentScene())
 		{
 			scene->CleanUpObjects();
-			scene->UpdateScene();
+			
+			int fixedUpdateCalls = 0;
+			accumulator += deltaTime;
+
+			while (accumulator >= fixedDeltaTime /*&& fixedUpdateCalls < 1*/)
+			{
+				scene->FixedUpdate(fixedDeltaTime);
+				accumulator -= fixedDeltaTime;
+				fixedUpdateCalls++;
+				framesRendered++;
+			}
+
+			scene->Update(deltaTime);
 			scene->RenderScene(&renderWindow);
+
+			std::cout << "fixed update calls: " << fixedUpdateCalls << std::endl;
 		}
+
+
 
 		renderWindow.draw(fpsCounterText);
 

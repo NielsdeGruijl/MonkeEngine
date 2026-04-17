@@ -9,13 +9,19 @@
 #include "../Math/Timer.h"
 
 #include "../Components/Component.h"
+#include "../Components/RigidBody.h"
+#include "../Collisions/SpatialGrid.h"
+
 
 class Scene;
+class AABBCollider;
 
 class GameObject : public std::enable_shared_from_this<GameObject>
 {
 public:
+
 	Vector2 origin;
+	Vector2 previousPosition;
 	Vector2 position;
 	Vector2 scale;
 
@@ -26,7 +32,8 @@ public:
 	virtual void OnLoad();
 	virtual void Start();
 
-	virtual void Update();
+	virtual void FixedUpdate(float fixedDeltaTime);
+	virtual void Update(float deltaTime);
 
 	virtual void Destroy();
 
@@ -41,13 +48,24 @@ public:
 	Vector2 GetSize();
 
 public:
+	// Create a new component with the provided parameters
+	// Components are stored as shared_ptrs and shared to other functions as weak_ptrs to prevent dangling pointers
 	template <typename T, typename... ConstructorArgs>
 	std::shared_ptr<T> AddComponent(ConstructorArgs&&... pConstructorArgs)
 	{
 		std::shared_ptr<T> componentPointer = std::make_shared<T>(std::forward<ConstructorArgs>(pConstructorArgs)...);
 
-		components.push_back(componentPointer);
+		std::shared_ptr<RigidBody> rigidBody = std::dynamic_pointer_cast<RigidBody>(componentPointer);
+		std::shared_ptr<AABBCollider> collider = std::dynamic_pointer_cast<AABBCollider>(componentPointer);
 
+		// If an added component is a rigidBody or an AABBCollider, add it to physics components instead.
+		// "Physics components" run on fixedUpdate instead of the normal Update
+		// Todo: improve physics components system
+		if(rigidBody || collider)
+			physicsComponents.push_back(componentPointer);
+		else
+			components.push_back(componentPointer);
+		
 		return componentPointer;
 	}
 
@@ -59,6 +77,11 @@ public:
 			if (pOut = std::dynamic_pointer_cast<T>(component))
 				return true;
 		}
+		for (std::shared_ptr<Component>& component : physicsComponents)
+		{
+			if (pOut = std::dynamic_pointer_cast<T>(component))
+				return true;
+		}
 		return false;
 	}
 
@@ -66,6 +89,11 @@ public:
 	std::shared_ptr<T> GetComponent()
 	{
 		for (std::shared_ptr<Component> component : components)
+		{
+			if (std::shared_ptr<T> castedComponent = std::dynamic_pointer_cast<T>(component))
+				return castedComponent;
+		}
+		for (std::shared_ptr<Component> component : physicsComponents)
 		{
 			if (std::shared_ptr<T> castedComponent = std::dynamic_pointer_cast<T>(component))
 				return castedComponent;
@@ -91,13 +119,14 @@ public:
 
 protected:
 	std::vector<std::shared_ptr<Component>> components;
+	std::vector<std::shared_ptr<Component>> physicsComponents;
 
 	Scene* scene;
 
 protected:
-	virtual void OnCollisionEnter(GameObject* object);
-	virtual void OnCollisionStay(GameObject* object);
-	virtual void OnCollisionExit(GameObject* object);
+	virtual void OnCollisionEnter(std::weak_ptr<AABBCollider> pOtherCollider);
+	virtual void OnCollisionStay(std::weak_ptr<AABBCollider> pOtherCollider);
+	virtual void OnCollisionExit(std::weak_ptr<AABBCollider> pOtherCollider);
 
 private:
 	const std::string objectId;

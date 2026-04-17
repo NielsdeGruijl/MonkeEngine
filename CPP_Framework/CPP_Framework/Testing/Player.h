@@ -13,16 +13,16 @@ public:
 
 	void OnLoad() override;
 	void Start() override;
-	void Update() override;
+	void Update(float deltaTime) override;
 
 	void SetActionMap(InputActionMap* pMap);
 
 	std::shared_ptr<RigidBody> rigidBody;
 
 protected:
-	void OnCollisionEnter(GameObject* pObject) override;
-	void OnCollisionStay(GameObject* pObject) override;
-	void OnCollisionExit(GameObject* pObject) override;
+	void OnCollisionEnter(std::weak_ptr<AABBCollider> pOtherCollider) override;
+	void OnCollisionStay(std::weak_ptr<AABBCollider> pOtherCollider) override;
+	void OnCollisionExit(std::weak_ptr<AABBCollider> pOtherCollider) override;
 
 private:
 	InputActionMap defaultInputActionMap;

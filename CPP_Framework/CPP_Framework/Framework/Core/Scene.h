@@ -8,6 +8,10 @@
 #include "SceneRenderer.h"
 #include "../Objects/GameObject.h"
 #include "../Collisions/CollisionChecker.h"
+#include "../Collisions/BruteForce.h"
+#include "../Collisions/SweepAndPrune.h"
+#include "../Collisions/TwoDimensionalSAP.h"
+#include "../Collisions/CoarseProximityTest.h"
 
 class Scene
 {
@@ -15,8 +19,8 @@ public:
 	Scene();
 	~Scene();
 	 
-	virtual void UpdateScene();
-	virtual void CollisionUpdate();
+	virtual void FixedUpdate(float fixedDeltaTime);
+	virtual void Update(float deltaTime);
 	virtual void RenderScene(sf::RenderWindow* renderWindow);
 
 	virtual void Load();
@@ -37,6 +41,10 @@ protected:
 	std::vector<std::shared_ptr<GameObject>> sharedObjects;
 	std::vector<std::shared_ptr<GameObject>> sharedObjectsToDelete;
 
+	CoarseProximityTest coarseProximityTest;
+	BruteForce bruteForce;
+	SweepAndPrune sweepAndPrune;
+	TwoDimensionalSAP twoDimensionalSAP;
 	CollisionChecker collisionChecker;
 	SceneRenderer sceneRenderer;
 
