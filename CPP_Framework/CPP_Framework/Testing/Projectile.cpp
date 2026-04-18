@@ -12,7 +12,7 @@ Projectile::Projectile(Scene *pScene, std::string pName)
     rigidbody = AddComponent<RigidBody>(this);
     rigidbody->gravity = 0;
 
-    AddComponent<SpriteRenderer>(this, "Purple.png", 160);
+    AddComponent<SpriteRenderer>(this, "AABBTest.png", 640);
     SetScale(0.5f);
 
     moveSpeed = 20;

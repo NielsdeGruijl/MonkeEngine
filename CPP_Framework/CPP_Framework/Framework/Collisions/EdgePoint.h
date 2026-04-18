@@ -7,6 +7,7 @@ using std::shared_ptr;
 
 struct EdgePoint
 {
+	EdgePoint();
 	EdgePoint(int pColliderId, int pEdgeId, float* pPosition, bool pIsEntry);
 
 	int colliderId;

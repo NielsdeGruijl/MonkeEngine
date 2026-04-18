@@ -19,14 +19,16 @@ public:
 			return;
 		}
 
-		//for (int i : data)
-		//{
-		//	outData << i << "ms" << ",";
-		//}
+		for (float i : data)
+		{
+			outData << i << "us" << std::endl;
+		}
 
-		outData << GetAverage() << "fps,";
-		outData << GetOnePercentLow() << "fps,";
-		outData << GetOnePercentHigh() << "fps";
+		std::cout << "closing data";
+
+		//outData << GetAverage() << "fps,";
+		//outData << GetOnePercentLow() << "fps,";
+		//outData << GetOnePercentHigh() << "fps";
 		//outData << data.size() << " sample size";
 
 		outData.close();

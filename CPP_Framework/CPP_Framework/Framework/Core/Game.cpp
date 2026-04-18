@@ -18,7 +18,7 @@ Game::Game(int horizontalResolution, int verticalResolution)
 
 	fpsCounterText.setFont(font);
 	fpsCounterText.setFillColor(sf::Color::White);
-	fpsCounterText.setPosition(renderWindow.getSize().x + 1000, 10);
+	fpsCounterText.setPosition(renderWindow.getSize().x - 100, 10);
 }
 
 Game::~Game()
@@ -41,16 +41,6 @@ void Game::Run()
 	renderWindow.setVerticalSyncEnabled(false);
 	while (renderWindow.isOpen())
 	{
-		/*if (framesRendered >= 1000)
-		{
-			std::cout << framesRendered << "\n";
-			renderWindow.close();
-		}*/
-
-		float time = timeClock.restart().asSeconds();
-
-		testData.AddData(time);
-
 		while (renderWindow.pollEvent(event))
 		{
 			if(event.type == sf::Event::Closed)
@@ -62,7 +52,6 @@ void Game::Run()
 		fps++;
 		if (fpsClock.getElapsedTime().asSeconds() > 1)
 		{
-			//int averageFps = (int)fps / fpsClock.getElapsedTime().asSeconds();
 			std::string fpsCount = std::to_string((int)fps);
 			fpsCounterText.setString(sf::String(fpsCount.c_str()));
 			fps = 0;
@@ -78,18 +67,22 @@ void Game::Run()
 			int fixedUpdateCalls = 0;
 			accumulator += deltaTime;
 
-			while (accumulator >= fixedDeltaTime /*&& fixedUpdateCalls < 1*/)
+			if (accumulator >= fixedDeltaTime)
+				timeClock.restart();
+
+			while (accumulator >= fixedDeltaTime && fixedUpdateCalls < 1)
 			{
 				scene->FixedUpdate(fixedDeltaTime);
 				accumulator -= fixedDeltaTime;
 				fixedUpdateCalls++;
 				framesRendered++;
+
+				float time = timeClock.restart().asMicroseconds();
+				testData.AddData(time);
 			}
 
 			scene->Update(deltaTime);
 			scene->RenderScene(&renderWindow);
-
-			std::cout << "fixed update calls: " << fixedUpdateCalls << std::endl;
 		}
 
 

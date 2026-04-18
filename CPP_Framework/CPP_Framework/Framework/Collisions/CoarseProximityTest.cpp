@@ -6,48 +6,51 @@ void CoarseProximityTest::MSAP()
 {
 	SortColliders();
 
+	colliderIndexes.clear();
+
 	for (int i = 0; i < colliders.size(); i++)
 	{
 		bool addedColliderA = false;
-		colliderIndexes.clear();
+
 		if (auto colliderA = colliders[i].collider.lock())
 		{
 			for (int j = i + 1; j < colliders.size(); j++)
 			{
 				if (auto colliderB = colliders[j].collider.lock())
 				{
+					// if object B's left boundary is further to the right than object A's right boundary
 					bool tooFar = colliderB->object->position.x - colliderB->circleRadius > colliderA->object->position.x + colliderA->circleRadius;
 					if (tooFar)
 						break;
 
-					Vector2 distance = colliderA->object->position - colliderB->object->position;
-
-					if (distance.GetLength() <= colliderA->circleRadius + colliderB->circleRadius)
+					if (!addedColliderA)
 					{
-						if (!addedColliderA)
-						{
-							int id = colliders[i].colliderId;
-							if (std::find(colliderIndexes.begin(), colliderIndexes.end(), id) == colliderIndexes.end())
-							{
-								colliderIndexes.push_back(id);
-								//colliderIndexes.push_back(id + 1);
-							}
-
-							addedColliderA = true;
-						}
-
-						int id = colliders[j].colliderId;
+						int id = colliders[i].colliderId;
 						if (std::find(colliderIndexes.begin(), colliderIndexes.end(), id) == colliderIndexes.end())
 						{
 							colliderIndexes.push_back(id);
 							//colliderIndexes.push_back(id + 1);
 						}
+
+						addedColliderA = true;
+					}
+
+					int id = colliders[j].colliderId;
+					if (std::find(colliderIndexes.begin(), colliderIndexes.end(), id) == colliderIndexes.end())
+					{
+						colliderIndexes.push_back(id);
+						//colliderIndexes.push_back(id + 1);
 					}
 				}
 			}
-			multiSweepAndPrune->Sweep(colliderIndexes);
 		}
 	}
+
+	if (colliderIndexes.empty())
+		return;
+
+	multiSweepAndPrune->Sweep(colliderIndexes);
+
 }
 
 void CoarseProximityTest::SAP()
@@ -93,8 +96,10 @@ void CoarseProximityTest::SAP()
 					}
 				}
 			}
-			sweepAndPrune->Sweep(colliderIndexes);
 		}
+
+		sweepAndPrune->Sweep(colliderIndexes);
+
 	}
 }
 
@@ -152,7 +157,6 @@ void CoarseProximityTest::SortColliders()
 	{
 		return pCollider.collider.expired();
 	});
-
 
 	std::sort(colliders.begin(), colliders.end(), [](ColliderIdContainer a, ColliderIdContainer b)
 		{

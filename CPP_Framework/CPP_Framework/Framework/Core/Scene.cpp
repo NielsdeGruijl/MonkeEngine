@@ -13,7 +13,6 @@ Scene::~Scene()
 
 void Scene::FixedUpdate(float fixedDeltaTime)
 {
-	Timer timer;
 	if (!isLoaded)
 		return;
 
@@ -21,6 +20,7 @@ void Scene::FixedUpdate(float fixedDeltaTime)
 	{
 		sharedObjects[i]->FixedUpdate(fixedDeltaTime);
 	}
+
 
 	coarseProximityTest.MSAP();
 

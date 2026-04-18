@@ -6,10 +6,14 @@
 class TwoDimensionalSAP
 {
 public:
-	std::vector<EdgePoint> xEdges;
-	std::vector<EdgePoint> yEdges;
+	// Links collider id to its edge ids
+	std::unordered_map<int, std::pair<int, int>> edgeMap;
+
+	std::unordered_map<int, EdgePoint> xEdgeIdMap;
+	std::unordered_map<int, EdgePoint> yEdgeIdMap;
 
 	//std::vector<std::weak_ptr<AABBCollider>> colliders;
+	std::unordered_map<int, std::weak_ptr<AABBCollider>> colliders;
 	std::vector<ColliderIdContainer> tColliders;
 	std::vector<int> xEdgeIndexes;
 	std::vector<int> yEdgeIndexes;
@@ -26,10 +30,6 @@ public:
 
 	void SweepX(std::vector<int> pColliderIds);
 	void SweepY(std::vector<int> pColliderIds);
-
-	std::weak_ptr<AABBCollider> GetCollider(int pColliderId);
-	const EdgePoint& GetXColliderEdge(int pColliderId, bool isEntry);
-	const EdgePoint& GetYColliderEdge(int pColliderId, bool isEntry);
 
 	int colliderId = 0;
 	int edgeId = 0;

@@ -30,8 +30,8 @@ void ShootingCollisionScene::Update(float deltaTime)
 {
     Scene::Update(deltaTime);
 
-    /*if (clock.getElapsedTime().asSeconds() > 10)
-        canSpawn = false;*/
+    if (clock.getElapsedTime().asSeconds() > 10)
+        canSpawn = false;
 
     Vector2 targetPosition;
     if (bulletDelayClock.getElapsedTime().asSeconds() > bulletDelay && canSpawn)
