@@ -52,8 +52,13 @@ void RigidBody::Update(float deltaTime)
 	// Calculate drag and apply velocity
 	if (velocity.GetLength() > 0)
 	{
+		collider->isDynamic = true;
 		CalculateDrag();
 		Move();
+	}
+	else
+	{
+		collider->isDynamic = false;
 	}
 }
 

@@ -28,7 +28,7 @@ void AABBCollider::OnLoad()
 {
 	Component::OnLoad();
 	Vector2 size = object->GetSize();
-	circleRadius = 0.5f * std::sqrt(size.x * size.x + size.y * size.y);
+	circleRadius = 1.2f * std::sqrt(size.x * size.x + size.y * size.y);
 }
 
 void AABBCollider::Update(float deltaTime)

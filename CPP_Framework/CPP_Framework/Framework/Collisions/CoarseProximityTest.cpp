@@ -55,14 +55,18 @@ void CoarseProximityTest::MSAP()
 
 void CoarseProximityTest::SAP()
 {
-	SortColliders();
+	/*SortColliders();
+	colliderIndexes.clear();
+
 
 	for (int i = 0; i < colliders.size(); i++)
 	{
 		bool addedColliderA = false;
-		colliderIndexes.clear();
 		if (auto colliderA = colliders[i].collider.lock())
 		{
+			if (!colliderA->isDynamic)
+				continue;
+
 			for (int j = i + 1; j < colliders.size(); j++)
 			{
 				if (auto colliderB = colliders[j].collider.lock())
@@ -100,7 +104,54 @@ void CoarseProximityTest::SAP()
 
 		sweepAndPrune->Sweep(colliderIndexes);
 
+	}*/
+
+	SortColliders();
+
+	colliderIndexes.clear();
+
+	for (int i = 0; i < colliders.size(); i++)
+	{
+		bool addedColliderA = false;
+
+		if (auto colliderA = colliders[i].collider.lock())
+		{
+			for (int j = i + 1; j < colliders.size(); j++)
+			{
+				if (auto colliderB = colliders[j].collider.lock())
+				{
+					// if object B's left boundary is further to the right than object A's right boundary
+					bool tooFar = colliderB->object->position.x - colliderB->circleRadius > colliderA->object->position.x + colliderA->circleRadius;
+					if (tooFar)
+						break;
+
+					if (!addedColliderA)
+					{
+						int id = colliders[i].colliderId;
+						if (std::find(colliderIndexes.begin(), colliderIndexes.end(), id) == colliderIndexes.end())
+						{
+							colliderIndexes.push_back(id);
+							//colliderIndexes.push_back(id + 1);
+						}
+
+						addedColliderA = true;
+					}
+
+					int id = colliders[j].colliderId;
+					if (std::find(colliderIndexes.begin(), colliderIndexes.end(), id) == colliderIndexes.end())
+					{
+						colliderIndexes.push_back(id);
+						//colliderIndexes.push_back(id + 1);
+					}
+				}
+			}
+		}
 	}
+
+	if (colliderIndexes.empty())
+		return;
+
+	sweepAndPrune->Sweep(colliderIndexes);
 }
 
 void CoarseProximityTest::BruteForceExecution()

@@ -33,6 +33,9 @@ public:
 	float left, right, top, bottom;
 	float circleRadius;
 
+private:
+	bool continuousDetection = false;
+
 public:
 	AABBCollider(GameObject* pObject, Vector2* pPosition);
 	~AABBCollider() override;

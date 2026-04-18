@@ -48,7 +48,7 @@ void TwoDimensionalSAP::RegisterCollider(std::shared_ptr<AABBCollider> pCollider
 
 void TwoDimensionalSAP::Sweep(std::vector<int> pColliderIds)
 {
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		xCollisions.clear();
 		yCollisions.clear();
@@ -105,13 +105,13 @@ void TwoDimensionalSAP::SweepX(std::vector<int> pColliderIds)
 	// This way, all colliders with a left edge in touchingColliders, are overlapping on the X-axis
 	for (int i : edgeIds)
 	{
-		EdgePoint* edge = &xEdgeIdMap.at(i);
+		EdgePoint& edge = xEdgeIdMap.at(i);
 
-		if (!edge->isEntry)
+		if (!edge.isEntry)
 		{
 			auto it = std::find_if(touchingColliders.begin(), touchingColliders.end(), [edge](int colliderId)
 				{
-					return colliderId == edge->colliderId;
+					return colliderId == edge.colliderId;
 				});
 
 			if(it != touchingColliders.end())
@@ -123,23 +123,23 @@ void TwoDimensionalSAP::SweepX(std::vector<int> pColliderIds)
 		// Compare the current edge to all edges in touchingColliders, and mark them as overlapping on the x-axis
 		for (int id : touchingColliders)
 		{
-			if (id == edge->colliderId)
+			if (id == edge.colliderId)
 				continue;
 
 			if (auto colliderA = colliders[id].lock())
 			{
-				if (auto colliderB = colliders[edge->colliderId].lock())
+				if (auto colliderB = colliders[edge.colliderId].lock())
 				{
 					if (colliderA->isDynamic || colliderB->isDynamic)
 					{
-						xCollisions.push_back(std::make_pair(id, edge->colliderId));
+						xCollisions.push_back(std::make_pair(id, edge.colliderId));
 					}
 				}
 			}
 		}
 
 		// Add the current (left) edge to touching colliders
-		touchingColliders.push_back(edge->colliderId);
+		touchingColliders.push_back(edge.colliderId);
 	}
 }
 

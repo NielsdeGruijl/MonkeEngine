@@ -17,11 +17,14 @@ public:
 public:
 	CollisionChecker collisionChecker;
 private:
+	std::unordered_map<int, std::pair<int, int>> edgePairs;
+	std::unordered_map<int, EdgePoint> edges;
+	std::unordered_map<int, std::weak_ptr<AABBCollider>> colliders;
+
 	std::vector<EdgePoint> edgePoints;
-	std::vector<std::weak_ptr<AABBCollider>> colliders;
-	std::vector<ColliderIdContainer> tColliders;
 	std::vector<int> touchingColliders;
 	std::vector<int> xEdgeIndexes;
 
-	int colliderId;
+	int colliderId = 0;
+	int edgeId = 0;
 };

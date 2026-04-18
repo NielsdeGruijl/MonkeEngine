@@ -3,16 +3,24 @@
 
 void SweepAndPrune::Sweep(std::vector<int> pColliderIndexes)
 {
-	std::sort(pColliderIndexes.begin(), pColliderIndexes.end(), [this](int a, int b)
+	std::vector<int> edgeIds;
+
+	for (int i : pColliderIndexes)
+	{
+		edgeIds.push_back(edgePairs[i].first);
+		edgeIds.push_back(edgePairs[i].second);
+	}
+
+	std::sort(edgeIds.begin(), edgeIds.end(), [this](int a, int b)
 		{
-			return *(edgePoints[a].position) < *(edgePoints[b].position);
+			return *edges[a].position < *edges[b].position;
 		});
 
 	touchingColliders.clear();
 
 	for (int i : pColliderIndexes)
 	{
-		const EdgePoint& edge = edgePoints[i];
+		const EdgePoint& edge = edges[i];
 
 		if (!edge.isEntry)
 		{
@@ -20,7 +28,7 @@ void SweepAndPrune::Sweep(std::vector<int> pColliderIndexes)
 			continue;
 		}
 		
-		if (touchingColliders.size() > 0)
+		if (!touchingColliders.empty())
 		{
 			Prune(edge.colliderId);
 		}
@@ -38,9 +46,9 @@ void SweepAndPrune::Prune(int pColliderId)
 		if (colliderId == pColliderId)
 			continue;
 
-		if (auto colliderA = colliders.at(colliderId).lock())
+		if (auto colliderA = colliders[colliderId].lock())
 		{
-			if (auto colliderB = colliders.at(pColliderId).lock())
+			if (auto colliderB = colliders[pColliderId].lock())
 			{
 				// If on of the objects is dynamic (AKA can collide), proceed to narrow phase
 				if (colliderA->isDynamic || colliderB->isDynamic)
@@ -56,9 +64,16 @@ void SweepAndPrune::RegisterCollider(std::shared_ptr<AABBCollider> pCollider)
 {
 	// ================= Add edge ids ================
 	//edgePoints.push_back(EdgePoint(colliderId, &pCollider->left, true));
+	int firstId = edgeId;
+	edges.emplace(edgeId, EdgePoint(colliderId, edgeId, &pCollider->left, true));
+	edgeId++;
+	edges.emplace(edgeId, EdgePoint(colliderId, edgeId, &pCollider->right, false));
 	//edgePoints.push_back(EdgePoint(colliderId, &pCollider->right, false));
-	//tColliders.push_back(ColliderIdContainer(pCollider, colliderId));
-	colliders.push_back(pCollider);
+
+	edgePairs.emplace(colliderId, std::pair<int, int>(firstId, edgeId));
+	colliders[colliderId] = pCollider;
+
+	edgeId++;
 
 	colliderId++;
 }
